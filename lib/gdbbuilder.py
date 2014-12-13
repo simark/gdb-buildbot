@@ -183,7 +183,7 @@ def load_config (c):
         if 'arch_triplet' in b:
             arch_triplet = b.pop ('arch_triplet')
         else:
-            arch_triplet = None
+            arch_triplet = []
         btype = b.pop ('type')
         factory = globals ()[ "RunTestGDB%s" % btype ]
         b['factory'] = factory (arch_triplet)
