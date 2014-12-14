@@ -1,59 +1,69 @@
 {
     "slaves" : [ { "name" : "fedora-x86-64-1", "arch" : "x86_64", "jobs" : "4" },
-		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" }
+		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" },
+		 { "name" : "fedora-x86-64-tofan-1", "arch" : "x86_64", "jobs" : "4" },
+		 { "name" : "fedora-x86-64-tofan-2", "arch" : "x86_64", "jobs" : "4" }
 	       ],
 
-    "builders" : [ { "name" : "Fedora x86_64/-m64", "type" : "Plain_c64t64",
+    "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-x86-64",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora x86_64/-m32", "type" : "m32_c64t32",
+		   { "name" : "Fedora-x86_64-m32", "type" : "m32_c64t32",
 		     "builddir" : "fedora-x86-64-m32",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora x86_64 native-gdbserver/-m64",
+		   { "name" : "Fedora-x86_64-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "fedora-x86-64-native-gdbserver",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora x86_64 native-gdbserver/-m32",
+		   { "name" : "Fedora-x86_64-native-gdbserver-m32",
 		     "type" : "NativeGDBServer_c64t32",
 		     "builddir" : "fedora-x86-64-native-gdbserver-m32",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora x86_64 native-extended-gdbserver/-m64",
+		   { "name" : "Fedora-x86_64-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "fedora-x86-64-native-extended-gdbserver",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora x86_64 native-extended-gdbserver/-m32",
+		   { "name" : "Fedora-x86_64-native-extended-gdbserver-m32",
 		     "type" : "NativeExtendedGDBServer_c64t32",
 		     "builddir" : "fedora-x86-64-native-extended-gdbserver-m32",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora x86_64 cc-with-index",
+		   { "name" : "Fedora-x86_64-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "fedora-x86-64-cc-with-index",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] },
 
-		   { "name" : "Fedora i686",
+		   { "name" : "Fedora-i686",
 		     "arch_triplet" : "i686-unknown-linux-gnu",
 		     "type" : "Plain_c32t32",
 		     "builddir" : "fedora-i686",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] }
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-tofan-1", "fedora-x86-64-tofan-2" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
 		       "change_filter" : "master_filter",
 		       "treeStableTimer" : 45.0,
-		       "builderNames" : [ "Fedora x86_64/-m64",
-					  "Fedora x86_64/-m32",
-					  "Fedora x86_64 native-gdbserver/-m64",
-					  "Fedora x86_64 native-gdbserver/-m32",
-					  "Fedora x86_64 native-extended-gdbserver/-m64",
-					  "Fedora x86_64 native-extended-gdbserver/-m32",
-					  "Fedora x86_64 cc-with-index",
-					  "Fedora i686" ]
+		       "builderNames" : [ "Fedora-x86_64-m64",
+					  "Fedora-x86_64-m32",
+					  "Fedora-x86_64-native-gdbserver-m64",
+					  "Fedora-x86_64-native-gdbserver-m32",
+					  "Fedora-x86_64-native-extended-gdbserver-m64",
+					  "Fedora-x86_64-native-extended-gdbserver-m32",
+					  "Fedora-x86_64-cc-with-index",
+					  "Fedora-i686" ]
 		     }
 		   ]
 }
