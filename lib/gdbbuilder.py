@@ -60,6 +60,8 @@ class ConfigureGDB (Configure):
                         '--disable-binutils',
                         '--disable-ld',
                         '--disable-gold',
+                        '--disable-gas',
+                        '--disable-sim',
                         '--disable-gprof'] + extra_conf_flags
 
 class CompileGDB (Compile):
@@ -76,18 +78,14 @@ class TestGDB (Compile):
     description = "testing GDB"
     descriptionDone = "tested GDB"
     def __init__ (self, extra_make_check_flags = [], test_env = {},
-                  noparallel = False, **kwargs):
+                  **kwargs):
         Compile.__init__ (self, **kwargs)
-
-        self.flags = []
-        if not noparallel:
-            self.flags.append ('FORCE_PARALLEL=1')
 
         self.workdir = WithProperties ("%s/build/gdb/testsuite", 'builddir')
         self.command = ['make',
                         '-k',
-                        WithProperties ("-j%s", 'jobs'),
-                        'check'] + extra_make_check_flags + self.flags
+                        'check'] + extra_make_check_flags
+
         self.env = test_env
         # Needed because of dejagnu
         self.haltOnFailure = False
@@ -105,7 +103,13 @@ class BuildAndTestGDBFactory (factory.BuildFactory):
     extra_make_check_flags = None
     test_env = None
 
+    # Set this to false to disable parallel testing (i.e., do not use
+    # FORCE_PARALLEL)
     no_test_parallel = False
+
+    # Set this to False to disable using system's debuginfo files
+    # (i.e., do not use '--with-separate-debug-dir')
+    use_system_debuginfo = True
 
     def __init__ (self, architecture_triplet = []):
         factory.BuildFactory.__init__ (self)
@@ -115,6 +119,10 @@ class BuildAndTestGDBFactory (factory.BuildFactory):
 
         if not self.extra_conf_flags:
             self.extra_conf_flags = []
+
+        if self.use_system_debuginfo:
+            self.extra_conf_flags.append ('--with-separate-debug-dir=/usr/lib/debug')
+
         self.addStep (self.ConfigureClass (self.extra_conf_flags + architecture_triplet))
 
         if not self.extra_make_flags:
@@ -125,10 +133,16 @@ class BuildAndTestGDBFactory (factory.BuildFactory):
             self.extra_make_check_flags = []
         if not self.test_env:
             self.test_env = {}
-        self.addStep (self.TestClass (self.extra_make_check_flags, self.test_env,
-                                      self.no_test_parallel))
 
-        self.addStep (GdbCatSumfileCommand (workdir = WithProperties ('%s/build/gdb/testsuite', 'builddir'), description = 'analyze test results'))
+        if not self.no_test_parallel:
+            self.extra_make_check_flags.append (WithProperties ("-j%s", 'jobs'))
+            self.extra_make_check_flags.append ('FORCE_PARALLEL=1')
+
+        self.addStep (self.TestClass (self.extra_make_check_flags, self.test_env))
+
+        self.addStep (GdbCatSumfileCommand (workdir = WithProperties ('%s/build/gdb/testsuite',
+                                                                      'builddir'),
+                                            description = 'analyze test results'))
 
 
 
