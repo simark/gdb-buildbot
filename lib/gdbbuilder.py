@@ -6,7 +6,6 @@ from buildbot.schedulers.basic import SingleBranchScheduler, AnyBranchScheduler
 from buildbot.schedulers.forcesched import ForceScheduler
 from buildbot.steps.shell import Compile
 from buildbot.steps.shell import Configure
-from buildbot.steps.shell import SetProperty
 from buildbot.steps.shell import ShellCommand
 from buildbot.steps.shell import SetPropertyFromCommand
 from buildbot.steps.source.git import Git
@@ -33,7 +32,7 @@ class DeleteGDBBuildDir (ShellCommand):
 class CloneOrUpdateGDBMasterRepo (Git):
     description = "fetching GDB master sources"
     descriptionDone = "fetched GDB master sources"
-    def __init (self):
+    def __init__ (self):
         Git.__init__ (self,
                       repourl = 'git://sourceware.org/git/binutils-gdb.git',
                       workdir = WithProperties ("%s/../binutils-gdb-master/",
@@ -80,15 +79,15 @@ class TestGDB (Compile):
                   noparallel = False, **kwargs):
         Compile.__init__ (self, **kwargs)
 
-        self.flags = extra_make_check_flags
+        self.flags = []
         if not noparallel:
             self.flags.append ('FORCE_PARALLEL=1')
 
-        self.workdir = WithProperties ("%s/gdb/testsuite", 'builddir')
+        self.workdir = WithProperties ("%s/build/gdb/testsuite", 'builddir')
         self.command = ['make',
                         '-k',
                         WithProperties ("-j%s", 'jobs'),
-                        'check'] + self.flags
+                        'check'] + extra_make_check_flags + self.flags
         self.env = test_env
         # Needed because of dejagnu
         self.haltOnFailure = False
@@ -111,6 +110,7 @@ class BuildAndTestGDBFactory (factory.BuildFactory):
     def __init__ (self, architecture_triplet = []):
         factory.BuildFactory.__init__ (self)
         self.addStep (DeleteGDBBuildDir ())
+        self.addStep (CloneOrUpdateGDBMasterRepo ())
         self.addStep (CloneOrUpdateGDBRepo ())
 
         if not self.extra_conf_flags:
@@ -136,6 +136,7 @@ class RunTestGDBPlain_c64t64 (BuildAndTestGDBFactory):
     pass
 
 class RunTestGDBPlain_c32t32 (BuildAndTestGDBFactory):
+    extra_conf_flags = [ 'CFLAGS=-m32' ]
     extra_make_check_flags = [ 'RUNTESTFLAGS=--target_board unix/-m32' ]
 
 class RunTestGDBm32_c64t32 (BuildAndTestGDBFactory):
@@ -155,7 +156,7 @@ class RunTestGDBNativeExtendedGDBServer_c64t32 (BuildAndTestGDBFactory):
     extra_make_check_flags = [ 'RUNTESTFLAGS=--target_board native-extended-gdbserver/-m32' ]
 
 class RunTestGDBIndexBuild (BuildAndTestGDBFactory):
-    extra_make_check_flags = [ 'CC_FOR_TARGET=/bin/sh binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i gcc', 'CXX_FOR_TARGET=/bin/sh binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i g++']
+    extra_make_check_flags = [ 'CC_FOR_TARGET=/bin/sh ../binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i gcc', 'CXX_FOR_TARGET=/bin/sh ../binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i g++']
 
 master_filter = ChangeFilter (branch = [ 'master' ])
 
