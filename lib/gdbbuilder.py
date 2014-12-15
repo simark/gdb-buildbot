@@ -37,6 +37,7 @@ class CloneOrUpdateGDBMasterRepo (Git):
                       repourl = 'git://sourceware.org/git/binutils-gdb.git',
                       workdir = WithProperties ("%s/../binutils-gdb-master/",
                                                 'builddir'),
+                      retryFetch = True,
                       mode = 'incremental')
 
 class CloneOrUpdateGDBRepo (Git):
@@ -47,7 +48,8 @@ class CloneOrUpdateGDBRepo (Git):
                       repourl = 'git://sourceware.org/git/binutils-gdb.git',
                       workdir = WithProperties ('%s/binutils-gdb/', 'builddir'),
                       reference = WithProperties ("%s/../binutils-gdb-master/",
-                                                  'builddir'))
+                                                  'builddir'),
+                      retryFetch = True)
 
 class ConfigureGDB (Configure):
     description = "configure GDB"
