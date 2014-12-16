@@ -190,6 +190,7 @@ def load_config (c):
         if "change_filter" in s:
             s['change_filter'] = globals ()[s['change_filter']]
         kls = globals ()[s.pop ('type')]
+        s['properties'] = { 'isTryBuilder' : 'no' }
         s = dict (map (lambda key_value_pair : (str (key_value_pair[0]),
                                                 key_value_pair[1]),
                        s.items ()))
