@@ -159,7 +159,6 @@ class RunTestGDBm32_c64t32 (BuildAndTestGDBFactory):
     extra_make_check_flags = [ 'RUNTESTFLAGS=--target_board unix/-m32' ]
 
 class RunTestGDBNativeGDBServer_c64t64 (BuildAndTestGDBFactory):
-    no_test_parallel = True
     extra_make_check_flags = [ 'RUNTESTFLAGS=--target_board native-gdbserver' ]
 
 class RunTestGDBNativeGDBServer_c64t32 (BuildAndTestGDBFactory):
