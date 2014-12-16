@@ -172,7 +172,8 @@ class RunTestGDBNativeExtendedGDBServer_c64t32 (BuildAndTestGDBFactory):
     extra_make_check_flags = [ 'RUNTESTFLAGS=--target_board native-extended-gdbserver/-m32' ]
 
 class RunTestGDBIndexBuild (BuildAndTestGDBFactory):
-    extra_make_check_flags = [ 'CC_FOR_TARGET=/bin/sh ../binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i gcc', 'CXX_FOR_TARGET=/bin/sh ../binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i g++']
+    extra_make_check_flags = [ WithProperties ('CC_FOR_TARGET=/bin/sh %s/binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i gcc', 'builddir'),
+                               WithProperties ('CXX_FOR_TARGET=/bin/sh %s/binutils-gdb/gdb/contrib/cc-with-tweaks.sh -i g++', 'builddir') ]
 
 master_filter = ChangeFilter (branch = [ 'master' ])
 
