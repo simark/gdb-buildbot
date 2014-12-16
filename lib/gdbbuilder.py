@@ -193,7 +193,7 @@ def load_config (c):
         s = dict (map (lambda key_value_pair : (str (key_value_pair[0]),
                                                 key_value_pair[1]),
                        s.items ()))
-        c['schedulers'].append (kls (**s, properties = { 'isTryBuilder' : 'no' }))
+        c['schedulers'].append (kls (**s))
 
     c['builders'] = []
     for b in config['builders']:
