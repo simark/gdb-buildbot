@@ -14,6 +14,7 @@ from buildbot.steps.transfer import FileDownload
 from buildbot.buildslave import BuildSlave
 from gdbcommand import GdbCatSumfileCommand
 from json import load
+import random
 
 
 ## TODO:
@@ -29,6 +30,11 @@ class DeleteGDBBuildDir (ShellCommand):
     descriptionDone = "deleted previous GDB build directory"
     command = ['rm', '-rf', WithProperties ("%s/build", 'builddir')]
 
+class RandomWaitForClone (ShellCommand):
+    description = "randomly waiting before git fetching"
+    descriptionDone = "waited before git fetching"
+    command = ['sleep', WithProperties ("%ss", 'randomWait')]
+
 class CloneOrUpdateGDBMasterRepo (Git):
     description = "fetching GDB master sources"
     descriptionDone = "fetched GDB master sources"
@@ -39,6 +45,8 @@ class CloneOrUpdateGDBMasterRepo (Git):
                                                 'builddir'),
                       retryFetch = True,
                       mode = 'incremental')
+        self.haltOnFailure = False
+        self.flunkOnFailure = False
 
 class CloneOrUpdateGDBRepo (Git):
     description = "fetching GDB sources"
@@ -116,6 +124,9 @@ class BuildAndTestGDBFactory (factory.BuildFactory):
     def __init__ (self, architecture_triplet = []):
         factory.BuildFactory.__init__ (self)
         self.addStep (DeleteGDBBuildDir ())
+        # Unfortunately we need to have this random wait, otherwise
+        # git fetch won't work
+        self.addStep (RandomWaitForClone ())
         self.addStep (CloneOrUpdateGDBMasterRepo ())
         self.addStep (CloneOrUpdateGDBRepo ())
 
@@ -180,9 +191,11 @@ def load_config (c):
     config = load (open ("lib/config.json"))
     passwd = load (open ("lib/passwords.json"))
 
+    random.seed ()
     c['slaves'] = [BuildSlave (slave['name'], passwd[slave['name']],
                                max_builds = 1,
-                               properties = { 'jobs' : slave['jobs'] })
+                               properties = { 'jobs' : slave['jobs'],
+                                              'randomWait' : "%d" % random.randrange (1, 30) })
                    for slave in config['slaves']]
 
     c['schedulers'] = []
