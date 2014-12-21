@@ -26,7 +26,7 @@ class GdbCatSumfileCommand(ShellCommand):
             baseline = parser.read_sum_file(builder, rev)
         result = SUCCESS
         if baseline is not None:
-            report = parser.compute_regressions(cur_results, baseline)
+            report = parser.compute_regressions(cur_results, builder, baseline)
             if report is not '':
                 self.addCompleteLog('regressions', report)
                 result = FAILURE

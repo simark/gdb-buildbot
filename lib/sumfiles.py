@@ -93,14 +93,14 @@ class DejaResults(object):
             self.parse_sum_line(cur_results, line)
         return cur_results
 
-    # Compute regressions between RESULTS and BASELINE.
+    # Compute regressions between RESULTS and BASELINE on BUILDER.
     # BASELINE will be modified if any new PASSes are seen.
     # Returns a regression report, as a string.
-    def compute_regressions(self, results, baseline):
+    def compute_regressions(self, builder, results, baseline):
         our_keys = results.keys()
         our_keys.sort()
         result = ''
-        xfails = self.read_sum_file('', 'xfail')
+        xfails = self.read_sum_file(builder, 'xfail')
         if xfails is None:
             xfails = {}
         for key in our_keys:
