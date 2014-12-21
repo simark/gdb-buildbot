@@ -20,7 +20,7 @@ class GdbCatSumfileCommand(ShellCommand):
             branch = 'master'
         parser = DejaResults()
         cur_results = parser.read_sum_text(self.getLog('stdio').getText())
-        if istry:
+        if not istry or istry == 'no':
             baseline = parser.read_baseline (builder, branch)
         else:
             baseline = parser.read_sum_file(builder, rev)
@@ -30,7 +30,7 @@ class GdbCatSumfileCommand(ShellCommand):
             if report is not '':
                 self.addCompleteLog('regressions', report)
                 result = FAILURE
-        if istry:
+        if not istry or istry == 'no':
             parser.write_sum_file(cur_results, builder, rev)
             # If there was no previous baseline, then this run
             # gets the honor.
