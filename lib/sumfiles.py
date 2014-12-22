@@ -18,6 +18,10 @@ def set_web_base(arg):
         # So, use mkdir and not makedirs.
         os.mkdir(gdb_web_base, 0755)
 
+def get_web_base ():
+    global gdb_web_base
+    return gdb_web_base
+
 class DejaResults(object):
     def __init__(self):
         object.__init__(self)
@@ -42,12 +46,15 @@ class DejaResults(object):
                 test_name = nname
             out_dict[test_name] = result
 
-    def _write_sum_file(self, sum_dict, subdir, filename):
+    def _write_sum_file(self, sum_dict, subdir, filename, is_baseline):
         global gdb_web_base
         bdir = os.path.join(gdb_web_base, subdir)
         if not os.path.isdir(bdir):
             os.makedirs(bdir, 0755)
-        fname = os.path.join(bdir, filename)
+        if is_baseline:
+            fname = os.path.join(bdir, filename)
+        else:
+            fname = os.path.join(bdir, 'gdb.sum')
         keys = sum_dict.keys()
         keys.sort()
         f = open(fname, 'w')
@@ -56,11 +63,11 @@ class DejaResults(object):
         f.close()
 
     def write_sum_file(self, sum_dict, builder, filename):
-        self._write_sum_file(sum_dict, builder, filename)
+        self._write_sum_file(sum_dict, builder, filename, False)
 
     def write_baseline(self, sum_dict, builder, branch):
         self.write_sum_file(sum_dict, os.path.join(builder, branch), 
-                            'baseline')
+                            'baseline', True)
 
     # Read a .sum file.
     # The builder name is BUILDER.
@@ -68,9 +75,12 @@ class DejaResults(object):
     # revision; to read the baseline file for a branch, use `read_baseline'.
     # Returns a dictionary holding the .sum contents, or None if the
     # file did not exist.
-    def read_sum_file(self, builder, filename):
+    def _read_sum_file(self, builder, filename, is_baseline):
         global gdb_web_base
-        fname = os.path.join(gdb_web_base, builder, filename)
+        if is_baseline:
+            fname = os.path.join(gdb_web_base, builder, filename)
+        else:
+            fname = os.path.join(gdb_web_base, builder, 'gdb.sum')
         if os.path.exists(fname):
             result = {}
             f = open(fname, 'r')
@@ -81,8 +91,11 @@ class DejaResults(object):
             result = None
         return result
 
+    def read_sum_file (self, builder, filename):
+        return self._read_sum_file (self, builder, filename, False)
+
     def read_baseline(self, builder, branch):
-        return self.read_sum_file(builder, os.path.join(branch, 'baseline'))
+        return self._read_sum_file(builder, os.path.join(branch, 'baseline'), True)
 
     # Parse some text as a .sum file and return the resulting
     # dictionary.
@@ -100,7 +113,7 @@ class DejaResults(object):
         our_keys = results.keys()
         our_keys.sort()
         result = ''
-        xfails = self.read_sum_file(builder, 'xfail')
+        xfails = self.read_sum_file(builder, 'xfail', False)
         if xfails is None:
             xfails = {}
         for key in our_keys:
