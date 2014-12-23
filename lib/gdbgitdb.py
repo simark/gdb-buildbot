@@ -1,5 +1,6 @@
 # DB-like with git
 
+from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 from buildbot.steps.shell import ShellCommand
 from sumfiles import get_web_base
 import os.path
@@ -12,7 +13,7 @@ class SaveGDBResults (ShellCommand):
     command = ['true']
 
     def __init__ (self, **kwargs):
-        BuildStep.__init__ (self, **kwargs)
+        ShellCommand.__init__ (self, **kwargs)
 
     def evaluateCommand (self, cmd):
         rev = self.getProperty ('got_revision')
@@ -25,11 +26,9 @@ class SaveGDBResults (ShellCommand):
         if istry and istry == 'yes':
             # Do nothing
             return SUCCESS
-        try:
-            repo = git.Repo (path = repodir)
-        except git.InvalidGitRepositoryError:
-            repo = git.Repo.init (path = repodir)
-        git.index.add (['gdb.sum', 'gdb.log', '%s/baseline' % branch])
-        git.index.commit ('Log files for %s' % rev)
-        git.create_tag (rev)
+        repo = git.Repo.init (path = repodir)
+        repo.index.add (['gdb.sum', 'gdb.log', '%s/baseline' % branch])
+        repo.index.commit ('Log files for %s' % rev)
+        repo.create_tag (rev)
+        repo.index.write ()
         return SUCCESS

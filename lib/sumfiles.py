@@ -66,7 +66,7 @@ class DejaResults(object):
         self._write_sum_file(sum_dict, builder, filename, False)
 
     def write_baseline(self, sum_dict, builder, branch):
-        self.write_sum_file(sum_dict, os.path.join(builder, branch), 
+        self._write_sum_file(sum_dict, os.path.join(builder, branch), 
                             'baseline', True)
 
     # Read a .sum file.
@@ -92,7 +92,7 @@ class DejaResults(object):
         return result
 
     def read_sum_file (self, builder, filename):
-        return self._read_sum_file (self, builder, filename, False)
+        return self._read_sum_file (builder, filename, False)
 
     def read_baseline(self, builder, branch):
         return self._read_sum_file(builder, os.path.join(branch, 'baseline'), True)
@@ -113,7 +113,7 @@ class DejaResults(object):
         our_keys = results.keys()
         our_keys.sort()
         result = ''
-        xfails = self.read_sum_file(builder, 'xfail', False)
+        xfails = self.read_sum_file(builder, 'xfail')
         if xfails is None:
             xfails = {}
         for key in our_keys:
