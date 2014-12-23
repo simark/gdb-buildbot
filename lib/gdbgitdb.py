@@ -27,9 +27,10 @@ class SaveGDBResults (ShellCommand):
             # Do nothing
             return SUCCESS
         repo = git.Repo.init (path = repodir)
-        if repo.is_dirty ():
-            repo.index.add (['gdb.sum', 'gdb.log', '%s/baseline' % branch])
-            repo.index.commit ('Log files for %s' % rev)
-            repo.index.write ()
-        repo.create_tag (rev)
+        if rev not in repo.tags:
+            if repo.is_dirty ():
+                repo.index.add (['gdb.sum', 'gdb.log', '%s/baseline' % branch])
+                repo.index.commit ('Log files for %s' % rev)
+                repo.index.write ()
+            repo.create_tag (rev)
         return SUCCESS
