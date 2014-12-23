@@ -26,9 +26,10 @@ class SaveGDBResults (ShellCommand):
         if istry and istry == 'yes':
             # Do nothing
             return SUCCESS
+        had_repo = os.path.exists (os.path.join (repodir, '.git'))
         repo = git.Repo.init (path = repodir)
         if rev not in repo.tags:
-            if repo.is_dirty ():
+            if repo.is_dirty () or not had_repo:
                 repo.index.add (['gdb.sum', 'gdb.log', '%s/baseline' % branch])
                 repo.index.commit ('Log files for %s' % rev)
                 repo.index.write ()
