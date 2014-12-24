@@ -48,7 +48,7 @@ class DejaResults(object):
 
     def _write_sum_file(self, sum_dict, subdir, revision, filename):
         global gdb_web_base
-        if not revision:
+        if revision:
             bdir = os.path.join(gdb_web_base, subdir, revision)
         else:
             bdir = os.path.join (gdb_web_base, subdir)
