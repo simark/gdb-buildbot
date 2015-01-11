@@ -63,7 +63,8 @@ class DejaResults(object):
         f.close()
 
     def write_sum_file(self, sum_dict, builder, revision):
-        self._write_sum_file(sum_dict, builder, revision, 'gdb.sum')
+        self._write_sum_file (sum_dict, builder, None, 'gdb.sum')
+#        self._write_sum_file(sum_dict, builder, revision, 'gdb.sum')
 
     def write_baseline(self, sum_dict, builder, branch):
         self._write_sum_file(sum_dict, os.path.join(builder, branch),
@@ -92,7 +93,8 @@ class DejaResults(object):
         return result
 
     def read_sum_file (self, builder, revision):
-        return self._read_sum_file (builder, revision, 'gdb.sum')
+        return self._read_sum_file (builder, None, 'gdb.sum')
+#        return self._read_sum_file (builder, revision, 'gdb.sum')
 
     def read_baseline(self, builder, branch):
         return self._read_sum_file(os.path.join(builder, branch),

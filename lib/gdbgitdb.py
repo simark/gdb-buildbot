@@ -20,17 +20,32 @@ class SaveGDBResults (ShellCommand):
         builder = self.getProperty ('buildername')
         istry = self.getProperty ('isTryBuilder')
         branch = self.getProperty ('branch')
-        repodir = os.path.join (get_web_base (), builder)
+        repodir = get_web_base ()
+        builder_dir = os.path.join (repodir, builder)
+        full_tag = "%s-%s" % (builder, rev)
+
         if branch is None:
             branch = 'master'
         if istry and istry == 'yes':
             # Do nothing
             return SUCCESS
+
         repo = git.Repo.init (path = repodir)
-        if rev not in repo.tags:
-            if not repo.branches or repo.is_dirty ():
-                repo.index.add (['gdb.sum', 'gdb.log', '%s/baseline' % branch])
-                repo.index.commit ('Log files for %s' % rev)
+        if not os.path.exists (builder_dir):
+            os.mkdir (builder_dir)
+
+        if builder not in repo.heads:
+            myhead = repo.create_head (builder)
+        else:
+            myhead = repo.heads[builder]
+
+        myhead.checkout ()
+        if full_tag not in repo.tags:
+            if repo.is_dirty ():
+                repo.index.add (['%s/gdb.sum' % builder,
+                                 '%s/gdb.log' % builder,
+                                 '%s/%s/baseline' % (builder, branch)])
+                repo.index.commit ('Log files for %s' % full_tag)
                 repo.index.write ()
-            repo.create_tag (rev)
+            repo.create_tag (full_tag)
         return SUCCESS
