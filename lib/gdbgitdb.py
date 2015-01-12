@@ -34,6 +34,13 @@ class SaveGDBResults (ShellCommand):
         if not os.path.exists (builder_dir):
             os.mkdir (builder_dir)
 
+        if 'master' not in repo.heads:
+            with open (os.path.join (repodir, 'README'), 'w') as f:
+                f.write ("git repo for GDB test results")
+            repo.index.add (['README'])
+            repo.index.commit ('Initial commit')
+            repo.index.write ()
+
         if builder not in repo.heads:
             myhead = repo.create_head (builder)
         else:
