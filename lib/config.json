@@ -55,7 +55,6 @@
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
 		       "change_filter" : "master_filter",
-		       "treeStableTimer" : 45.0,
 		       "builderNames" : [ "Fedora-x86_64-m64",
 					  "Fedora-x86_64-m32",
 					  "Fedora-x86_64-native-gdbserver-m64",
