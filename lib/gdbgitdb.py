@@ -5,6 +5,7 @@ from buildbot.steps.shell import ShellCommand
 from sumfiles import get_web_base
 import os.path
 from datetime import datetime
+import git
 
 class SaveGDBResults (ShellCommand):
     name = 'save build results'
