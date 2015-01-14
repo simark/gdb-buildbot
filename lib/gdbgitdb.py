@@ -83,9 +83,9 @@ class SaveGDBResults (ShellCommand):
             repo.index.write ()
 
         if full_tag not in repo.tags:
-            repo.index.add (['%s/gdb.sum' % builder,
-                             '%s/gdb.log' % builder,
-                             '%s/%s/baseline' % (builder, branch)])
+            repo.index.add (['gdb.sum',
+                             'gdb.log',
+                             '%s/baseline' % branch])
             if repo.is_dirty ():
                 repo.index.commit ('Log files for %s' % full_tag)
                 repo.index.write ()
