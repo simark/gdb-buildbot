@@ -16,6 +16,6 @@ for d in `ls` ; do
     fi
 
     if ! test -h $GDB_WEB_BASE/$d/xfail ; then
-	ln -s $d/xfail $GDB_WEB_BASE/$d/xfail
+	ln -s $PWD/$d/xfail $GDB_WEB_BASE/$d/xfail
     fi
 done
