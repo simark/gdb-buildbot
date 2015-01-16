@@ -1,0 +1,185 @@
+FAIL: gdb.ada/arraydim.exp: print m'first
+FAIL: gdb.ada/arraydim.exp: print m'first(1)
+FAIL: gdb.ada/arraydim.exp: print m'first(2)
+FAIL: gdb.ada/arraydim.exp: print m'first(3)
+FAIL: gdb.ada/arraydim.exp: print m'last
+FAIL: gdb.ada/arraydim.exp: print m'last(1)
+FAIL: gdb.ada/arraydim.exp: print m'last(2)
+FAIL: gdb.ada/arraydim.exp: print m'last(3)
+FAIL: gdb.ada/arraydim.exp: print m'length
+FAIL: gdb.ada/arraydim.exp: print m'length(1)
+FAIL: gdb.ada/arraydim.exp: print m'length(2)
+FAIL: gdb.ada/arraydim.exp: print m'length(3)
+FAIL: gdb.ada/arrayidx.exp: print e_one_two_three
+FAIL: gdb.ada/arrayidx.exp: print e_one_two_three, indexes off
+FAIL: gdb.ada/arrayidx.exp: print empty
+FAIL: gdb.ada/arrayidx.exp: print empty, indexes off
+FAIL: gdb.ada/arrayidx.exp: print few_reps
+FAIL: gdb.ada/arrayidx.exp: print few_reps, indexes off
+FAIL: gdb.ada/arrayidx.exp: print many_reps
+FAIL: gdb.ada/arrayidx.exp: print many_reps, indexes off
+FAIL: gdb.ada/arrayidx.exp: print one_two_three
+FAIL: gdb.ada/arrayidx.exp: print one_two_three, indexes off
+FAIL: gdb.ada/arrayidx.exp: print p_one_two_three
+FAIL: gdb.ada/arrayidx.exp: print p_one_two_three, indexes off
+FAIL: gdb.ada/arrayidx.exp: print r_two_three
+FAIL: gdb.ada/arrayidx.exp: print r_two_three, indexes off
+FAIL: gdb.ada/arrayidx.exp: print u_one_two_three
+FAIL: gdb.ada/arrayidx.exp: print u_one_two_three, indexes off
+FAIL: gdb.ada/arrayparam.exp: print first after function call
+FAIL: gdb.ada/arrayparam.exp: print last after function call
+FAIL: gdb.ada/arrayparam.exp: print length after function call
+FAIL: gdb.ada/bp_enum_homonym.exp: run to pck.archive breakpoint
+FAIL: gdb.ada/bp_range_type.exp: print small_value
+FAIL: gdb.ada/bp_range_type.exp: run to breakpoint
+FAIL: gdb.ada/char_param.exp: call next
+FAIL: gdb.ada/char_param.exp: print procedure_result after calling next
+FAIL: gdb.ada/char_param.exp: print procedure_result after calling same
+FAIL: gdb.ada/complete.exp: complete p external_ident
+FAIL: gdb.ada/complete.exp: complete p some
+FAIL: gdb.ada/complete.exp: interactive complete 'print some' (timeout)
+FAIL: gdb.ada/cond_lang.exp: continue (the program is no longer running)
+FAIL: gdb.ada/dyn_arrayidx.exp: ptype array_type
+FAIL: gdb.ada/enum_idx_packed.exp: print full'first
+FAIL: gdb.ada/expr_delims.exp: Check that watchpoint is set correctly.
+FAIL: gdb.ada/expr_delims.exp: Print variable 'thread'
+FAIL: gdb.ada/expr_delims.exp: Set conditional watchpoint.
+FAIL: gdb.ada/expr_delims.exp: Set plain watchpoint on variable 'thread'
+FAIL: gdb.ada/expr_delims.exp: continue (the program is no longer running)
+FAIL: gdb.ada/exprs.exp: long_float'max
+FAIL: gdb.ada/exprs.exp: long_float'min
+FAIL: gdb.ada/fixed_cmp.exp: print My_Var > 10
+FAIL: gdb.ada/fixed_cmp.exp: print My_Var > 20
+FAIL: gdb.ada/fixed_cmp.exp: print My_Var > 20.0
+FAIL: gdb.ada/fixed_points.exp: p on a new fixed point type
+FAIL: gdb.ada/fixed_points.exp: p on a subtype fixed point type
+FAIL: gdb.ada/fixed_points.exp: print Overprecise_Object
+FAIL: gdb.ada/fixed_points.exp: ptype Overprecise_Object
+FAIL: gdb.ada/float_param.exp: call set_double(1, 3.0)
+FAIL: gdb.ada/float_param.exp: call set_long_double(1, global_small_struct, 4.0)
+FAIL: gdb.ada/float_param.exp: print global_double
+FAIL: gdb.ada/float_param.exp: print global_float
+FAIL: gdb.ada/float_param.exp: print global_long_double
+FAIL: gdb.ada/formatted_ref.exp: print s.x = 13
+FAIL: gdb.ada/formatted_ref.exp: print/x s'access
+FAIL: gdb.ada/homonym.exp: continue until BREAK_2 (the program is no longer running)
+FAIL: gdb.ada/homonym.exp: print lcl at BREAK_1
+FAIL: gdb.ada/homonym.exp: print lcl at BREAK_2
+FAIL: gdb.ada/homonym.exp: ptype int_type at BREAK_1
+FAIL: gdb.ada/homonym.exp: ptype lcl at BREAK_1
+FAIL: gdb.ada/homonym.exp: ptype lcl at BREAK_2
+FAIL: gdb.ada/homonym.exp: ptype local_type at BREAK_1
+FAIL: gdb.ada/homonym.exp: ptype local_type at BREAK_2
+FAIL: gdb.ada/homonym.exp: ptype local_type_subtype at BREAK_1
+FAIL: gdb.ada/homonym.exp: ptype local_type_subtype at BREAK_2
+FAIL: gdb.ada/interface.exp: print s
+FAIL: gdb.ada/iwide.exp: print d_access.all
+FAIL: gdb.ada/iwide.exp: print dp_access.all
+FAIL: gdb.ada/iwide.exp: print s_access.all
+FAIL: gdb.ada/iwide.exp: print sp_access.all
+FAIL: gdb.ada/lang_switch.exp: backtrace
+FAIL: gdb.ada/lang_switch.exp: backtrace with lang set to C
+FAIL: gdb.ada/mi_dyn_arr.exp: Create bt varobj
+FAIL: gdb.ada/mi_dyn_arr.exp: run to foo.adb:22 (exec-continue) (MI error)
+FAIL: gdb.ada/mi_dyn_arr.exp: wait for stop (stop at start of main Ada procedure)
+FAIL: gdb.ada/mi_exc_info.exp: -info-ada-exceptions const.aint
+FAIL: gdb.ada/mi_exc_info.exp: -info-ada-exceptions task
+FAIL: gdb.ada/mi_interface.exp: Create ggg1 varobj
+FAIL: gdb.ada/mi_interface.exp: list ggg1's children
+FAIL: gdb.ada/mi_interface.exp: run to foo.adb:22 (exec-continue) (MI error)
+FAIL: gdb.ada/mi_interface.exp: wait for stop (stop at start of main Ada procedure)
+FAIL: gdb.ada/mi_task_info.exp: -ada-task-info 3
+FAIL: gdb.ada/null_array.exp: print my_matrix
+FAIL: gdb.ada/null_array.exp: ptype my_table
+FAIL: gdb.ada/operator_bp.exp: continue to "&" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "*" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "**" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "+" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "-" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "/" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "<" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "<=" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "=" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ">" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ">=" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "abs" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "and" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "mod" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "not" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "or" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "rem" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to "xor" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."&" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."*" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."**" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."+" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."-" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."/" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."<" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."<=" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."=" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops.">" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops.">=" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."abs" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."and" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."mod" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."not" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."or" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."rem" (the program is no longer running)
+FAIL: gdb.ada/operator_bp.exp: continue to ops."xor" (the program is no longer running)
+FAIL: gdb.ada/packed_array.exp: print &var
+FAIL: gdb.ada/packed_array.exp: print u_var
+FAIL: gdb.ada/packed_array.exp: ptype &var
+FAIL: gdb.ada/packed_tagged.exp: ptype x
+FAIL: gdb.ada/pkd_arr_elem.exp: print test.str
+FAIL: gdb.ada/pkd_arr_elem.exp: print test.str(1)
+FAIL: gdb.ada/pp-rec-component.exp: print /r before
+FAIL: gdb.ada/pp-rec-component.exp: print before
+FAIL: gdb.ada/print_chars.exp: print WC
+FAIL: gdb.ada/print_chars.exp: print WWC
+FAIL: gdb.ada/py_range.exp: python print(int(gdb.parse_and_eval('ir')))
+FAIL: gdb.ada/py_range.exp: python print(int(gdb.parse_and_eval('si')))
+FAIL: gdb.ada/rdv_wait.exp: task 2
+FAIL: gdb.ada/set_pckd_arr_elt.exp: continue to update_small (the program is no longer running)
+FAIL: gdb.ada/tagged.exp: print obj
+FAIL: gdb.ada/tagged.exp: print segm
+FAIL: gdb.ada/tagged.exp: ptype obj
+FAIL: gdb.ada/tagged_access.exp: ptype c.menu_name
+FAIL: gdb.ada/task_bp.exp: run to dummy_task - from full symtab
+FAIL: gdb.ada/task_bp.exp: run to dummy_task - from psymtab
+FAIL: gdb.ada/task_bp.exp: run to pck.adb:dummy_task - from full symtab
+FAIL: gdb.ada/task_bp.exp: run to pck.adb:dummy_task - from psymtab
+FAIL: gdb.ada/task_bp.exp: run to pck.adb:pck.dummy_task - from full symtab
+FAIL: gdb.ada/task_bp.exp: run to pck.adb:pck.dummy_task - from psymtab
+FAIL: gdb.ada/task_bp.exp: run to pck.dummy_task - from full symtab
+FAIL: gdb.ada/task_bp.exp: run to pck.dummy_task - from psymtab
+FAIL: gdb.ada/tasks.exp: break break_me task 1
+FAIL: gdb.ada/tasks.exp: break break_me task 3
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: print cold'length
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: print prim'length
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: print vars'length
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: ptype cold'length
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: ptype full'length
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: ptype prim'length
+FAIL: gdb.ada/tick_length_array_enum_idx.exp: ptype vars'length
+FAIL: gdb.ada/type_coercion.exp: p q
+FAIL: gdb.ada/type_coercion.exp: print {Integer} $addr
+FAIL: gdb.ada/type_coercion.exp: save q'address in convenience variable
+FAIL: gdb.ada/type_coercion.exp: set {Integer} $addr := 19
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: continue to STOP2 (the program is no longer running)
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print My_Object.Ptr when null
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print My_P_Object.Ptr when no longer null
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print My_P_Object.Ptr when no longer null <<2>>
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print My_P_Object.Ptr when null
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print my_object after setting Ptr
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print my_object.ptr.all
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print my_p_object after setting Ptr
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print my_p_object.ptr.all
+FAIL: gdb.ada/var_arr_attrs.exp: print my_object.data'last
+FAIL: gdb.ada/var_arr_attrs.exp: print my_object.data'length
+FAIL: gdb.ada/var_arr_attrs.exp: print my_small_object.data'first
+FAIL: gdb.ada/var_arr_attrs.exp: print my_small_object.data'last
+FAIL: gdb.ada/var_arr_attrs.exp: print my_small_object.data'length
+FAIL: gdb.ada/variant_record_packed_array.exp: print address
+FAIL: gdb.ada/variant_record_packed_array.exp: print adress content
+FAIL: gdb.ada/watch_arg.exp: Continuing to second breakpoint (the program is no longer running)

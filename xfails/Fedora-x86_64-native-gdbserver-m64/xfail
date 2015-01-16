@@ -1,0 +1,1 @@
+FAIL: gdb.threads/next-bp-other-thread.exp: schedlock=off: next over function call

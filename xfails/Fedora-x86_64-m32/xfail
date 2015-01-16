@@ -1,0 +1,15 @@
+FAIL: gdb.ada/interface.exp: print s
+FAIL: gdb.ada/iwide.exp: print My_Drawable
+FAIL: gdb.ada/iwide.exp: print d_access.all
+FAIL: gdb.ada/iwide.exp: print dp_access.all
+FAIL: gdb.ada/iwide.exp: print s_access.all
+FAIL: gdb.ada/iwide.exp: print sp_access.all
+FAIL: gdb.ada/mi_interface.exp: Create ggg1 varobj
+FAIL: gdb.ada/mi_interface.exp: list ggg1's children
+FAIL: gdb.ada/ptype_tagged_param.exp: ptype s
+FAIL: gdb.ada/str_uninit.exp: print my_str
+FAIL: gdb.ada/tagged.exp: print obj
+FAIL: gdb.ada/tagged.exp: ptype obj
+FAIL: gdb.ada/tagged_access.exp: ptype c.all
+FAIL: gdb.ada/tagged_access.exp: ptype c.menu_name
+FAIL: gdb.base/interrupt.exp: continue
