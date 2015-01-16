@@ -183,3 +183,4 @@ FAIL: gdb.ada/var_arr_attrs.exp: print my_small_object.data'length
 FAIL: gdb.ada/variant_record_packed_array.exp: print address
 FAIL: gdb.ada/variant_record_packed_array.exp: print adress content
 FAIL: gdb.ada/watch_arg.exp: Continuing to second breakpoint (the program is no longer running)
+FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print My_P_Object with null Ptr
