@@ -63,7 +63,7 @@
 		   { "name" : "Debian-x86_64-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "debian-x86-64-cc-with-index",
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
