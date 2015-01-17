@@ -43,7 +43,7 @@
 		     "builddir" : "fedora-i686",
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
 
-		   { "name" : "Debian-x86_64",
+		   { "name" : "Debian-x86_64-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "debian-x86-64",
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
