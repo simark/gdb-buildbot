@@ -1,6 +1,6 @@
 {
     "slaves" : [ { "name" : "fedora-x86-64-1", "arch" : "x86_64", "jobs" : "4" },
-		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" }
+		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" },
 		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "4" }
 	       ],
 
