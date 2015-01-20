@@ -112,12 +112,6 @@ class DejaResults(object):
             self.parse_sum_line(cur_results, line)
         return cur_results
 
-    def transform_re (self, xfails):
-        ret = {}
-        for r in xfails:
-            ret[r] = re.compile (r)
-        return ret
-
     # Compute regressions between RESULTS and BASELINE on BUILDER.
     # BASELINE will be modified if any new PASSes are seen.
     # Returns a regression report, as a string.
@@ -128,18 +122,10 @@ class DejaResults(object):
         xfails = self.read_xfail (builder)
         if xfails is None:
             xfails = {}
-        xfails_re = self.transform_re (xfails)
         for key in our_keys:
             # An XFAIL entry means we have an unreliable test.
-            cont = False
-            for x in xfails_re:
-                if re.match (xfails_re[x], (key)):
-                    cont = True
-                    break
-            if cont:
+            if key in xfails:
                 continue
-#            if key in xfails:
-#                continue
             # A transition to PASS means we should update the baseline.
             if results[key] == 'PASS':
                 if key not in baseline or baseline[key] != 'PASS':
