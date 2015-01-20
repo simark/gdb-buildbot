@@ -126,9 +126,9 @@ class DejaResults(object):
         our_keys.sort()
         result = ''
         xfails = self.read_xfail (builder)
-        xfails_re = self.transform_re (xfails)
         if xfails is None:
             xfails = {}
+        xfails_re = self.transform_re (xfails)
         for key in our_keys:
             # An XFAIL entry means we have an unreliable test.
             cont = False
