@@ -1,3 +1,7 @@
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 1: break at break_fn: 1 (the program is no longer running)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 1: break at break_fn: 2 (the program is no longer running)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 1: break at break_fn: 3 (the program is no longer running)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 1: detach (the program is no longer running)
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: attach (timeout)
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: break at break_fn: 2
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: break at break_fn: 3
@@ -7,4 +11,9 @@ FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: break at break_fn
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: break break_fn
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: no new threads
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 8: attach (got interactive prompt)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: break at break_fn: 1 (the program is no longer running)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: break at break_fn: 2 (the program is no longer running)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: break at break_fn: 3 (the program is no longer running)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: detach (the program is no longer running)
 FAIL: gdb.threads/next-bp-other-thread.exp: schedlock=off: next over function call
+FAIL: gdb.base/random-signal.exp: stop with control-c (timeout)

@@ -561,3 +561,5 @@ FAIL: gdb.reverse/sigall-reverse.exp: send signal WINCH (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal WIND (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal XCPU (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal XFSZ (timeout)
+FAIL: gdb.base/random-signal.exp: stop with control-c (timeout)
+FAIL: gdb.dwarf2/gdb-index.exp: touch binary
