@@ -1,7 +1,8 @@
 {
     "slaves" : [ { "name" : "fedora-x86-64-1", "arch" : "x86_64", "jobs" : "4" },
 		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" },
-		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "4" }
+		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "4" },
+		 { "name" : "fedora-20-ppc64le-1", "arch" : "ppc64le", "jobs" : "3" }
 	       ],
 
     "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
@@ -45,6 +46,27 @@
 
 
 
+		   { "name" : "Fedora-ppc64le-m64", "type" : "Plain_c64t64",
+		     "builddir" : "fedora-ppc64le",
+		     "slavenames" : [ "fedora-20-ppc64le-1" ] },
+
+		   { "name" : "Fedora-ppc64le-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "fedora-ppc64le-native-gdbserver",
+		     "slavenames" : [ "fedora-20-ppc64le-1" ] },
+
+		   { "name" : "Fedora-ppc64le-native-extended-gdbserver-m64",
+		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "builddir" : "fedora-ppc64le-native-extended-gdbserver",
+		     "slavenames" : [ "fedora-20-ppc64le-1" ] },
+
+		   { "name" : "Fedora-ppc64le-cc-with-index",
+		     "type" : "IndexBuild",
+		     "builddir" : "fedora-ppc64le-cc-with-index",
+		     "slavenames" : [ "fedora-20-ppc64le-1" ] },
+
+
+
 		   { "name" : "Debian-x86_64-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "debian-x86-64",
@@ -76,6 +98,11 @@
 					  "Fedora-x86_64-native-extended-gdbserver-m32",
 					  "Fedora-x86_64-cc-with-index",
 					  "Fedora-i686",
+
+					  "Fedora-ppc64le-m64",
+					  "Fedora-ppc64le-native-gdbserver-m64",
+					  "Fedora-ppc64le-native-extended-gdbserver-m64",
+					  "Fedora-ppc64le-cc-with-index",
 
 					  "Debian-x86_64-m64",
 					  "Debian-x86_64-native-gdbserver-m64",
