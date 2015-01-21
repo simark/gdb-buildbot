@@ -563,3 +563,4 @@ FAIL: gdb.reverse/sigall-reverse.exp: send signal XCPU (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal XFSZ (timeout)
 FAIL: gdb.base/random-signal.exp: stop with control-c (timeout)
 FAIL: gdb.dwarf2/gdb-index.exp: touch binary
+FAIL: gdb.threads/next-bp-other-thread.exp: schedlock=off: next over function call
