@@ -1,8 +1,15 @@
 {
     "slaves" : [ { "name" : "fedora-x86-64-1", "arch" : "x86_64", "jobs" : "4" },
 		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" },
+
 		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "4" },
-		 { "name" : "fedora-20-ppc64le-1", "arch" : "ppc64le", "jobs" : "3" }
+
+		 { "name" : "fedora-20-ppc64le-1", "arch" : "ppc64le", "jobs" : "3" },
+
+		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1" },
+		 { "name" : "koobs-freebsd9", "arch" : "x86_64", "jobs" : "1" },
+		 { "name" : "koobs-freebsd10", "arch" : "x86_64", "jobs" : "1" },
+		 { "name" : "koobs-freebsd11", "arch" : "x86_64", "jobs" : "1" }
 	       ],
 
     "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
@@ -46,6 +53,28 @@
 
 
 
+		   { "name" : "Debian-x86_64-m64",
+		     "type" : "Plain_c64t64",
+		     "builddir" : "debian-x86-64",
+		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+
+		   { "name" : "Debian-x86_64-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "debian-x86-64-native-gdbserver",
+		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+
+		   { "name" : "Debian-x86_64-native-extended-gdbserver-m64",
+		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "builddir" : "debian-x86-64-native-extended-gdbserver",
+		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+
+		   { "name" : "Debian-x86_64-cc-with-index",
+		     "type" : "IndexBuild",
+		     "builddir" : "debian-x86-64-cc-with-index",
+		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+
+
+
 		   { "name" : "Fedora-ppc64le-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-ppc64le",
 		     "slavenames" : [ "fedora-20-ppc64le-1" ] },
@@ -67,25 +96,28 @@
 
 
 
-		   { "name" : "Debian-x86_64-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "debian-x86-64",
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+		   { "name" : "FreeBSD-x86_64-m64", "type" : "Plain_c64t64",
+		     "builddir" : "freebsd-x86-64",
+		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
+				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
-		   { "name" : "Debian-x86_64-native-gdbserver-m64",
+		   { "name" : "FreeBSD-x86_64-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
-		     "builddir" : "debian-x86-64-native-gdbserver",
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+		     "builddir" : "freebsd-x86-64-native-gdbserver",
+		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
+				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
-		   { "name" : "Debian-x86_64-native-extended-gdbserver-m64",
+		   { "name" : "FreeBSD-x86_64-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
-		     "builddir" : "debian-x86-64-native-extended-gdbserver",
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
+		     "builddir" : "freebsd-x86-64-native-extended-gdbserver",
+		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
+				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
-		   { "name" : "Debian-x86_64-cc-with-index",
+		   { "name" : "FreeBSD-x86_64-cc-with-index",
 		     "type" : "IndexBuild",
-		     "builddir" : "debian-x86-64-cc-with-index",
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] }
+		     "builddir" : "freebsd-x86-64-cc-with-index",
+		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
+				      "koobs-freebsd10", "koobs-freebsd11" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -99,15 +131,20 @@
 					  "Fedora-x86_64-cc-with-index",
 					  "Fedora-i686",
 
+					  "Debian-x86_64-m64",
+					  "Debian-x86_64-native-gdbserver-m64",
+					  "Debian-x86_64-native-extended-gdbserver-m64",
+					  "Debian-x86_64-cc-with-index",
+
 					  "Fedora-ppc64le-m64",
 					  "Fedora-ppc64le-native-gdbserver-m64",
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
 					  "Fedora-ppc64le-cc-with-index",
 
-					  "Debian-x86_64-m64",
-					  "Debian-x86_64-native-gdbserver-m64",
-					  "Debian-x86_64-native-extended-gdbserver-m64",
-					  "Debian-x86_64-cc-with-index" ]
+					  "FreeBSD-x86_64-m64",
+					  "FreeBSD-x86_64-native-gdbserver-m64",
+					  "FreeBSD-x86_64-native-extended-gdbserver-m64",
+					  "FreeBSD-x86_64-cc-with-index" ]
 		     }
 		   ]
 }
