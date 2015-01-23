@@ -46,29 +46,26 @@ class DejaResults(object):
                 test_name = nname
             out_dict[test_name] = result
 
-    def _write_sum_file(self, sum_dict, subdir, revision, filename):
+    def _write_sum_file(self, sum_dict, subdir, rev_or_branch, filename):
         global gdb_web_base
-        if revision:
-            bdir = os.path.join(gdb_web_base, subdir, revision)
-        else:
+        if not rev_or_branch:
             bdir = os.path.join (gdb_web_base, subdir)
-        if not os.path.isdir(bdir):
-            os.makedirs(bdir, 0755)
-        fname = os.path.join(bdir, filename)
-        keys = sum_dict.keys()
-        keys.sort()
-        f = open(fname, 'w')
-        for k in keys:
-            f.write(sum_dict[k] + ': ' + k + '\n')
-        f.close()
+        else:
+            bdir = os.path.join (gdb_web_base, subdir, rev_or_branch)
+        if not os.path.isdir (bdir):
+            os.makedirs (bdir, 0755)
+        fname = os.path.join (bdir, filename)
+        keys = sum_dict.keys ()
+        keys.sort ()
+        with open (fname, 'w') as f:
+            for k in keys:
+                f.write (sum_dict[k] + ': ' + k + '\n')
 
-    def write_sum_file(self, sum_dict, builder, revision):
+    def write_sum_file(self, sum_dict, builder, branch):
         self._write_sum_file (sum_dict, builder, None, 'gdb.sum')
-#        self._write_sum_file(sum_dict, builder, revision, 'gdb.sum')
 
     def write_baseline(self, sum_dict, builder, branch):
-        self._write_sum_file(sum_dict, os.path.join(builder, branch),
-                             None, 'baseline')
+        self._write_sum_file(sum_dict, builder, None, 'baseline')
 
     # Read a .sum file.
     # The builder name is BUILDER.
@@ -76,50 +73,48 @@ class DejaResults(object):
     # revision; to read the baseline file for a branch, use `read_baseline'.
     # Returns a dictionary holding the .sum contents, or None if the
     # file did not exist.
-    def _read_sum_file(self, subdir, revision, filename):
+    def _read_sum_file(self, subdir, rev_or_branch, filename):
         global gdb_web_base
-        if not revision:
-            fname = os.path.join(gdb_web_base, subdir, filename)
+        if not rev_or_branch:
+            fname = os.path.join (gdb_web_base, subdir, filename)
         else:
-            fname = os.path.join (gdb_web_base, subdir, revision, filename)
-        if os.path.exists(fname):
+            fname = os.path.join (gdb_web_base, subdir, rev_or_branch, filename)
+        if os.path.exists (fname):
             result = {}
-            f = open(fname, 'r')
-            for line in f:
-                self.parse_sum_line (result, line)
-            f.close()
+            with open (fname, 'r') as f:
+                for line in f:
+                    self.parse_sum_line (result, line)
         else:
             result = None
         return result
 
-    def read_sum_file (self, builder, revision):
+    def read_sum_file (self, builder, branch):
         return self._read_sum_file (builder, None, 'gdb.sum')
-#        return self._read_sum_file (builder, revision, 'gdb.sum')
 
     def read_baseline(self, builder, branch):
-        return self._read_sum_file(os.path.join(builder, branch),
-                                   None, 'baseline')
+        return self._read_sum_file (builder, None, 'baseline')
 
-    def read_xfail (self, builder):
-        return self._read_sum_file (builder, None, 'xfail')
+    def read_xfail (self, builder, branch):
+        return self._read_sum_file (builder, os.path.join ('xfails', branch),
+                                    'xfail')
 
     # Parse some text as a .sum file and return the resulting
     # dictionary.
-    def read_sum_text(self, text):
-        cur_file = StringIO(text)
+    def read_sum_text (self, text):
+        cur_file = StringIO (text)
         cur_results = {}
-        for line in cur_file.readlines():
-            self.parse_sum_line(cur_results, line)
+        for line in cur_file.readlines ():
+            self.parse_sum_line (cur_results, line)
         return cur_results
 
     # Compute regressions between RESULTS and BASELINE on BUILDER.
     # BASELINE will be modified if any new PASSes are seen.
     # Returns a regression report, as a string.
-    def compute_regressions(self, builder, results, baseline):
-        our_keys = results.keys()
-        our_keys.sort()
+    def compute_regressions (self, builder, branch, results, baseline):
+        our_keys = results.keys ()
+        our_keys.sort ()
         result = ''
-        xfails = self.read_xfail (builder)
+        xfails = self.read_xfail (builder, branch)
         if xfails is None:
             xfails = {}
         for key in our_keys:

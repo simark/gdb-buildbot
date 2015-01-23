@@ -3,6 +3,7 @@
 from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 from buildbot.steps.shell import ShellCommand
 from sumfiles import DejaResults
+from gdbgitdb import switch_to_branch
 
 class GdbCatSumfileCommand(ShellCommand):
     name = 'regressions'
@@ -18,6 +19,10 @@ class GdbCatSumfileCommand(ShellCommand):
         branch = self.getProperty('branch')
         if branch is None:
             branch = 'master'
+
+        # Switch to the right branch inside the BUILDER repo
+        switch_to_branch (builder, branch)
+
         parser = DejaResults()
         cur_results = parser.read_sum_text(self.getLog('stdio').getText())
         if not istry or istry == 'no':
@@ -26,15 +31,16 @@ class GdbCatSumfileCommand(ShellCommand):
             baseline = parser.read_sum_file(builder, rev)
         result = SUCCESS
         if baseline is not None:
-            report = parser.compute_regressions(builder, cur_results, baseline)
+            report = parser.compute_regressions (builder, branch,
+                                                 cur_results, baseline)
             if report is not '':
-                self.addCompleteLog('regressions', report)
+                self.addCompleteLog ('regressions', report)
                 result = FAILURE
         if not istry or istry == 'no':
-            parser.write_sum_file(cur_results, builder, rev)
+            parser.write_sum_file (cur_results, builder, branch)
             # If there was no previous baseline, then this run
             # gets the honor.
             if baseline is None:
                 baseline = cur_results
-            parser.write_baseline(baseline, builder, branch)
+            parser.write_baseline (baseline, builder, branch)
         return result

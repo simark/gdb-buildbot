@@ -23,6 +23,27 @@ log files of the COMMIT that was tested."""
 
     return None
 
+def switch_to_branch (builder, branch):
+    """Switch (or create) to BRANCH on BUILDER repo."""
+    repodir = os.path.join (get_web_base (), builder)
+    repo = git.Repo.init (path = repodir)
+
+    if 'master' not in repo.heads:
+        with open (os.path.join (repodir, 'README'), 'w') as f:
+            f.write ("git repo for GDB test results")
+        with open (os.path.join (repodir, '.gitignore'), 'w') as f:
+            f.write ("*xfails*\n")
+        repo.index.add (['README', '.gitignore'])
+        repo.index.commit ('Initial commit')
+        repo.index.write ()
+
+    if branch not in repo.heads:
+        myhead = repo.create_head (branch)
+    else:
+        myhead = repo.heads[branch]
+
+    myhead.checkout ()
+
 class SaveGDBResults (ShellCommand):
     name = 'save build results'
     description = 'saving build results'
@@ -40,7 +61,7 @@ class SaveGDBResults (ShellCommand):
         repodir = get_web_base ()
         builder_dir = os.path.join (repodir, builder)
         # TODO: Include timestamp in the tag name?
-        full_tag = "%s-%s" % (builder, rev)
+        full_tag = "%s-%s-%s" % (builder, rev, branch)
 
         if branch is None:
             branch = 'master'
@@ -55,7 +76,9 @@ class SaveGDBResults (ShellCommand):
         if 'master' not in repo.heads:
             with open (os.path.join (repodir, 'README'), 'w') as f:
                 f.write ("git repo for GDB test results")
-            repo.index.add (['README'])
+            with open (os.path.join (repodir, '.gitignore'), 'w') as f:
+                f.write ("*xfail*\n")
+            repo.index.add (['README', '.gitignore'])
             repo.index.commit ('Initial commit')
             repo.index.write ()
 
@@ -68,9 +91,9 @@ class SaveGDBResults (ShellCommand):
             myhead.checkout ()
             repo.index.add (['%s/gdb.sum' % builder,
                              '%s/gdb.log' % builder,
-                             '%s/%s/baseline' % (builder, branch)])
+                             '%s/baseline' % builder])
             if repo.is_dirty ():
-                repo.index.commit ('Log files for %s' % full_tag)
+                repo.index.commit ('Log files for %s -- branch %s' % (full_tag, branch))
                 repo.index.write ()
             repo.create_tag (full_tag)
         return SUCCESS
@@ -81,7 +104,7 @@ class SaveGDBResults (ShellCommand):
         istry = self.getProperty ('isTryBuilder')
         branch = self.getProperty ('branch')
         repodir = os.path.join (get_web_base (), builder)
-        full_tag = "%s-%s" % (datetime.now ().strftime ("%Y%m%d-%H%M%S"), rev)
+        full_tag = "%s-%s-%s" % (datetime.now ().strftime ("%Y%m%d-%H%M%S"), rev, branch)
 
         if branch is None:
             branch = 'master'
@@ -94,20 +117,33 @@ class SaveGDBResults (ShellCommand):
         if 'master' not in repo.heads:
             with open (os.path.join (repodir, 'README'), 'w') as f:
                 f.write ("git repo for GDB test results -- %s" % builder)
-            repo.index.add (['README'])
+            with open (os.path.join (repodir, '.gitignore'), 'w') as f:
+                f.write ("*xfail*\n")
+            repo.index.add (['README', '.gitignore'])
             repo.index.commit ('Initial commit')
             repo.index.write ()
 
+        if branch not in repo.heads:
+            myhead = repo.create_head (branch)
+        else:
+            myhead = repo.heads[branch]
+
+        myhead.checkout ()
         if full_tag not in repo.tags:
             repo.index.add (['gdb.sum',
                              'gdb.log',
-                             '%s/baseline' % branch])
+                             'baseline'])
             if repo.is_dirty ():
-                repo.index.commit ('Log files for %s' % full_tag)
+                repo.index.commit ('Log files for %s -- branch %s' % (full_tag, branch))
                 repo.index.write ()
             repo.create_tag (full_tag)
+            # Returning the HEAD to master
+            repo.heads['master'].checkout ()
         return SUCCESS
 
     def evaluateCommand (self, cmd):
         # We can change this scheme for the other one if needed
+
+        # FIXME: the _evaluateCommand_builder_branch function needs
+        # adjustment because of the multi-branch testing...
         return self._evaluateCommand_single_repo (cmd)
