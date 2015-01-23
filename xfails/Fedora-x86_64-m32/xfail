@@ -13,3 +13,4 @@ FAIL: gdb.ada/tagged.exp: ptype obj
 FAIL: gdb.ada/tagged_access.exp: ptype c.all
 FAIL: gdb.ada/tagged_access.exp: ptype c.menu_name
 FAIL: gdb.base/interrupt.exp: continue
+FAIL: gdb.base/interrupt.exp: echo data

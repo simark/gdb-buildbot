@@ -51,3 +51,29 @@ FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: no new threads (t
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: set breakpoint always-inserted on (got interactive prompt)
 FAIL: gdb.threads/next-bp-other-thread.exp: schedlock=off: next over function call
 FAIL: gdb.base/random-signal.exp: stop with control-c (timeout)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 10: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 10: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 2: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 3: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 3: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 3: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 4: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 4: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 4: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 5: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 5: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 5: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 6: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 6: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 6: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 7: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 8: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 8: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 8: no new threads (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 9: break break_fn (GDB internal error)
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 9: detach
+FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 9: no new threads (GDB internal error)
