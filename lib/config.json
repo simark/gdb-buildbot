@@ -96,25 +96,25 @@
 
 
 
-		   { "name" : "FreeBSD-x86_64-m64", "type" : "Plain_c64t64",
+		   { "name" : "FreeBSD-x86_64-m64", "type" : "PlainBSD_c64t64",
 		     "builddir" : "freebsd-x86-64",
 		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
 				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
 		   { "name" : "FreeBSD-x86_64-native-gdbserver-m64",
-		     "type" : "NativeGDBServer_c64t64",
+		     "type" : "NativeGDBServerBSD_c64t64",
 		     "builddir" : "freebsd-x86-64-native-gdbserver",
 		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
 				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
 		   { "name" : "FreeBSD-x86_64-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "type" : "NativeExtendedGDBServerBSD_c64t64",
 		     "builddir" : "freebsd-x86-64-native-extended-gdbserver",
 		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
 				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
 		   { "name" : "FreeBSD-x86_64-cc-with-index",
-		     "type" : "IndexBuild",
+		     "type" : "IndexBuildBSD",
 		     "builddir" : "freebsd-x86-64-cc-with-index",
 		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
 				      "koobs-freebsd10", "koobs-freebsd11" ] }
