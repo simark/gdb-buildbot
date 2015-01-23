@@ -139,12 +139,7 @@
 					  "Fedora-ppc64le-m64",
 					  "Fedora-ppc64le-native-gdbserver-m64",
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
-					  "Fedora-ppc64le-cc-with-index",
-
-					  "FreeBSD-x86_64-m64",
-					  "FreeBSD-x86_64-native-gdbserver-m64",
-					  "FreeBSD-x86_64-native-extended-gdbserver-m64",
-					  "FreeBSD-x86_64-cc-with-index" ]
+					  "Fedora-ppc64le-cc-with-index" ]
 		     }
 		   ]
 }
