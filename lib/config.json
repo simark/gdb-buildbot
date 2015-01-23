@@ -101,18 +101,6 @@
 		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
 				      "koobs-freebsd10", "koobs-freebsd11" ] },
 
-		   { "name" : "FreeBSD-x86_64-native-gdbserver-m64",
-		     "type" : "NativeGDBServerBSD_c64t64",
-		     "builddir" : "freebsd-x86-64-native-gdbserver",
-		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] },
-
-		   { "name" : "FreeBSD-x86_64-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServerBSD_c64t64",
-		     "builddir" : "freebsd-x86-64-native-extended-gdbserver",
-		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] },
-
 		   { "name" : "FreeBSD-x86_64-cc-with-index",
 		     "type" : "IndexBuildBSD",
 		     "builddir" : "freebsd-x86-64-cc-with-index",
@@ -139,7 +127,10 @@
 					  "Fedora-ppc64le-m64",
 					  "Fedora-ppc64le-native-gdbserver-m64",
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
-					  "Fedora-ppc64le-cc-with-index" ]
+					  "Fedora-ppc64le-cc-with-index",
+
+					  "FreeBSD-x86_64-m64",
+					  "FreeBSD-x86_64-cc-with-index" ]
 		     }
 		   ]
 }
