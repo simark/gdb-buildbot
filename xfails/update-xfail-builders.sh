@@ -15,7 +15,7 @@ for d in `ls` ; do
 	continue
     fi
 
-    if ! test -h $GDB_WEB_BASE/$d/xfail ; then
-	ln -s $PWD/$d/xfail $GDB_WEB_BASE/$d/xfail
+    if ! test -h $GDB_WEB_BASE/$d/xfails ; then
+	ln -s $PWD/$d/xfails $GDB_WEB_BASE/$d/xfails
     fi
 done
