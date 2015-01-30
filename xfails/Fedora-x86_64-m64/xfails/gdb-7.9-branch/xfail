@@ -1,0 +1,1 @@
+FAIL: gdb.base/gdb-sigterm.exp: expect eof #0 (stepping inside range 201 times)
