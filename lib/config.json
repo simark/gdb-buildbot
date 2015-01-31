@@ -113,20 +113,8 @@
 		   { "name" : "Fedora-ppc64be-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "fedora-ppc64be-cc-with-index",
-		     "slavenames" : [ "fedora-20-ppc64be-1" ] },
+		     "slavenames" : [ "fedora-20-ppc64be-1" ] }
 
-
-
-		   { "name" : "FreeBSD-x86_64-m64", "type" : "PlainBSD_c64t64",
-		     "builddir" : "freebsd-x86-64",
-		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] },
-
-		   { "name" : "FreeBSD-x86_64-cc-with-index",
-		     "type" : "IndexBuildBSD",
-		     "builddir" : "freebsd-x86-64-cc-with-index",
-		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
