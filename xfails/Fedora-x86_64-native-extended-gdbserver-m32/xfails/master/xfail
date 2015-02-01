@@ -184,3 +184,7 @@ FAIL: gdb.ada/variant_record_packed_array.exp: print address
 FAIL: gdb.ada/variant_record_packed_array.exp: print adress content
 FAIL: gdb.ada/watch_arg.exp: Continuing to second breakpoint (the program is no longer running)
 FAIL: gdb.ada/unc_arr_ptr_in_var_rec.exp: print My_P_Object with null Ptr
+FAIL: gdb.ada/mi_var_array.exp: Create bt varobj
+FAIL: gdb.ada/mi_var_array.exp: list vta's children
+FAIL: gdb.ada/mi_var_array.exp: run to bar.adb:28 (exec-continue) (MI error)
+FAIL: gdb.ada/mi_var_array.exp: wait for stop (stop at start of main Ada procedure)

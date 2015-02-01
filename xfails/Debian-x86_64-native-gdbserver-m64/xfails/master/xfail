@@ -562,3 +562,4 @@ FAIL: gdb.reverse/sigall-reverse.exp: send signal WINCH (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal WIND (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal XCPU (timeout)
 FAIL: gdb.reverse/sigall-reverse.exp: send signal XFSZ (timeout)
+FAIL: gdb.threads/next-bp-other-thread.exp: schedlock=off: next over function call

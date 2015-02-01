@@ -1,0 +1,2 @@
+FAIL: gdb.ada/mi_var_array.exp: list vta's children
+FAIL: gdb.threads/next-bp-other-thread.exp: schedlock=off: next over function call
