@@ -5,7 +5,9 @@
 		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "4" },
 		 { "name" : "wildebeest-debian-wheezy-i686", "arch" : "i686", "jobs" : "2" },
 
-		 { "name" : "fedora-20-ppc64be-1", "arch" : "ppc64be", "jobs" : "3" },
+		 { "name" : "fedora-21-ppc64be-1", "arch" : "ppc64be", "jobs" : "3" },
+		 { "name" : "fedora-21-ppc64be-2", "arch" : "ppc64be", "jobs" : "4" },
+
 		 { "name" : "fedora-21-ppc64le-1", "arch" : "ppc64le", "jobs" : "4" },
 
 		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1" },
@@ -99,23 +101,22 @@
 
 		   { "name" : "Fedora-ppc64be-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-ppc64be",
-		     "slavenames" : [ "fedora-20-ppc64be-1" ] },
+		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
 
 		   { "name" : "Fedora-ppc64be-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64be-native-gdbserver",
-		     "slavenames" : [ "fedora-20-ppc64be-1" ] },
+		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
 
 		   { "name" : "Fedora-ppc64be-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64be-native-extended-gdbserver",
-		     "slavenames" : [ "fedora-20-ppc64be-1" ] },
+		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
 
 		   { "name" : "Fedora-ppc64be-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "fedora-ppc64be-cc-with-index",
-		     "slavenames" : [ "fedora-20-ppc64be-1" ] },
-
+		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
 
 
 
