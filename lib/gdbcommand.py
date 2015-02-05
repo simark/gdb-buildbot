@@ -9,6 +9,8 @@ from shutil import copyfile
 class CopyOldGDBSumFile (ShellCommand):
     """Copy the current gdb.sum file into the old_gdb.sum file."""
     name = "copy gdb.sum file"
+    description = "copying previous gdb.sum file"
+    descriptionDone = "copied previous gdb.sum file"
     command = [ 'true' ]
 
     def __init__ (self, **kwargs):
