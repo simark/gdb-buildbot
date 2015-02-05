@@ -46,7 +46,8 @@ class DejaResults(object):
                 test_name = nname
             out_dict[test_name] = result
 
-    def _write_sum_file(self, sum_dict, subdir, rev_or_branch, filename):
+    def _write_sum_file(self, sum_dict, subdir, rev_or_branch, filename,
+                        header = None):
         global gdb_web_base
         if not rev_or_branch:
             bdir = os.path.join (gdb_web_base, subdir)
@@ -57,15 +58,21 @@ class DejaResults(object):
         fname = os.path.join (bdir, filename)
         keys = sum_dict.keys ()
         keys.sort ()
-        with open (fname, 'w') as f:
+        mode = 'w'
+        if header:
+            with open (fname, 'w') as f:
+                f.write (header)
+            mode = 'a'
+        with open (fname, mode) as f:
             for k in keys:
                 f.write (sum_dict[k] + ': ' + k + '\n')
 
     def write_sum_file(self, sum_dict, builder, branch):
         self._write_sum_file (sum_dict, builder, None, 'gdb.sum')
 
-    def write_baseline(self, sum_dict, builder, branch):
-        self._write_sum_file(sum_dict, builder, None, 'baseline')
+    def write_baseline(self, sum_dict, builder, branch, rev):
+        self._write_sum_file(sum_dict, builder, None, 'baseline',
+                             header = "### THIS BASELINE WAS LAST UPDATED BY COMMIT %s ###\n\n" % rev)
 
     # Read a .sum file.
     # The builder name is BUILDER.
@@ -97,6 +104,9 @@ class DejaResults(object):
     def read_xfail (self, builder, branch):
         return self._read_sum_file (builder, os.path.join ('xfails', branch),
                                     'xfail')
+
+    def read_old_sum_file (self, builder, branch):
+        return self._read_sum_file (builder, None, 'previous_gdb.sum')
 
     # Parse some text as a .sum file and return the resulting
     # dictionary.
