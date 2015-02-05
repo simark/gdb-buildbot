@@ -27,8 +27,8 @@ class CopyOldGDBSumFile (ShellCommand):
         switch_to_branch (builder, branch)
 
         try:
-            copyfile ("%d/%d/gdb.sum" % (wb, builder),
-                      "%d/%d/previous_gdb.sum" % (wb, builder))
+            copyfile ("%s/%s/gdb.sum" % (wb, builder),
+                      "%s/%s/previous_gdb.sum" % (wb, builder))
         except IOError:
             # If the dest file does not exist, ignore
             pass
