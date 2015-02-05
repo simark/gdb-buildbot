@@ -33,6 +33,8 @@ class CopyOldGDBSumFile (ShellCommand):
             # If the dest file does not exist, ignore
             pass
 
+        return SUCCESS
+
 class GdbCatSumfileCommand(ShellCommand):
     name = 'regressions'
     command = ['cat', 'gdb.sum']
