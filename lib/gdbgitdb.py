@@ -139,7 +139,7 @@ class SaveGDBResults (ShellCommand):
             repo.index.add (['gdb.sum',
                              'gdb.log',
                              'baseline'])
-            if os.path.exists ("%s/previous_gdb.sum"):
+            if os.path.exists ("%s/previous_gdb.sum" % repodir):
                 repo.index.add (['previous_gdb.sum'])
             if repo.is_dirty ():
                 repo.index.commit ('Log files for %s -- branch %s' % (full_tag, branch))
