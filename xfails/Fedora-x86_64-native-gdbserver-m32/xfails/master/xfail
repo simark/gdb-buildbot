@@ -22,3 +22,6 @@ FAIL: gdb.threads/local-watch-wrong-thread.exp: local watchpoint automatically d
 FAIL: gdb.threads/local-watch-wrong-thread.exp: local watchpoint is still in breakpoint list (timeout)
 FAIL: gdb.threads/local-watch-wrong-thread.exp: local watchpoint still triggers (timeout)
 FAIL: gdb.threads/local-watch-wrong-thread.exp: the other thread stopped on breakpoint (timeout)
+FAIL: gdb.threads/hand-call-in-threads.exp: dummy stack frame number, thread 5
+FAIL: gdb.threads/hand-call-in-threads.exp: hand call, thread 5
+FAIL: gdb.threads/wp-replication.exp: Thread 5 hit breakpoint at thread_started

@@ -188,3 +188,4 @@ FAIL: gdb.ada/mi_var_array.exp: Create bt varobj
 FAIL: gdb.ada/mi_var_array.exp: list vta's children
 FAIL: gdb.ada/mi_var_array.exp: run to bar.adb:28 (exec-continue) (MI error)
 FAIL: gdb.ada/mi_var_array.exp: wait for stop (stop at start of main Ada procedure)
+FAIL: gdb.base/random-signal.exp: stop with control-c (timeout)

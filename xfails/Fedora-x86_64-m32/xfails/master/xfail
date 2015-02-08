@@ -14,3 +14,4 @@ FAIL: gdb.ada/tagged_access.exp: ptype c.all
 FAIL: gdb.ada/tagged_access.exp: ptype c.menu_name
 FAIL: gdb.base/interrupt.exp: continue
 FAIL: gdb.base/interrupt.exp: echo data
+FAIL: gdb.threads/thread-specific-bp.exp: non-stop: continue to end (timeout)

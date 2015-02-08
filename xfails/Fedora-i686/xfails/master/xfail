@@ -65,3 +65,4 @@ FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 9: break at break_fn
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 9: break break_fn
 FAIL: gdb.threads/attach-many-short-lived-threads.exp: iter 9: detach (GDB internal error)
 FAIL: gdb.base/auxv.exp: continue (timeout)
+FAIL: gdb.threads/thread-specific-bp.exp: non-stop: continue to end (timeout)
