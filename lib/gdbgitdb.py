@@ -102,17 +102,23 @@ class SaveGDBResults (ShellCommand):
         rev = self.getProperty ('got_revision')
         builder = self.getProperty ('buildername')
         istry = self.getProperty ('isTryBuilder')
+        isrebuild = self.getProperty ('isRebuild')
         branch = self.getProperty ('branch')
         repodir = os.path.join (get_web_base (), builder)
         full_tag = "%s-%s-%s" % (datetime.now ().strftime ("%Y%m%d-%H%M%S"), rev, branch)
 
         if branch is None:
             branch = 'master'
-        if istry and istry == 'yes':
-            # Do nothing
-            return SUCCESS
 
         repo = git.Repo.init (path = repodir)
+
+        if (istry and istry == 'yes') or (isrebuild and isrebuild == 'yes'):
+            # Do nothing
+            if branch in repo.heads:
+                # We have to clean the branch because otherwise this
+                # can confuse other builds
+                repo.git.execute (['git', 'checkout', '*'])
+            return SUCCESS
 
         if 'master' not in repo.heads:
             with open (os.path.join (repodir, 'README'), 'w') as f:

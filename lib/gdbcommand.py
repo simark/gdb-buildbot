@@ -19,11 +19,15 @@ class CopyOldGDBSumFile (ShellCommand):
     def evaluateCommand (self, cmd):
         rev = self.getProperty('got_revision')
         builder = self.getProperty('buildername')
-        istry = self.getProperty('isTryBuilder')
+        istrybuilder = self.getProperty('isTryBuilder')
+        isrebuild = self.getProperty ('isRebuild')
         branch = self.getProperty('branch')
         wb = get_web_base ()
         if branch is None:
             branch = 'master'
+
+        if (istrybuilder and istrybuilder == 'yes') or (isrebuild and isrebuild == 'yes'):
+            return SUCCESS
 
         # Switch to the right branch inside the BUILDER repo
         switch_to_branch (builder, branch)
