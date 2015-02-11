@@ -2,7 +2,7 @@
     "slaves" : [ { "name" : "fedora-x86-64-1", "arch" : "x86_64", "jobs" : "4" },
 		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4" },
 
-		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "4" },
+		 { "name" : "wildebeest-debian-wheezy-x86_64", "arch" : "x86_64", "jobs" : "2" },
 		 { "name" : "wildebeest-debian-wheezy-i686", "arch" : "i686", "jobs" : "2" },
 
 		 { "name" : "fedora-21-ppc64be-1", "arch" : "ppc64be", "jobs" : "3" },
