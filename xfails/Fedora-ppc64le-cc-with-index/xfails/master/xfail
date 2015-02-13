@@ -1,1 +1,0 @@
-FAIL: gdb.threads/step-over-trips-on-watchpoint.exp: no thread-specific bp: step: step

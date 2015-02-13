@@ -1,2 +1,0 @@
-FAIL: gdb.ada/mi_var_array.exp: list vta's children
-FAIL: gdb.base/longjmp.exp: next over patt3

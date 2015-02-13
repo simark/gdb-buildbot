@@ -1,2 +1,0 @@
-FAIL: gdb.base/gdb-sigterm.exp: expect eof #0 (stepping inside range 201 times)
-FAIL: gdb.threads/thread-specific-bp.exp: non-stop: continue to end (timeout)
