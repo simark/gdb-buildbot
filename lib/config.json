@@ -72,11 +72,6 @@
 		     "builddir" : "debian-x86-64-native-extended-gdbserver",
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
 
-		   { "name" : "Debian-x86_64-cc-with-index",
-		     "type" : "IndexBuild",
-		     "builddir" : "debian-x86-64-cc-with-index",
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
-
 		   { "name" : "Debian-i686-native-gdbserver",
 		     "type" : "NativeGDBServer_c32t32",
 		     "builddir" : "debian-i686-native-gdbserver",
@@ -85,11 +80,6 @@
 		   { "name" : "Debian-i686-native-extended-gdbserver",
 		     "type" : "NativeExtendedGDBServer_c32t32",
 		     "builddir" : "debian-i686-native-extended-gdbserver",
-		     "slavenames" : [ "wildebeest-debian-wheezy-i686" ] },
-
-		   { "name" : "Debian-i686-cc-with-index",
-		     "type" : "IndexBuild_c32t32",
-		     "builddir" : "debian-i686-cc-with-index",
 		     "slavenames" : [ "wildebeest-debian-wheezy-i686" ] },
 
 		   { "name" : "Debian-i686",
@@ -154,10 +144,8 @@
 					  "Debian-x86_64-m64",
 					  "Debian-x86_64-native-gdbserver-m64",
 					  "Debian-x86_64-native-extended-gdbserver-m64",
-					  "Debian-x86_64-cc-with-index",
 					  "Debian-i686-native-gdbserver",
 					  "Debian-i686-native-extended-gdbserver",
-					  "Debian-i686-cc-with-index",
 					  "Debian-i686",
 
 					  "Fedora-ppc64be-m64",
