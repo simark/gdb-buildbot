@@ -57,6 +57,10 @@
 		     "builddir" : "fedora-i686",
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
 
+		   { "name" : "Fedora-x86_64-cxx-build-m64",
+		     "type" : "PlainBuildWithCxx_c64notest",
+		     "builddir" : "fedora-x86-64-cxx-build",
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2" ] },
 
 
 		   { "name" : "Debian-x86_64-m64",
