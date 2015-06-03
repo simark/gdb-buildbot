@@ -7,8 +7,8 @@
 
 		 { "name" : "marist-fedora-s390x", "arch" : "s390x", "jobs" : "2" },
 
+		 { "name" : "fedora-ppc64be-1", "arch" : "ppc64be", "jobs" : "16" },
 		 { "name" : "fedora-21-ppc64be-1", "arch" : "ppc64be", "jobs" : "3" },
-		 { "name" : "fedora-21-ppc64be-2", "arch" : "ppc64be", "jobs" : "4" },
 
 		 { "name" : "fedora-21-ppc64le-1", "arch" : "ppc64le", "jobs" : "4" },
 
@@ -102,22 +102,22 @@
 
 		   { "name" : "Fedora-ppc64be-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-ppc64be",
-		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
+		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 		   { "name" : "Fedora-ppc64be-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64be-native-gdbserver",
-		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
+		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 		   { "name" : "Fedora-ppc64be-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64be-native-extended-gdbserver",
-		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
+		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 		   { "name" : "Fedora-ppc64be-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "fedora-ppc64be-cc-with-index",
-		     "slavenames" : [ "fedora-21-ppc64be-1", "fedora-21-ppc64be-2" ] },
+		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 
 
