@@ -8,8 +8,8 @@
 		 { "name" : "marist-fedora-s390x", "arch" : "s390x", "jobs" : "2" },
 
 		 { "name" : "fedora-ppc64be-1", "arch" : "ppc64be", "jobs" : "16" },
-		 { "name" : "fedora-21-ppc64be-1", "arch" : "ppc64be", "jobs" : "3" },
 
+		 { "name" : "fedora-ppc64le-1", "arch" : "ppc64le", "jobs" : "16" },
 		 { "name" : "fedora-21-ppc64le-1", "arch" : "ppc64le", "jobs" : "4" },
 
 		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1" },
