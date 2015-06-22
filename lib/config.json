@@ -18,7 +18,7 @@
 		 { "name" : "fedora-ppc64le-1", "arch" : "ppc64le", "jobs" : "16",
 		   "admin" : "emachado@linux.vnet.ibm.com" },
 
-		 { "name" : "power7-aix-1", "arch" : "power7", "jobs" : "4",
+		 { "name" : "aix-power7-1", "arch" : "power7", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
 
 		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1",
