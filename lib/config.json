@@ -155,7 +155,7 @@
 
 
 		   { "name" : "AIX-POWER7-plain",
-		     "type" : "GDBPlainAIX",
+		     "type" : "PlainAIX",
 		     "builddir" : "aix-power7-plain",
 		     "slavenames" : [ "aix-power7-1" ],
 		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." }
