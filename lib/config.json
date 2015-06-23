@@ -19,7 +19,7 @@
 		   "admin" : "emachado@linux.vnet.ibm.com" },
 
 		 { "name" : "aix-power7-1", "arch" : "power7", "jobs" : "4",
-		   "admin" : "sergiodj@redhat.com" },
+		   "admin" : "dje.gcc@gmail.com" },
 
 		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1",
 		   "admin" : "sergiodj@redhat.com" },
