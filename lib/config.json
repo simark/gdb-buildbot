@@ -9,6 +9,9 @@
 		 { "name" : "wildebeest-debian-wheezy-i686", "arch" : "i686",
 		   "jobs" : "2", "admin" : "mark@klomp.org" },
 
+		 { "name" : "debian-wheezy-s390x-1", "arch" : "s390x", "jobs" : "8",
+		   "admin" : "dje.gcc@gmail.com" },
+
 		 { "name" : "marist-fedora-s390x", "arch" : "s390x", "jobs" : "2",
 		   "admin" : "mark@klomp.org" },
 
@@ -113,6 +116,24 @@
 		     "slavenames" : [ "marist-fedora-s390x" ] },
 
 
+
+		   { "name" : "Debian-s390x-m64",
+		     "type" : "Plain_c64t64",
+		     "builddir" : "debian-s390x",
+		     "slavenames" : [ "debian-wheezy-s390x-1" ] },
+
+		   { "name" : "Debian-s390x-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "debian-s390x-native-gdbserver",
+		     "slavenames" : [ "debian-wheezy-s390x-1" ] },
+
+		   { "name" : "Debian-s390x-native-extended-gdbserver-m64",
+		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "builddir" : "debian-s390x-native-extended-gdbserver",
+		     "slavenames" : [ "debian-wheezy-s390x-1" ] },
+
+
+
 		   { "name" : "Fedora-ppc64be-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-ppc64be",
 		     "slavenames" : [ "fedora-ppc64be-1" ] },
@@ -179,6 +200,9 @@
 					  "Debian-i686-native-gdbserver",
 					  "Debian-i686-native-extended-gdbserver",
 					  "Debian-i686",
+					  "Debian-s390x-m64",
+					  "Debian-s390x-native-gdbserver-m64",
+					  "Debian-s390x-native-extended-gdbserver-m64",
 
 					  "Fedora-s390x-m64",
 
