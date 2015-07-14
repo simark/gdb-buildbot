@@ -28,6 +28,9 @@
 		 { "name" : "aix-power7-1", "arch" : "power7", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
 
+		 { "name" : "debian-jessie-mips-be-1", "arch" : "mips", "jobs" : "1",
+		   "admin" : "IMGBA-buildbot@imgtec.com" },
+
 		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1",
 		   "admin" : "sergiodj@redhat.com" },
 		 { "name" : "koobs-freebsd9", "arch" : "x86_64", "jobs" : "1",
@@ -192,7 +195,12 @@
 		     "type" : "PlainAIX",
 		     "builddir" : "aix-power7-plain",
 		     "slavenames" : [ "aix-power7-1" ],
-		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." }
+		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." },
+
+		   { "name" : "Debian-MIPS-m64",
+		     "type" : "Plain_c64t64",
+		     "builddir" : "debian-mips-m64",
+		     "slavenames" : [ "debian-jessie-mips-be-1" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -229,7 +237,9 @@
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
 					  "Fedora-ppc64le-cc-with-index",
 
-					  "AIX-POWER7-plain" ]
+					  "AIX-POWER7-plain",
+
+					  "Debian-MIPS-m64" ]
 
 		     }
 		   ]
