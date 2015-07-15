@@ -42,7 +42,7 @@ def switch_to_branch (builder, branch):
     else:
         myhead = repo.heads[branch]
 
-    myhead.checkout ()
+    myhead.checkout (force = True)
 
 class SaveGDBResults (ShellCommand):
     name = 'save build results'
@@ -88,7 +88,7 @@ class SaveGDBResults (ShellCommand):
             myhead = repo.heads[builder]
 
         if full_tag not in repo.tags:
-            myhead.checkout ()
+            myhead.checkout (force = True)
             repo.index.add (['%s/gdb.sum' % builder,
                              '%s/gdb.log' % builder,
                              '%s/baseline' % builder])
@@ -134,7 +134,7 @@ class SaveGDBResults (ShellCommand):
         else:
             myhead = repo.heads[branch]
 
-        myhead.checkout ()
+        myhead.checkout (force = True)
         if full_tag not in repo.tags:
             repo.index.add (['gdb.sum',
                              'gdb.log',
