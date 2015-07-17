@@ -88,7 +88,7 @@ class SaveGDBResults (ShellCommand):
             myhead = repo.heads[builder]
 
         if full_tag not in repo.tags:
-            myhead.checkout (force = True)
+            myhead.checkout ()
             repo.index.add (['%s/gdb.sum' % builder,
                              '%s/gdb.log' % builder,
                              '%s/baseline' % builder])
@@ -134,7 +134,7 @@ class SaveGDBResults (ShellCommand):
         else:
             myhead = repo.heads[branch]
 
-        myhead.checkout (force = True)
+        myhead.checkout ()
         if full_tag not in repo.tags:
             repo.index.add (['gdb.sum',
                              'gdb.log',
