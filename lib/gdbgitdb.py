@@ -23,7 +23,7 @@ log files of the COMMIT that was tested."""
 
     return None
 
-def switch_to_branch (builder, branch):
+def switch_to_branch (builder, branch, force_switch = False):
     """Switch (or create) to BRANCH on BUILDER repo."""
     repodir = os.path.join (get_web_base (), builder)
     repo = git.Repo.init (path = repodir)
@@ -42,7 +42,7 @@ def switch_to_branch (builder, branch):
     else:
         myhead = repo.heads[branch]
 
-    myhead.checkout (force = True)
+    myhead.checkout (force = force_switch)
 
 class SaveGDBResults (ShellCommand):
     name = 'save build results'

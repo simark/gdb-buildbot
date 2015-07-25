@@ -30,7 +30,7 @@ class CopyOldGDBSumFile (ShellCommand):
             return SUCCESS
 
         # Switch to the right branch inside the BUILDER repo
-        switch_to_branch (builder, branch)
+        switch_to_branch (builder, branch, force_switch = True)
 
         try:
             copyfile ("%s/%s/gdb.sum" % (wb, builder),
@@ -57,7 +57,7 @@ class GdbCatSumfileCommand(ShellCommand):
             branch = 'master'
 
         # Switch to the right branch inside the BUILDER repo
-        switch_to_branch (builder, branch)
+        switch_to_branch (builder, branch, force_switch = False)
 
         parser = DejaResults()
         cur_results = parser.read_sum_text(self.getLog('stdio').getText())
