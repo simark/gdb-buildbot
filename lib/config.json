@@ -98,31 +98,37 @@
 		   { "name" : "Debian-x86_64-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "debian-x86-64",
+		     "initial_delay" : "600",
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
 
 		   { "name" : "Debian-x86_64-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "debian-x86-64-native-gdbserver",
+		     "initial_delay" : "600",
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
 
 		   { "name" : "Debian-x86_64-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "debian-x86-64-native-extended-gdbserver",
+		     "initial_delay" : "600",
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
 
 		   { "name" : "Debian-i686-native-gdbserver",
 		     "type" : "NativeGDBServer_c32t32",
 		     "builddir" : "debian-i686-native-gdbserver",
+		     "initial_delay" : "600",
 		     "slavenames" : [ "wildebeest-debian-wheezy-i686" ] },
 
 		   { "name" : "Debian-i686-native-extended-gdbserver",
 		     "type" : "NativeExtendedGDBServer_c32t32",
 		     "builddir" : "debian-i686-native-extended-gdbserver",
+		     "initial_delay" : "600",
 		     "slavenames" : [ "wildebeest-debian-wheezy-i686" ] },
 
 		   { "name" : "Debian-i686",
 		     "type" : "Plain_c32t32",
 		     "builddir" : "debian-i686",
+		     "initial_delay" : "600",
 		     "slavenames" : [ "wildebeest-debian-wheezy-i686" ] },
 
 
