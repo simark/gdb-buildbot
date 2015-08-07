@@ -3,6 +3,9 @@
 import re
 import os.path
 from StringIO import StringIO
+# Necessary for ordered dictionaries.  We use them when the order or
+# the tests matters to us.
+from collections import OrderedDict
 
 # Helper regex for parse_sum_line.
 sum_matcher = re.compile('^(.?(PASS|FAIL)): (.*)$')
@@ -57,7 +60,6 @@ class DejaResults(object):
             os.makedirs (bdir, 0755)
         fname = os.path.join (bdir, filename)
         keys = sum_dict.keys ()
-        keys.sort ()
         mode = 'w'
         if header:
             with open (fname, 'w') as f:
@@ -87,7 +89,7 @@ class DejaResults(object):
         else:
             fname = os.path.join (gdb_web_base, subdir, rev_or_branch, filename)
         if os.path.exists (fname):
-            result = {}
+            result = OrderedDict ()
             with open (fname, 'r') as f:
                 for line in f:
                     self.parse_sum_line (result, line)
@@ -112,7 +114,7 @@ class DejaResults(object):
     # dictionary.
     def read_sum_text (self, text):
         cur_file = StringIO (text)
-        cur_results = {}
+        cur_results = OrderedDict ()
         for line in cur_file.readlines ():
             self.parse_sum_line (cur_results, line)
         return cur_results
@@ -122,7 +124,6 @@ class DejaResults(object):
     # Returns a regression report, as a string.
     def compute_regressions (self, builder, branch, results, baseline):
         our_keys = results.keys ()
-        our_keys.sort ()
         result = ''
         xfails = self.read_xfail (builder, branch)
         if xfails is None:
