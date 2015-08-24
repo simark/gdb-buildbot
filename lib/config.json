@@ -216,12 +216,6 @@
 		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." },
 
 
-		   { "name" : "Debian-MIPS-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "debian-mips-m64",
-		     "slavenames" : [ "debian-jessie-mips-be-1" ] },
-
-
 		   { "name" : "RHEL-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "rhel-s390x",
@@ -263,8 +257,6 @@
 					  "Fedora-ppc64le-cc-with-index",
 
 					  "AIX-POWER7-plain",
-
-					  "Debian-MIPS-m64",
 
 					  "RHEL-s390x-m64" ]
 
