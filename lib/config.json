@@ -253,6 +253,12 @@
 		     "builddir" : "rhel-s390x",
 		     "tags" : [ "rhel", "s390x", "m64", "MAIL" ],
 		     "slavenames" : [ "rhel-7.1-s390x-1" ] },
+
+		   { "name" : "NetBSD-x86_64-m64",
+		     "type" : "PlainBSD_c64t64",
+		     "builddir" : "netbsd-x86_64",
+		     "tags" : [ "netbsd", "x86_64", "m64", "TEST" ],
+		     "slavenames" : [ "gdb-amd64-netbsd7" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -291,7 +297,9 @@
 
 					  "AIX-POWER7-plain",
 
-					  "RHEL-s390x-m64" ]
+					  "RHEL-s390x-m64",
+
+					  "NetBSD-x86_64-m64" ]
 
 		     }
 		   ]
