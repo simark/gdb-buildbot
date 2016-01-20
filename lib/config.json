@@ -258,7 +258,21 @@
 		     "type" : "PlainBSD_c64t64",
 		     "builddir" : "netbsd-x86_64",
 		     "tags" : [ "netbsd", "x86_64", "m64", "TEST" ],
-		     "slavenames" : [ "gdb-amd64-netbsd7" ] }
+		     "slavenames" : [ "gdb-amd64-netbsd7" ] },
+
+
+		   { "name" : "FreeBSD-x86_64-m64", "type" : "PlainBSD_c64t64",
+		     "builddir" : "freebsd-x86-64",
+		     "tags" : [ "freebsd", "x86_64", "index", "TEST" ],
+		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
+				      "koobs-freebsd10", "koobs-freebsd11" ] },
+
+		   { "name" : "FreeBSD-x86_64-cc-with-index",
+		     "type" : "IndexBuildBSD",
+		     "builddir" : "freebsd-x86-64-cc-with-index",
+		     "tags" : [ "freebsd", "x86_64", "cc-with-index", "TEST" ],
+		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
+				      "koobs-freebsd10", "koobs-freebsd11" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -299,7 +313,10 @@
 
 					  "RHEL-s390x-m64",
 
-					  "NetBSD-x86_64-m64" ]
+					  "NetBSD-x86_64-m64",
+
+					  "FreeBSD-x86_64-m64",
+					  "FreeBSD-x86_64-cc-with-index" ]
 
 		     }
 		   ]
