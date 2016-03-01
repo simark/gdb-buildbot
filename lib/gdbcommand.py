@@ -1,6 +1,6 @@
 # GDB .sum-fetching command.
 
-from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.process.results import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 from buildbot.steps.shell import ShellCommand
 from sumfiles import DejaResults, get_web_base
 from gdbgitdb import switch_to_branch

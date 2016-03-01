@@ -1,6 +1,6 @@
 # DB-like with git
 
-from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.process.results import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 from buildbot.steps.shell import ShellCommand
 from sumfiles import get_web_base
 import os.path
