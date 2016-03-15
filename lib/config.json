@@ -318,6 +318,51 @@
 					  "FreeBSD-x86_64-m64",
 					  "FreeBSD-x86_64-cc-with-index" ]
 
+		     },
+
+		     { "type" : "Nightly", "name" : "racy",
+		       "dayOfWeek" : "6", "hour" : "3", "minute" : "0",
+		       "builderNames" : [ "Fedora-x86_64-m64",
+					  "Fedora-x86_64-m32",
+					  "Fedora-x86_64-native-gdbserver-m64",
+					  "Fedora-x86_64-native-gdbserver-m32",
+					  "Fedora-x86_64-native-extended-gdbserver-m64",
+					  "Fedora-x86_64-native-extended-gdbserver-m32",
+					  "Fedora-x86_64-cc-with-index",
+					  "Fedora-i686",
+					  "Fedora-x86_64-cxx-build-m64",
+
+					  "Debian-x86_64-m64",
+					  "Debian-x86_64-native-gdbserver-m64",
+					  "Debian-x86_64-native-extended-gdbserver-m64",
+					  "Debian-i686-native-gdbserver",
+					  "Debian-i686-native-extended-gdbserver",
+					  "Debian-i686",
+					  "Debian-s390x-m64",
+					  "Debian-s390x-native-gdbserver-m64",
+					  "Debian-s390x-native-extended-gdbserver-m64",
+
+					  "Fedora-s390x-m64",
+
+					  "Fedora-ppc64be-m64",
+					  "Fedora-ppc64be-native-gdbserver-m64",
+					  "Fedora-ppc64be-native-extended-gdbserver-m64",
+					  "Fedora-ppc64be-cc-with-index",
+
+					  "Fedora-ppc64le-m64",
+					  "Fedora-ppc64le-native-gdbserver-m64",
+					  "Fedora-ppc64le-native-extended-gdbserver-m64",
+					  "Fedora-ppc64le-cc-with-index",
+
+					  "AIX-POWER7-plain",
+
+					  "RHEL-s390x-m64",
+
+					  "NetBSD-x86_64-m64",
+
+					  "FreeBSD-x86_64-m64",
+					  "FreeBSD-x86_64-cc-with-index" ]
+
 		     }
 		   ]
 }

@@ -8,7 +8,7 @@ from StringIO import StringIO
 from collections import OrderedDict
 
 # Helper regex for parse_sum_line.
-sum_matcher = re.compile('^(.?(PASS|FAIL)): (.*)$')
+sum_matcher = re.compile('^(.?(PASS|FAIL))?(: )?(.*)$')
 
 # You must call set_web_base at startup to set this.
 gdb_web_base = None
@@ -34,11 +34,19 @@ class DejaResults(object):
     # If the line does not appear to be about a test, ignore it.
     def parse_sum_line(self, out_dict, line):
         global sum_matcher
+
         line = line.rstrip()
         m = re.match(sum_matcher, line)
         if m:
             result = m.group(1)
-            test_name = m.group(3)
+            if not result:
+                # On racy.sum files, there is no result to parse.
+                result = 'NONE'
+            test_name = m.group(4)
+            # Remove tail parentheses
+            test_name = re.sub ('(\s+)?\(.*$', '', test_name)
+            if result not in out_dict[1].keys ():
+                out_dict[1][result] = set ()
             if test_name in out_dict:
                 i = 2
                 while True:
@@ -47,7 +55,10 @@ class DejaResults(object):
                         break
                     i = i + 1
                 test_name = nname
-            out_dict[test_name] = result
+            # Add the testname to the dictionary...
+            out_dict[0][test_name] = result
+            # and to the set.
+            out_dict[1][result].add (test_name)
 
     def _write_sum_file(self, sum_dict, subdir, rev_or_branch, filename,
                         header = None):
@@ -59,7 +70,7 @@ class DejaResults(object):
         if not os.path.isdir (bdir):
             os.makedirs (bdir, 0755)
         fname = os.path.join (bdir, filename)
-        keys = sum_dict.keys ()
+        keys = sum_dict[0].keys ()
         mode = 'w'
         if header:
             with open (fname, 'w') as f:
@@ -67,7 +78,7 @@ class DejaResults(object):
             mode = 'a'
         with open (fname, mode) as f:
             for k in keys:
-                f.write (sum_dict[k] + ': ' + k + '\n')
+                f.write (sum_dict[0][k] + ': ' + k + '\n')
 
     def write_sum_file(self, sum_dict, builder, branch):
         self._write_sum_file (sum_dict, builder, None, 'gdb.sum')
@@ -89,7 +100,12 @@ class DejaResults(object):
         else:
             fname = os.path.join (gdb_web_base, subdir, rev_or_branch, filename)
         if os.path.exists (fname):
-            result = OrderedDict ()
+            result = []
+            # result[0] is the OrderedDict containing all the tests
+            # and results.
+            result.append (OrderedDict ())
+            # result[1] is a dictionary containing sets of tests
+            result.append (dict ())
             with open (fname, 'r') as f:
                 for line in f:
                     self.parse_sum_line (result, line)
@@ -114,33 +130,43 @@ class DejaResults(object):
     # dictionary.
     def read_sum_text (self, text):
         cur_file = StringIO (text)
-        cur_results = OrderedDict ()
+        cur_results = []
+        cur_results.append (OrderedDict ())
+        cur_results.append (dict ())
         for line in cur_file.readlines ():
             self.parse_sum_line (cur_results, line)
         return cur_results
 
+    # Parse some text as the racy.sum file and return the resulting
+    # dictionary.
+    def read_racy_sum_text (self, text):
+        return self.read_sum_text (text)
+
     # Compute regressions between RESULTS and BASELINE on BUILDER.
     # BASELINE will be modified if any new PASSes are seen.
     # Returns a regression report, as a string.
-    def compute_regressions (self, builder, branch, results, baseline):
-        our_keys = results.keys ()
+    def compute_regressions (self, builder, branch, results, old_res):
+        our_keys = results[0].keys ()
         result = ''
         xfails = self.read_xfail (builder, branch)
         if xfails is None:
             xfails = {}
+        else:
+            xfails = xfails[0]
         for key in our_keys:
             # An XFAIL entry means we have an unreliable test.
             if key in xfails:
                 continue
             # A transition to PASS means we should update the baseline.
-            if results[key] == 'PASS':
-                if key not in baseline or baseline[key] != 'PASS':
-                    baseline[key] = 'PASS'
-            # A regression is just a transition to FAIL.
-            if results[key] != 'FAIL':
+            if results[0][key] == 'PASS':
+                if key not in old_res[0] or old_res[0][key] != 'PASS':
+                    old_res[0][key] = 'PASS'
                 continue
-            if key not in baseline:
+            # A regression is just a transition to FAIL.
+            if results[0][key] != 'FAIL':
+                continue
+            if key not in old_res[0]:
                 result = result + 'new FAIL: ' + key + '\n'
-            elif baseline[key] != 'FAIL':
-                result = result + baseline[key] + ' -> FAIL: ' + key + '\n'
+            elif old_res[0][key] != 'FAIL':
+                result = result + old_res[0][key] + ' -> FAIL: ' + key + '\n'
         return result
