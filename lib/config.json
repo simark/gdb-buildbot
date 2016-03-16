@@ -321,7 +321,7 @@
 		     },
 
 		     { "type" : "Nightly", "name" : "racy",
-		       "dayOfWeek" : "6", "hour" : "3", "minute" : "0",
+		       "dayOfWeek" : "1", "hour" : "22", "minute" : "10",
 		       "builderNames" : [ "Fedora-x86_64-m64",
 					  "Fedora-x86_64-m32",
 					  "Fedora-x86_64-native-gdbserver-m64",
