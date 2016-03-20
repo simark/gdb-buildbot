@@ -21,7 +21,12 @@ class GDBAnalyzeRacyTests (ShellCommand):
         racy_tests = p.read_sum_text (self.getLog ('stdio').getText ())
         xfails = p.read_xfail (builder, branch)
 
-        unique_tests = racy_tests[1]['NONE'] - xfails[1]['FAIL']
+        if not racy_tests[1]:
+            return SUCCESS
+        elif not xfails[1]:
+            unique_tests = racy_tests[1]['NONE']
+        else:
+            unique_tests = racy_tests[1]['NONE'] - xfails[1]['FAIL']
 
         msg = "============================\n"
         for t in unique_tests:
@@ -35,7 +40,7 @@ class GDBAnalyzeRacyTests (ShellCommand):
 
         s = smtplib.SMTP ('localhost')
         s.sendmail ('gdb-buildbot@sergiodj.net',
-                    [ 'GDB BuildBot Racy Detector <gdb-buildbot@sergiodj.net>' ],
+                    [ 'gdb-buildbot@sergiodj.net' ],
                     mail.as_string ())
         s.quit ()
 
