@@ -127,24 +127,12 @@
 		     "tags" : [ "debian", "x86_64", "m64", "MAIL" ],
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
 
-		   { "name" : "Debian-x86_64-native-gdbserver-m64",
-		     "type" : "NativeGDBServer_c64t64",
-		     "builddir" : "debian-x86-64-native-gdbserver",
-		     "tags" : [ "debian", "x86_64", "native-gdbserver-m64", "MAIL" ],
-		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
-
 		   { "name" : "Debian-x86_64-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "debian-x86-64-native-extended-gdbserver",
 		     "tags" : [ "debian", "x86_64", "native-extended-gdbserver-m64",
 				"MAIL" ],
 		     "slavenames" : [ "wildebeest-debian-wheezy-x86_64" ] },
-
-		   { "name" : "Debian-i686-native-gdbserver",
-		     "type" : "NativeGDBServer_c32t32",
-		     "builddir" : "debian-i686-native-gdbserver",
-		     "tags" : [ "debian", "i686", "native-gdbserver", "MAIL" ],
-		     "slavenames" : [ "wildebeest-debian-wheezy-i686" ] },
 
 		   { "name" : "Debian-i686-native-extended-gdbserver",
 		     "type" : "NativeExtendedGDBServer_c32t32",
@@ -288,9 +276,7 @@
 					  "Fedora-x86_64-cxx-build-m64",
 
 					  "Debian-x86_64-m64",
-					  "Debian-x86_64-native-gdbserver-m64",
 					  "Debian-x86_64-native-extended-gdbserver-m64",
-					  "Debian-i686-native-gdbserver",
 					  "Debian-i686-native-extended-gdbserver",
 					  "Debian-i686",
 					  "Debian-s390x-m64",
@@ -333,9 +319,7 @@
 					  "Fedora-x86_64-cxx-build-m64",
 
 					  "Debian-x86_64-m64",
-					  "Debian-x86_64-native-gdbserver-m64",
 					  "Debian-x86_64-native-extended-gdbserver-m64",
-					  "Debian-i686-native-gdbserver",
 					  "Debian-i686-native-extended-gdbserver",
 					  "Debian-i686",
 					  "Debian-s390x-m64",
