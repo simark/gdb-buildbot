@@ -21,9 +21,9 @@ class GDBAnalyzeRacyTests (ShellCommand):
         racy_tests = p.read_sum_text (self.getLog ('stdio').getText ())
         xfails = p.read_xfail (builder, branch)
 
-        if not racy_tests[1]:
+        if not racy_tests or not racy_tests[1]:
             return SUCCESS
-        elif not xfails[1]:
+        elif not xfails or not xfails[1]:
             unique_tests = racy_tests[1]['NONE']
         else:
             unique_tests = racy_tests[1]['NONE'] - xfails[1]['FAIL']

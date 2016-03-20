@@ -8,7 +8,8 @@ from StringIO import StringIO
 from collections import OrderedDict
 
 # Helper regex for parse_sum_line.
-sum_matcher = re.compile('^(.?(PASS|FAIL))?(: )?(.*)$')
+sum_matcher = re.compile('^(.?(PASS|FAIL)): (.*)$')
+racy_file_matcher = re.compile ('^(gdb\.*)')
 
 # You must call set_web_base at startup to set this.
 gdb_web_base = None
@@ -32,17 +33,23 @@ class DejaResults(object):
     # Parse a single line from a .sum file.
     # Uniquify the name, and put the result into OUT_DICT.
     # If the line does not appear to be about a test, ignore it.
-    def parse_sum_line(self, out_dict, line):
+    def parse_sum_line(self, out_dict, line, is_racy_file = False):
         global sum_matcher
 
         line = line.rstrip()
-        m = re.match(sum_matcher, line)
+        if not is_racy_file:
+            m = re.match(sum_matcher, line)
+        else:
+            m = re.match (racy_file_matcher, line)
+
         if m:
-            result = m.group(1)
-            if not result:
+            if is_racy_file:
                 # On racy.sum files, there is no result to parse.
                 result = 'NONE'
-            test_name = m.group(4)
+                test_name = m.group (1)
+            else:
+                result = m.group (1)
+                test_name = m.group (3)
             # Remove tail parentheses
             test_name = re.sub ('(\s+)?\(.*$', '', test_name)
             if result not in out_dict[1].keys ():
@@ -93,7 +100,8 @@ class DejaResults(object):
     # revision; to read the baseline file for a branch, use `read_baseline'.
     # Returns a dictionary holding the .sum contents, or None if the
     # file did not exist.
-    def _read_sum_file(self, subdir, rev_or_branch, filename):
+    def _read_sum_file(self, subdir, rev_or_branch, filename,
+                       is_racy_file = False):
         global gdb_web_base
         if not rev_or_branch:
             fname = os.path.join (gdb_web_base, subdir, filename)
@@ -108,7 +116,7 @@ class DejaResults(object):
             result.append (dict ())
             with open (fname, 'r') as f:
                 for line in f:
-                    self.parse_sum_line (result, line)
+                    self.parse_sum_line (result, line, is_racy_file)
         else:
             result = None
         return result
@@ -128,19 +136,20 @@ class DejaResults(object):
 
     # Parse some text as a .sum file and return the resulting
     # dictionary.
-    def read_sum_text (self, text):
+    def read_sum_text (self, text, is_racy_file = False):
         cur_file = StringIO (text)
         cur_results = []
         cur_results.append (OrderedDict ())
         cur_results.append (dict ())
         for line in cur_file.readlines ():
-            self.parse_sum_line (cur_results, line)
+            self.parse_sum_line (cur_results, line,
+                                 is_racy_file = is_racy_file)
         return cur_results
 
     # Parse some text as the racy.sum file and return the resulting
     # dictionary.
     def read_racy_sum_text (self, text):
-        return self.read_sum_text (text)
+        return self.read_sum_text (text, is_racy_file = True)
 
     # Compute regressions between RESULTS and BASELINE on BUILDER.
     # BASELINE will be modified if any new PASSes are seen.
