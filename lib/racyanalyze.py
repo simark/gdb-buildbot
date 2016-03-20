@@ -28,7 +28,8 @@ class GDBAnalyzeRacyTests (ShellCommand):
         else:
             unique_tests = racy_tests[1]['NONE'] - xfails[1]['FAIL']
 
-        msg = "============================\n"
+        msg = "Regressions found\n"
+        msg += "============================\n"
         for t in unique_tests:
             msg += "FAIL: %s\n" % t
         msg += "============================\n"
