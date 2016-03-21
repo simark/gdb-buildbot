@@ -9,7 +9,7 @@ from collections import OrderedDict
 
 # Helper regex for parse_sum_line.
 sum_matcher = re.compile('^(.?(PASS|FAIL)): (.*)$')
-racy_file_matcher = re.compile ('^(gdb\.*)')
+racy_file_matcher = re.compile ('^(gdb\..*)')
 
 # You must call set_web_base at startup to set this.
 gdb_web_base = None
@@ -116,7 +116,8 @@ class DejaResults(object):
             result.append (dict ())
             with open (fname, 'r') as f:
                 for line in f:
-                    self.parse_sum_line (result, line, is_racy_file)
+                    self.parse_sum_line (result, line,
+                                         is_racy_file = is_racy_file)
         else:
             result = None
         return result

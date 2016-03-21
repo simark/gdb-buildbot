@@ -18,7 +18,7 @@ class GDBAnalyzeRacyTests (ShellCommand):
 
         p = DejaResults ()
 
-        racy_tests = p.read_sum_text (self.getLog ('stdio').getText ())
+        racy_tests = p.read_racy_sum_text (self.getLog ('stdio').getText ())
         xfails = p.read_xfail (builder, branch)
 
         if not racy_tests or not racy_tests[1]:
