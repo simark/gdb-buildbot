@@ -307,7 +307,7 @@
 		     },
 
 		     { "type" : "Nightly", "name" : "racy",
-		       "dayOfWeek" : "1", "hour" : "22", "minute" : "30",
+		       "dayOfWeek" : "6", "hour" : "3", "minute" : "00",
 		       "builderNames" : [ "Fedora-x86_64-m64",
 					  "Fedora-x86_64-m32",
 					  "Fedora-x86_64-native-gdbserver-m64",
@@ -318,10 +318,6 @@
 					  "Fedora-i686",
 					  "Fedora-x86_64-cxx-build-m64",
 
-					  "Debian-x86_64-m64",
-					  "Debian-x86_64-native-extended-gdbserver-m64",
-					  "Debian-i686-native-extended-gdbserver",
-					  "Debian-i686",
 					  "Debian-s390x-m64",
 					  "Debian-s390x-native-gdbserver-m64",
 					  "Debian-s390x-native-extended-gdbserver-m64",
