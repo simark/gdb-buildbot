@@ -120,6 +120,13 @@
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
 				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
 
+		   { "name" : "Fedora-x86_64-c-build-m64",
+		     "type" : "PlainBuildWithC_c64notest",
+		     "builddir" : "fedora-x86-64-c-build",
+		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
+		     "tags" : [ "fedora", "x86_64", "c-build-m64", "MAIL" ],
+		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
+				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
 
 		   { "name" : "Debian-x86_64-m64",
 		     "type" : "Plain_c64t64",
