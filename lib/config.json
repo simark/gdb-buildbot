@@ -281,6 +281,7 @@
 					  "Fedora-x86_64-cc-with-index",
 					  "Fedora-i686",
 					  "Fedora-x86_64-cxx-build-m64",
+					  "Fedora-x86_64-c-build-m64",
 
 					  "Debian-x86_64-m64",
 					  "Debian-x86_64-native-extended-gdbserver-m64",
@@ -323,7 +324,6 @@
 					  "Fedora-x86_64-native-extended-gdbserver-m32",
 					  "Fedora-x86_64-cc-with-index",
 					  "Fedora-i686",
-					  "Fedora-x86_64-cxx-build-m64",
 
 					  "Debian-s390x-m64",
 					  "Debian-s390x-native-gdbserver-m64",
