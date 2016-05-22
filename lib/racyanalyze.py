@@ -19,18 +19,13 @@ class GDBAnalyzeRacyTests (ShellCommand):
         p = DejaResults ()
 
         racy_tests = p.read_racy_sum_text (self.getLog ('stdio').getText ())
-        xfails = p.read_xfail (builder, branch)
 
         if not racy_tests or not racy_tests[1]:
             return SUCCESS
-        elif not xfails or not xfails[1]:
-            unique_tests = racy_tests[1]['NONE']
-        else:
-            unique_tests = racy_tests[1]['NONE'] - xfails[1]['FAIL']
 
         msg = "*** Regressions found ***\n"
         msg += "============================\n"
-        for t in unique_tests:
+        for t in racy_tests:
             msg += "FAIL: %s\n" % t
         msg += "============================\n"
 
