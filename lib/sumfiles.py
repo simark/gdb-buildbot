@@ -39,7 +39,6 @@ class DejaResults(object):
         line = line.rstrip()
         if not is_racy_file:
             # Removing special XFAIL comment added by script.
-            line = re.sub (' ##\|##.*', '', line)
             m = re.match(sum_matcher, line)
         else:
             m = re.match (racy_file_matcher, line)

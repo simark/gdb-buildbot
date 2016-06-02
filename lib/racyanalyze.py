@@ -20,12 +20,12 @@ class GDBAnalyzeRacyTests (ShellCommand):
 
         racy_tests = p.read_racy_sum_text (self.getLog ('stdio').getText ())
 
-        if not racy_tests or not racy_tests[1]:
+        if not racy_tests:
             return SUCCESS
 
         msg = "*** Regressions found ***\n"
         msg += "============================\n"
-        for t in racy_tests:
+        for t in racy_tests[0]:
             msg += "FAIL: %s\n" % t
         msg += "============================\n"
 
