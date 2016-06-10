@@ -238,7 +238,7 @@
 		   { "name" : "AIX-POWER7-plain",
 		     "type" : "PlainAIX",
 		     "builddir" : "aix-power7-plain",
-		     "tags" : [ "aix", "power7", "MAIL" ],
+		     "tags" : [ "aix", "power7" ],
 		     "slavenames" : [ "aix-power7-1" ],
 		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." },
 
@@ -246,7 +246,7 @@
 		   { "name" : "RHEL-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "rhel-s390x",
-		     "tags" : [ "rhel", "s390x", "m64", "MAIL" ],
+		     "tags" : [ "rhel", "s390x", "m64" ],
 		     "slavenames" : [ "rhel-7.1-s390x-1" ] },
 
 		   { "name" : "NetBSD-x86_64-m64",
