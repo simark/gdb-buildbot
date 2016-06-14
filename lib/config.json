@@ -276,7 +276,7 @@
 		     "type" : "Plain_c64t64",
 		     "builddir" : "ubuntu-aarch64-m64",
 		     "tags" : [ "ubuntu", "aarch64", "m64", "MAIL" ],
-		     "slavenames" : [ "ubuntu-aarch64-1" ] }
+		     "slavenames" : [ "ubuntu-aarch64-1" ] },
 
 		   { "name" : "Ubuntu-AArch64-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
