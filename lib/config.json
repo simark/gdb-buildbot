@@ -44,7 +44,10 @@
 		   "admin" : "koobs@FreeBSD.org" },
 
 		 { "name" : "gdb-amd64-netbsd7", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "n54@gmx.com" }
+		   "admin" : "n54@gmx.com" },
+
+		 { "name" : "ubuntu-aarch64-1", "arch" : "aarch64", "jobs" : "4",
+		   "admin" : "qiyaoltc@gmail.com" }
 	       ],
 
     "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
@@ -267,7 +270,19 @@
 		     "builddir" : "freebsd-x86-64-cc-with-index",
 		     "tags" : [ "freebsd", "x86_64", "cc-with-index", "TEST" ],
 		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] }
+				      "koobs-freebsd10", "koobs-freebsd11" ] },
+
+		   { "name" : "Ubuntu-AArch64-m64",
+		     "type" : "Plain_c64t64",
+		     "builddir" : "ubuntu-aarch64-m64",
+		     "tags" : [ "ubuntu", "aarch64", "m64", "MAIL" ],
+		     "slavenames" : [ "ubuntu-aarch64-1" ] }
+
+		   { "name" : "Ubuntu-AArch64-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "ubuntu-aarch64-native-gdbserver-m64",
+		     "tags" : [ "ubuntu", "aarch64", "native-gdbserver", "m64", "MAIL" ],
+		     "slavenames" : [ "ubuntu-aarch64-1" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -310,7 +325,10 @@
 					  "NetBSD-x86_64-m64",
 
 					  "FreeBSD-x86_64-m64",
-					  "FreeBSD-x86_64-cc-with-index" ]
+					  "FreeBSD-x86_64-cc-with-index",
+
+					  "Ubuntu-AArch64-m64",
+					  "Ubuntu-AArch64-native-gdbserver-m64" ]
 
 		     },
 
@@ -348,8 +366,10 @@
 					  "NetBSD-x86_64-m64",
 
 					  "FreeBSD-x86_64-m64",
-					  "FreeBSD-x86_64-cc-with-index" ]
+					  "FreeBSD-x86_64-cc-with-index",
 
+					  "Ubuntu-AArch64-m64",
+					  "Ubuntu-AArch64-native-gdbserver-m64" ]
 		     }
 		   ]
 }
