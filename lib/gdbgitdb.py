@@ -101,18 +101,21 @@ class SaveGDBResults (ShellCommand):
     def _evaluateCommand_single_repo (self, cmd):
         rev = self.getProperty ('got_revision')
         builder = self.getProperty ('buildername')
-        istry = self.getProperty ('isTryBuilder')
+        istrysched = self.getProperty ('isTrySched')
         isrebuild = self.getProperty ('isRebuild')
         branch = self.getProperty ('branch')
         repodir = os.path.join (get_web_base (), builder)
         full_tag = "%s-%s-%s" % (datetime.now ().strftime ("%Y%m%d-%H%M%S"), rev, branch)
+
+        if istrysched and istrysched == 'yes':
+            full_tag += "-TRY_BUILD"
 
         if branch is None:
             branch = 'master'
 
         repo = git.Repo.init (path = repodir)
 
-        if (istry and istry == 'yes') or (isrebuild and isrebuild == 'yes'):
+        if isrebuild and isrebuild == 'yes':
             # Do nothing
             if branch in repo.heads:
                 # We have to clean the branch because otherwise this
@@ -142,7 +145,10 @@ class SaveGDBResults (ShellCommand):
             if os.path.exists ("%s/previous_gdb.sum" % repodir):
                 repo.index.add (['previous_gdb.sum'])
             if repo.is_dirty ():
-                repo.index.commit ('Log files for %s -- branch %s' % (full_tag, branch))
+                if istrysched and istrysched == 'yes':
+                    repo.index.commit ('TRY BUILD: Log files for %s -- branch %s' % (full_tag, branch))
+                else:
+                    repo.index.commit ('Log files for %s -- branch %s' % (full_tag, branch))
                 repo.index.write ()
             repo.create_tag (full_tag)
             # Returning the HEAD to master

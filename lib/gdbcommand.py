@@ -19,14 +19,13 @@ class CopyOldGDBSumFile (ShellCommand):
     def evaluateCommand (self, cmd):
         rev = self.getProperty('got_revision')
         builder = self.getProperty('buildername')
-        istrybuilder = self.getProperty('isTryBuilder')
         isrebuild = self.getProperty ('isRebuild')
         branch = self.getProperty('branch')
         wb = get_web_base ()
         if branch is None:
             branch = 'master'
 
-        if (istrybuilder and istrybuilder == 'yes') or (isrebuild and isrebuild == 'yes'):
+        if isrebuild and isrebuild == 'yes':
             return SUCCESS
 
         # Switch to the right branch inside the BUILDER repo
@@ -51,7 +50,7 @@ class GdbCatSumfileCommand(ShellCommand):
     def evaluateCommand(self, cmd):
         rev = self.getProperty('got_revision')
         builder = self.getProperty('buildername')
-        istry = self.getProperty('isTryBuilder')
+        istrysched = self.getProperty('isTrySched')
         branch = self.getProperty('branch')
         if branch is None:
             branch = 'master'
@@ -61,12 +60,14 @@ class GdbCatSumfileCommand(ShellCommand):
 
         parser = DejaResults()
         cur_results = parser.read_sum_text(self.getLog('stdio').getText())
-        if not istry or istry == 'no':
+        if not istrysched or istrysched == 'no':
             baseline = parser.read_baseline (builder, branch)
             old_sum = parser.read_old_sum_file (builder, branch)
         else:
-            baseline = parser.read_sum_file(builder, rev)
-            old_sum = parser.read_old_sum_file (builder, rev)
+            # TODO: We'd probably be able to just call read_sum_file
+            # for both cases.  Investigate.
+            baseline = parser.read_baseline (builder, branch)
+            old_sum = parser.read_sum_file (builder, branch)
         result = SUCCESS
         if baseline is not None:
             report = parser.compute_regressions (builder, branch,
@@ -82,7 +83,7 @@ class GdbCatSumfileCommand(ShellCommand):
                 self.addCompleteLog ('regressions', report)
                 result = FAILURE
 
-        if not istry or istry == 'no':
+        if not istrysched or istrysched == 'no':
             parser.write_sum_file (cur_results, builder, branch)
             # If there was no previous baseline, then this run
             # gets the honor.
