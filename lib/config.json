@@ -53,7 +53,7 @@
     "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-x86-64",
 		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "m64", "MAIL" ],
+		     "tags" : [ "fedora", "x86_64", "m64", "MAIL", "TRY" ],
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
 				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
 
