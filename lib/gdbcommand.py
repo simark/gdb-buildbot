@@ -60,15 +60,10 @@ class GdbCatSumfileCommand(ShellCommand):
 
         parser = DejaResults()
         cur_results = parser.read_sum_text(self.getLog('stdio').getText())
-        if not istrysched or istrysched == 'no':
-            baseline = parser.read_baseline (builder, branch)
-            old_sum = parser.read_old_sum_file (builder, branch)
-        else:
-            # TODO: We'd probably be able to just call read_sum_file
-            # for both cases.  Investigate.
-            baseline = parser.read_baseline (builder, branch)
-            old_sum = parser.read_sum_file (builder, branch)
+        baseline = parser.read_baseline (builder, branch)
+        old_sum = parser.read_sum_file (builder, branch)
         result = SUCCESS
+
         if baseline is not None:
             report = parser.compute_regressions (builder, branch,
                                                  cur_results, baseline)
