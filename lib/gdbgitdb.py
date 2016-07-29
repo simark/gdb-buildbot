@@ -144,6 +144,8 @@ class SaveGDBResults (ShellCommand):
                              'baseline'])
             if os.path.exists ("%s/previous_gdb.sum" % repodir):
                 repo.index.add (['previous_gdb.sum'])
+            if os.path.exists ("%s/trybuild_gdb.sum" % repodir):
+                repo.index.add (['trybuild_gdb.sum'])
             if repo.is_dirty ():
                 if istrysched and istrysched == 'yes':
                     repo.index.commit ('TRY BUILD: Log files for %s -- branch %s' % (full_tag, branch))

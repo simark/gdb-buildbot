@@ -85,5 +85,7 @@ class GdbCatSumfileCommand(ShellCommand):
             if baseline is None:
                 baseline = cur_results
             parser.write_baseline (baseline, builder, branch, rev)
+        else:
+            parser.write_try_build_sum_file (cur_results, builder, branch)
 
         return result
