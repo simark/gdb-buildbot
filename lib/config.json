@@ -28,7 +28,7 @@
 		 { "name" : "fedora-ppc64le-1", "arch" : "ppc64le", "jobs" : "8",
 		   "admin" : "emachado@linux.vnet.ibm.com" },
 
-		 { "name" : "aix-power7-1", "arch" : "power7", "jobs" : "4",
+		 { "name" : "aix-power8-1", "arch" : "power8", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
 
 		 { "name" : "debian-jessie-mips-be-1", "arch" : "mips", "jobs" : "1",
@@ -238,11 +238,11 @@
 		     "slavenames" : [ "fedora-ppc64le-1" ] },
 
 
-		   { "name" : "AIX-POWER7-plain",
+		   { "name" : "AIX-POWER8-plain",
 		     "type" : "PlainAIX",
-		     "builddir" : "aix-power7-plain",
-		     "tags" : [ "aix", "power7" ],
-		     "slavenames" : [ "aix-power7-1" ],
+		     "builddir" : "aix-power8-plain",
+		     "tags" : [ "aix", "power8" ],
+		     "slavenames" : [ "aix-power8-1" ],
 		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." },
 
 
@@ -318,7 +318,7 @@
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
 					  "Fedora-ppc64le-cc-with-index",
 
-					  "AIX-POWER7-plain",
+					  "AIX-POWER8-plain",
 
 					  "RHEL-s390x-m64",
 
@@ -359,7 +359,7 @@
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
 					  "Fedora-ppc64le-cc-with-index",
 
-					  "AIX-POWER7-plain",
+					  "AIX-POWER8-plain",
 
 					  "RHEL-s390x-m64",
 
