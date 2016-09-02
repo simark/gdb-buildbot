@@ -115,14 +115,6 @@
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
 				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
 
-		   { "name" : "Fedora-x86_64-cxx-build-m64",
-		     "type" : "PlainBuildWithCxx_c64notest",
-		     "builddir" : "fedora-x86-64-cxx-build",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "cxx-build-m64", "MAIL" ],
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
 		   { "name" : "Fedora-x86_64-c-build-m64",
 		     "type" : "PlainBuildWithC_c64notest",
 		     "builddir" : "fedora-x86-64-c-build",
@@ -295,7 +287,6 @@
 					  "Fedora-x86_64-native-extended-gdbserver-m32",
 					  "Fedora-x86_64-cc-with-index",
 					  "Fedora-i686",
-					  "Fedora-x86_64-cxx-build-m64",
 					  "Fedora-x86_64-c-build-m64",
 
 					  "Debian-x86_64-m64",
@@ -331,6 +322,12 @@
 					  "Ubuntu-AArch64-native-gdbserver-m64" ]
 
 		     },
+
+		     { "type" : "SingleBranchScheduler", "name" : "7_12_branch",
+		       "change_filter" : "all_gdb_filter_7_12_branch",
+		       "builderNames" : [ "Fedora-x86_64-c-build-m64" ]
+		     },
+
 
 		     { "type" : "Nightly", "name" : "racy",
 		       "dayOfWeek" : "6", "hour" : "3", "minute" : "00",
