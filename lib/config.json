@@ -390,7 +390,15 @@
 					  "Fedora-x86_64-native-extended-gdbserver-m64",
 					  "Fedora-x86_64-native-extended-gdbserver-m32",
 					  "Fedora-x86_64-cc-with-index",
-					  "Fedora-i686" ]
+					  "Fedora-i686",
+					  "Fedora-s390x-m64",
+					  "Debian-s390x-m64",
+					  "Debian-s390x-native-gdbserver-m64",
+					  "Debian-s390x-native-extended-gdbserver-m64",
+					  "Fedora-ppc64be-m64",
+					  "Fedora-ppc64le-m64",
+					  "AIX-POWER8-plain",
+					  "RHEL-s390x-m64" ]
 		     }
 		   ]
 }
