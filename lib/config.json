@@ -339,6 +339,11 @@
 					  "Fedora-x86_64-cc-with-index",
 					  "Fedora-i686",
 
+					  "Debian-x86_64-m64",
+					  "Debian-x86_64-native-extended-gdbserver-m64",
+					  "Debian-i686-native-extended-gdbserver",
+					  "Debian-i686",
+
 					  "Debian-s390x-m64",
 					  "Debian-s390x-native-gdbserver-m64",
 					  "Debian-s390x-native-extended-gdbserver-m64",
