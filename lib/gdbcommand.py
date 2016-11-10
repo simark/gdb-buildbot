@@ -68,6 +68,7 @@ class GdbCatSumfileCommand(steps.ShellCommand):
         rev = self.getProperty('got_revision')
         builder = self.getProperty('buildername')
         istrysched = self.getProperty('isTrySched')
+        istry = istrysched and istrysched == 'yes'
         branch = self.getProperty('branch')
         db_file = os.path.join (get_web_base (), builder, builder + '.db')
         parser = DejaResults()
@@ -79,12 +80,12 @@ class GdbCatSumfileCommand(steps.ShellCommand):
 
         if not os.path.exists (db_file):
             # This takes care of our very first build.
-            parser.write_sum_file (cur_results, builder, branch, rev)
+            parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
             # gets the honor.
             if baseline is None:
                 baseline = cur_results
-            parser.write_baseline (baseline, builder, branch, rev)
+            parser.write_baseline (baseline, builder, branch, rev, istry)
             return SUCCESS
 
         con = sqlite3.connect (db_file)
@@ -97,12 +98,12 @@ class GdbCatSumfileCommand(steps.ShellCommand):
             prevcommit = prev[0]
         else:
             # This takes care of our very first build.
-            parser.write_sum_file (cur_results, builder, branch, rev)
+            parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
             # gets the honor.
             if baseline is None:
                 baseline = cur_results
-            parser.write_baseline (baseline, builder, branch, rev)
+            parser.write_baseline (baseline, builder, branch, rev, istry)
             return SUCCESS
 
         baseline = parser.read_baseline (builder, branch, prevcommit)
@@ -123,14 +124,14 @@ class GdbCatSumfileCommand(steps.ShellCommand):
                 self.addCompleteLog ('regressions', report)
                 result = FAILURE
 
-        if istrysched and istrysched == 'yes':
+        if istry:
             parser.write_try_build_sum_file (cur_results, builder, branch, rev)
         else:
-            parser.write_sum_file (cur_results, builder, branch, rev)
+            parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
             # gets the honor.
             if baseline is None:
                 baseline = cur_results
-            parser.write_baseline (baseline, builder, branch, rev)
+            parser.write_baseline (baseline, builder, branch, rev, istry)
 
         return result
