@@ -69,7 +69,7 @@ class DejaResults(object):
             # and to the set.
             out_dict[1][result].add (test_name)
 
-    def _write_sum_file(self, sum_dict, builder, rev, filename, header = None, istry):
+    def _write_sum_file(self, sum_dict, builder, rev, filename, header = None, istry = False):
         global gdb_web_base
 
         if istry:
