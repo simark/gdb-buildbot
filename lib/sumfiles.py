@@ -74,7 +74,9 @@ class DejaResults(object):
 
         bdir = os.path.join (gdb_web_base, builder, rev[:2], rev)
         if not os.path.exists (bdir):
+            old_umask = os.umask (0022)
             os.makedirs (bdir)
+            os.umask (old_umask)
         fname = os.path.join (bdir, filename)
         keys = sum_dict[0].keys ()
         mode = 'w'
@@ -126,10 +128,11 @@ class DejaResults(object):
                     self.parse_sum_line (result, line,
                                          is_racy_file = is_racy_file)
         elif os.path.exists (fname + '.xz'):
-            with lzma.open (fname, 'r') as f:
-                for line in f:
-                    self.parse_sum_line (result, line,
-                                         is_racy_file = is_racy_file)
+            f = lzma.LZMAFile (fname, 'r')
+            for line in f:
+                self.parse_sum_line (result, line,
+                                     is_racy_file = is_racy_file)
+            f.close ()
         else:
             return None
         return result
@@ -140,8 +143,8 @@ class DejaResults(object):
     def read_baseline(self, builder, branch, rev):
         return self._read_sum_file (builder, branch, rev, 'baseline')
 
-    def read_xfail (self, builder, branch, rev):
-        return self._read_sum_file (builder, branch, rev, 'xfail', is_xfail_file = True)
+    def read_xfail (self, builder, branch):
+        return self._read_sum_file (builder, branch, None, 'xfail', is_xfail_file = True)
 
     def read_old_sum_file (self, builder, branch, rev):
         return self._read_sum_file (builder, branch, rev, 'previous_gdb.sum')

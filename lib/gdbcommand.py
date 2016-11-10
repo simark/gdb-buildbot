@@ -1,6 +1,6 @@
 # GDB .sum-fetching command.
 
-from buildbot.process.results import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.status.results import SUCCESS, WARNINGS, FAILURE, EXCEPTION
 from buildbot.plugins import steps, util
 from sumfiles import DejaResults, get_web_base
 from gdbgitdb import switch_to_branch
@@ -22,16 +22,27 @@ def create_copy_command (props):
 
     con = sqlite3.connect (db_file)
     c = con.cursor ()
-    c.execute ('SELECT commitid WHERE branch = "%s" AND trysched = 0 FROM logs ORDER BY timestamp DESC LIMIT 1' % branch)
+    c.execute ('SELECT commitid FROM logs WHERE branch = "%s" AND trysched = 0 ORDER BY timestamp DESC LIMIT 1' % branch)
+    comm = c.fetchone ()
     con.close ()
 
-    commit = c.fetchone ()[0]
-
-    from_path = os.path.join (get_web_base (), commit[:2], commit, 'gdb.sum')
-    if istry and istry == 'yes':
-        to_path = os.path.join (get_web_base (), 'try', rev[:2], rev, 'previous_gdb.sum')
+    if comm:
+        commit = comm[0]
     else:
-        to_path = os.path.join (get_web_base (), rev[:2], rev, 'previous_gdb.sum')
+        return [ 'true' ]
+
+    from_path = os.path.join (get_web_base (), builder, commit[:2], commit, 'gdb.sum')
+    if istry and istry == 'yes':
+        to_path = os.path.join (get_web_base (), builder, 'try', rev[:2], rev)
+    else:
+        to_path = os.path.join (get_web_base (), builder, rev[:2], rev)
+
+    if not os.path.exists (to_path):
+        old_umask = os.umask (0022)
+        os.makedirs (to_path)
+        os.umask (old_umask)
+
+    to_path = os.path.join (to_path, 'previous_gdb.sum.xz')
 
     command += [ from_path, to_path ]
 
@@ -79,11 +90,20 @@ class GdbCatSumfileCommand(steps.ShellCommand):
         con = sqlite3.connect (db_file)
         c = con.cursor ()
         c.execute ('SELECT commitid WHERE branch = "%s" AND trysched = 0 FROM logs ORDER BY timestamp DESC LIMIT 1' % branch)
+        prev = c.fetchone ()
         con.close ()
-        prevcommit = c.fetchone ()[0]
 
-        # Switch to the right branch inside the BUILDER repo
-#        switch_to_branch (builder, branch, force_switch = False)
+        if prev:
+            prevcommit = prev[0]
+        else:
+            # This takes care of our very first build.
+            parser.write_sum_file (cur_results, builder, branch, rev)
+            # If there was no previous baseline, then this run
+            # gets the honor.
+            if baseline is None:
+                baseline = cur_results
+            parser.write_baseline (baseline, builder, branch, rev)
+            return SUCCESS
 
         baseline = parser.read_baseline (builder, branch, prevcommit)
         old_sum = parser.read_sum_file (builder, branch, prevcommit)

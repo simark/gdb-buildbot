@@ -10,7 +10,7 @@ class SaveGDBResults (steps.MasterShellCommand):
     descriptionDone = 'saved build results'
 
     def __init__ (self, **kwargs):
-        steps.MasterShellCommand.__init__ (self, **kwargs)
+        steps.MasterShellCommand.__init__ (self, command = None, **kwargs)
         self.command = [ os.path.expanduser ("~/scripts/update-logs.sh"),
                          "--commit", util.Property ('got_revision'),
                          "--builder", util.Property ('buildername'),

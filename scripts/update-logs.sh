@@ -65,7 +65,7 @@ DIR=$BASE_DIR/$BUILDER/
 
 if test ! -d $DIR ; then
     msg "$DIR is not a valid directory.  Creeating it..."
-    mkdir -p $DIR
+    (umask 0022 && mkdir --verbose -p $DIR)
 fi
 
 cd $DIR
@@ -86,7 +86,8 @@ if test "$IS_TRY_SCHED" = "yes" ; then
     ISTRY=1
 fi
 
-if test -d $CDIR ; then
+CDIR_EXISTS=`sqlite3 $DB_NAME "SELECT commitid FROM logs WHERE commitid = '${COMMIT}'"`
+if test -n "$CDIR_EXISTS" ; then
     # If this is a try build, the user is doing a rebuild.
     # If this is a normal build, someone triggered a rebuild.
     # Either way, we need to delete the current log dir.
@@ -94,8 +95,10 @@ if test -d $CDIR ; then
     rm --verbose -rf $CDIR
 fi
 
-msg "Creating directory structure $CDIR..."
-mkdir --verbose -p $CDIR
+if test ! -d $CDIR ; then
+    msg "Creating directory structure $CDIR..."
+    (umask 0022 && mkdir --verbose -p $CDIR)
+fi
 cd $CDIR
 
 TMP_DIR=$DIR/tmp/$COMMIT/
@@ -104,21 +107,30 @@ msg "Moving log files to $PWD..."
 mv --verbose $TMP_DIR/* .
 rmdir $TMP_DIR
 msg "Compressing log files..."
-xz --verbose --compress *
+find . -type f ! -name "*.xz" | xargs xz --verbose --compress
 
 PREV_COMMIT=`sqlite3 $DB_NAME "SELECT commitid FROM logs WHERE branch = '$BRANCH' AND trysched = 0 ORDER BY timestamp DESC LIMIT 1"`
+
+if test "$IS_TRY_SCHED" != "yes" ; then
+    PREV_2DIG=`echo $PREV_COMMIT | sed 's/^\(..\).*$/\1/'`
+    ln -s $DIR/$PREV_2DIG/$PREV_COMMIT PREVIOUS_COMMIT
+    ln -s $DIR/$CDIR $DIR/$PREV_2DIG/$PREV_COMMIT/NEXT_COMMIT
+fi
 
 msg "Update database..."
 sqlite3 $DB_NAME "INSERT INTO logs(commitid, branch, trysched) VALUES('$COMMIT', '$BRANCH', $ISTRY)"
 
 msg "Creating README.txt..."
 cat > README.txt <<EOF
-== README -- Logs for commit $COMMIT ==
+=== README ===
+
+Logs for: $COMMIT
 
 Branch tested: $BRANCH
 
 Previous commit: $PREV_COMMIT
 
+Patch: <http://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=${COMMIT}>
 EOF
 
 exit 0
