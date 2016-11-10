@@ -111,7 +111,7 @@ find . -type f ! -name "*.xz" | xargs xz --verbose --compress
 
 PREV_COMMIT=`sqlite3 $DB_NAME "SELECT commitid FROM logs WHERE branch = '$BRANCH' AND trysched = 0 ORDER BY timestamp DESC LIMIT 1"`
 
-if test "$IS_TRY_SCHED" != "yes" ; then
+if test -n "$PREV_COMMIT" -a "$IS_TRY_SCHED" = "no" ; then
     PREV_2DIG=`echo $PREV_COMMIT | sed 's/^\(..\).*$/\1/'`
     ln -s $DIR/$PREV_2DIG/$PREV_COMMIT PREVIOUS_COMMIT
     ln -s $DIR/$CDIR $DIR/$PREV_2DIG/$PREV_COMMIT/NEXT_COMMIT
