@@ -134,6 +134,7 @@ class DejaResults(object):
                     self.parse_sum_line (result, line,
                                          is_racy_file = is_racy_file)
         elif os.path.exists (fname + '.xz'):
+            fname += '.xz'
             f = lzma.LZMAFile (fname, 'r')
             for line in f:
                 self.parse_sum_line (result, line,
