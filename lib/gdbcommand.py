@@ -90,7 +90,7 @@ class GdbCatSumfileCommand(steps.ShellCommand):
 
         con = sqlite3.connect (db_file)
         c = con.cursor ()
-        c.execute ('SELECT commitid WHERE branch = "%s" AND trysched = 0 FROM logs ORDER BY timestamp DESC LIMIT 1' % branch)
+        c.execute ('SELECT commitid FROM logs WHERE branch = "%s" AND trysched = 0 ORDER BY timestamp DESC LIMIT 1' % branch)
         prev = c.fetchone ()
         con.close ()
 
