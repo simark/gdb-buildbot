@@ -16,7 +16,7 @@
 		 { "name" : "debian-jessie-s390x-1", "arch" : "s390x", "jobs" : "8",
 		   "admin" : "dje.gcc@gmail.com" },
 
-		 { "name" : "rhel-7.1-s390x-1", "arch" : "s390x", "jobs" : "8",
+		 { "name" : "rhel-7_1-s390x-1", "arch" : "s390x", "jobs" : "8",
 		   "admin" : "dje.gcc@gmail.com" },
 
 		 { "name" : "marist-fedora-s390x", "arch" : "s390x", "jobs" : "2",
@@ -239,7 +239,7 @@
 		     "type" : "Plain_c64t64",
 		     "builddir" : "rhel-s390x",
 		     "tags" : [ "rhel", "s390x", "m64" ],
-		     "slavenames" : [ "rhel-7.1-s390x-1" ] },
+		     "slavenames" : [ "rhel-7_1-s390x-1" ] },
 
 		   { "name" : "NetBSD-x86_64-m64",
 		     "type" : "PlainBSD_c64t64",
