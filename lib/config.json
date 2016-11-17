@@ -31,9 +31,6 @@
 		 { "name" : "aix-power8-1", "arch" : "power8", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
 
-		 { "name" : "debian-jessie-mips-be-1", "arch" : "mips", "jobs" : "1",
-		   "admin" : "IMGBA-buildbot@imgtec.com" },
-
 		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1",
 		   "admin" : "koobs@FreeBSD.org" },
 		 { "name" : "koobs-freebsd9", "arch" : "x86_64", "jobs" : "1",
@@ -402,7 +399,10 @@
 					  "Fedora-ppc64be-m64",
 					  "Fedora-ppc64le-m64",
 					  "AIX-POWER8-plain",
-					  "RHEL-s390x-m64" ]
+					  "RHEL-s390x-m64",
+					  "Ubuntu-AArch64-m64",
+					  "Ubuntu-AArch64-native-gdbserver-m64" ]
+
 		     }
 		   ]
 }
