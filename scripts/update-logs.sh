@@ -86,7 +86,7 @@ if test "$IS_TRY_SCHED" = "yes" ; then
     ISTRY=1
 fi
 
-CDIR_EXISTS=`sqlite3 $DB_NAME "SELECT commitid FROM logs WHERE commitid = '${COMMIT}'"`
+CDIR_EXISTS=`sqlite3 $DB_NAME "SELECT commitid FROM logs WHERE commitid = '${COMMIT}' AND trysched = $ISTRY"`
 if test -n "$CDIR_EXISTS" ; then
     # If this is a try build, the user is doing a rebuild.
     # If this is a normal build, someone triggered a rebuild.

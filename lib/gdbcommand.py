@@ -34,7 +34,9 @@ def create_copy_command (props):
     from_path = os.path.join (get_web_base (), builder, commit[:2], commit, 'gdb.sum.xz')
 
     if not os.path.exists (from_path):
-        return [ 'false' ]
+        # Let's just return true here, because we want the build to
+        # continue.
+        return [ 'true' ]
 
     if istry and istry == 'yes':
         to_path = os.path.join (get_web_base (), builder, 'try', rev[:2], rev)
