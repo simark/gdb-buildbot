@@ -123,27 +123,25 @@
 		   { "name" : "Debian-x86_64-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "debian-x86-64",
-		     "tags" : [ "debian", "x86_64", "m64", "MAIL" ],
+		     "tags" : [ "debian", "x86_64", "m64" ],
 		     "slavenames" : [ "wildebeest-debian-jessie-x86_64" ] },
 
 		   { "name" : "Debian-x86_64-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "debian-x86-64-native-extended-gdbserver",
-		     "tags" : [ "debian", "x86_64", "native-extended-gdbserver-m64",
-				"MAIL" ],
+		     "tags" : [ "debian", "x86_64", "native-extended-gdbserver-m64" ],
 		     "slavenames" : [ "wildebeest-debian-jessie-x86_64" ] },
 
 		   { "name" : "Debian-i686-native-extended-gdbserver",
 		     "type" : "NativeExtendedGDBServer_c32t32",
 		     "builddir" : "debian-i686-native-extended-gdbserver",
-		     "tags" : [ "debian", "i686", "native-extended-gdbserver",
-				"MAIL" ],
+		     "tags" : [ "debian", "i686", "native-extended-gdbserver" ],
 		     "slavenames" : [ "wildebeest-debian-jessie-i686" ] },
 
 		   { "name" : "Debian-i686",
 		     "type" : "Plain_c32t32",
 		     "builddir" : "debian-i686",
-		     "tags" : [ "debian", "i686", "MAIL" ],
+		     "tags" : [ "debian", "i686" ],
 		     "slavenames" : [ "wildebeest-debian-jessie-i686" ] },
 
 
