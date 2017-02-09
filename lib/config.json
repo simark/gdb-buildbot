@@ -44,6 +44,8 @@
 		   "admin" : "n54@gmx.com" },
 
 		 { "name" : "ubuntu-aarch64-1", "arch" : "aarch64", "jobs" : "4",
+		   "admin" : "qiyaoltc@gmail.com" },
+		 { "name" : "ubuntu-trusty-aarch32-1", "arch" : "aarch32", "jobs" : "4",
 		   "admin" : "qiyaoltc@gmail.com" }
 	       ],
 
@@ -269,7 +271,27 @@
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "ubuntu-aarch64-native-gdbserver-m64",
 		     "tags" : [ "ubuntu", "aarch64", "native-gdbserver", "m64", "MAIL" ],
-		     "slavenames" : [ "ubuntu-aarch64-1" ] }
+		     "slavenames" : [ "ubuntu-aarch64-1" ] },
+
+
+		   { "name" : "Ubuntu-AArch32-m32",
+		     "type" : "ARMPlain",
+		     "builddir" : "ubuntu-aarch32-m32",
+		     "tags" : [ "ubuntu", "aarch32", "m32", "MAIL" ],
+		     "slavenames" : [ "ubuntu-trusty-aarch32-1" ] },
+
+		   { "name" : "Ubuntu-AArch32-native-gdbserver-m32",
+		     "type" : "ARMNativeGDBServer",
+		     "builddir" : "ubuntu-aarch32-native-gdbserver-m32",
+		     "tags" : [ "ubuntu", "aarch32", "native-gdbserver", "m32", "MAIL" ],
+		     "slavenames" : [ "ubuntu-trusty-aarch32-1" ] },
+
+		   { "name" : "Ubuntu-AArch32-native-extended-gdbserver-m32",
+		     "type" : "ARMNativeExtendedGDBServer",
+		     "builddir" : "ubuntu-aarch32-native-extended-gdbserver-m32",
+		     "tags" : [ "ubuntu", "aarch32", "native-extended-gdbserver",
+				"m32", "MAIL" ],
+		     "slavenames" : [ "ubuntu-trusty-aarch32-1" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -313,8 +335,11 @@
 					  "FreeBSD-x86_64-cc-with-index",
 
 					  "Ubuntu-AArch64-m64",
-					  "Ubuntu-AArch64-native-gdbserver-m64" ]
+					  "Ubuntu-AArch64-native-gdbserver-m64",
 
+					  "Ubuntu-AArch32-m32",
+					  "Ubuntu-AArch32-native-gdbserver-m32",
+					  "Ubuntu-AArch32-native-extended-gdbserver-m32" ]
 		     },
 
 		     { "type" : "SingleBranchScheduler", "name" : "7_12_branch",
@@ -365,7 +390,11 @@
 					  "FreeBSD-x86_64-cc-with-index",
 
 					  "Ubuntu-AArch64-m64",
-					  "Ubuntu-AArch64-native-gdbserver-m64" ]
+					  "Ubuntu-AArch64-native-gdbserver-m64",
+
+					  "Ubuntu-AArch32-m32",
+					  "Ubuntu-AArch32-native-gdbserver-m32",
+					  "Ubuntu-AArch32-native-extended-gdbserver-m32" ]
 		     },
 
 		     { "type" : "Nightly", "name" : "racy_daily",
@@ -399,8 +428,10 @@
 					  "AIX-POWER8-plain",
 					  "RHEL-s390x-m64",
 					  "Ubuntu-AArch64-m64",
-					  "Ubuntu-AArch64-native-gdbserver-m64" ]
-
+					  "Ubuntu-AArch64-native-gdbserver-m64",
+					  "Ubuntu-AArch32-m32",
+					  "Ubuntu-AArch32-native-gdbserver-m32",
+					  "Ubuntu-AArch32-native-extended-gdbserver-m32" ]
 		     }
 		   ]
 }
