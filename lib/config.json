@@ -40,9 +40,6 @@
 		 { "name" : "koobs-freebsd11", "arch" : "x86_64", "jobs" : "1",
 		   "admin" : "koobs@FreeBSD.org" },
 
-		 { "name" : "gdb-amd64-netbsd7", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "n54@gmx.com" },
-
 		 { "name" : "ubuntu-aarch64-1", "arch" : "aarch64", "jobs" : "4",
 		   "admin" : "qiyaoltc@gmail.com" },
 		 { "name" : "ubuntu-trusty-aarch32-1", "arch" : "aarch32", "jobs" : "4",
@@ -240,12 +237,6 @@
 		     "builddir" : "rhel-s390x",
 		     "tags" : [ "rhel", "s390x", "m64" ],
 		     "slavenames" : [ "rhel-7_1-s390x-1" ] },
-
-		   { "name" : "NetBSD-x86_64-m64",
-		     "type" : "PlainBSD_c64t64",
-		     "builddir" : "netbsd-x86_64",
-		     "tags" : [ "netbsd", "x86_64", "m64", "TEST" ],
-		     "slavenames" : [ "gdb-amd64-netbsd7" ] },
 
 
 		   { "name" : "FreeBSD-x86_64-m64", "type" : "PlainBSD_c64t64",
