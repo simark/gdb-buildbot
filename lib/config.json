@@ -320,8 +320,6 @@
 
 					  "RHEL-s390x-m64",
 
-					  "NetBSD-x86_64-m64",
-
 					  "FreeBSD-x86_64-m64",
 					  "FreeBSD-x86_64-cc-with-index",
 
@@ -374,8 +372,6 @@
 					  "AIX-POWER8-plain",
 
 					  "RHEL-s390x-m64",
-
-					  "NetBSD-x86_64-m64",
 
 					  "FreeBSD-x86_64-m64",
 					  "FreeBSD-x86_64-cc-with-index",
