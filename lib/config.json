@@ -8,11 +8,6 @@
 		 { "name" : "fedora-x86-64-4", "arch" : "x86_64", "jobs" : "4",
 		   "admin" : "sergiodj@redhat.com" },
 
-		 { "name" : "wildebeest-debian-jessie-x86_64", "arch" : "x86_64",
-		   "jobs" : "2", "admin" : "mark@klomp.org" },
-		 { "name" : "wildebeest-debian-jessie-i686", "arch" : "i686",
-		   "jobs" : "2", "admin" : "mark@klomp.org" },
-
 		 { "name" : "debian-jessie-s390x-1", "arch" : "s390x", "jobs" : "8",
 		   "admin" : "dje.gcc@gmail.com" },
 
@@ -119,29 +114,6 @@
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
 				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
 
-		   { "name" : "Debian-x86_64-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "debian-x86-64",
-		     "tags" : [ "debian", "x86_64", "m64" ],
-		     "slavenames" : [ "wildebeest-debian-jessie-x86_64" ] },
-
-		   { "name" : "Debian-x86_64-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServer_c64t64",
-		     "builddir" : "debian-x86-64-native-extended-gdbserver",
-		     "tags" : [ "debian", "x86_64", "native-extended-gdbserver-m64" ],
-		     "slavenames" : [ "wildebeest-debian-jessie-x86_64" ] },
-
-		   { "name" : "Debian-i686-native-extended-gdbserver",
-		     "type" : "NativeExtendedGDBServer_c32t32",
-		     "builddir" : "debian-i686-native-extended-gdbserver",
-		     "tags" : [ "debian", "i686", "native-extended-gdbserver" ],
-		     "slavenames" : [ "wildebeest-debian-jessie-i686" ] },
-
-		   { "name" : "Debian-i686",
-		     "type" : "Plain_c32t32",
-		     "builddir" : "debian-i686",
-		     "tags" : [ "debian", "i686" ],
-		     "slavenames" : [ "wildebeest-debian-jessie-i686" ] },
 
 
 		   { "name" : "Fedora-s390x-m64",
