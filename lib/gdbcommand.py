@@ -39,7 +39,13 @@ def create_copy_command (props):
         return [ 'true' ]
 
     if istry and istry == 'yes':
-        to_path = os.path.join (get_web_base (), builder, 'try', rev[:2], rev)
+        con = sqlite3.connect (db_file)
+        c = con.cursor ()
+        c.execute ('SELECT COUNT(*) FROM logs WHERE commitid = "%s" AND branch = "%s" AND trysched = 1' % (rev, branch))
+        count = int (c.fetchone ())
+        con.close ()
+
+        to_path = os.path.join (get_web_base (), builder, 'try', rev[:2], rev, count)
     else:
         to_path = os.path.join (get_web_base (), builder, rev[:2], rev)
 
