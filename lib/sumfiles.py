@@ -79,7 +79,7 @@ class DejaResults(object):
             con = sqlite3.connect (db_file)
             c = con.cursor ()
             c.execute ('SELECT COUNT(*) FROM logs WHERE commitid = "%s" AND branch = "%s" AND trysched = 1' % (rev, branch))
-            count = int (c.fetchone ())
+            count = int (c.fetchone ()[0])
             con.close ()
 
             bdir = os.path.join (gdb_web_base, builder, 'try', rev[:2], rev, count)
