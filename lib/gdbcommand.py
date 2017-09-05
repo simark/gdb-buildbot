@@ -39,13 +39,8 @@ def create_copy_command (props):
         return [ 'true' ]
 
     if istry and istry == 'yes':
-        con = sqlite3.connect (db_file)
-        c = con.cursor ()
-        c.execute ('SELECT COUNT(*) FROM logs WHERE commitid = "%s" AND branch = "%s" AND trysched = 1' % (rev, branch))
-        count = int (c.fetchone ()[0])
-        con.close ()
-
-        to_path = os.path.join (get_web_base (), builder, 'try', rev[:2], rev, count)
+        try_count = props.getProperty ('try_count')
+        to_path = os.path.join (get_web_base (), builder, 'try', rev[:2], rev, try_count)
     else:
         to_path = os.path.join (get_web_base (), builder, rev[:2], rev)
 
@@ -137,7 +132,9 @@ class GdbCatSumfileCommand(steps.ShellCommand):
                 result = FAILURE
 
         if istry:
-            parser.write_try_build_sum_file (cur_results, builder, branch, rev)
+            try_count = self.getProperty ('try_count')
+            parser.write_try_build_sum_file (cur_results, builder, branch, rev,
+                                             try_count)
         else:
             parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run

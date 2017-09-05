@@ -50,6 +50,10 @@ while test "$1" != "" ; do
 	    IS_TRY_SCHED=$2
 	    shift 2
 	    ;;
+	"--try-count")
+	    TRY_COUNT=$2
+	    shift 2
+	    ;;
 	"--branch")
 	    BRANCH=$2
 	    shift 2
@@ -82,8 +86,7 @@ COMMIT_2_DIG=`echo $COMMIT | sed 's/^\(..\).*$/\1/'`
 CDIR=$COMMIT_2_DIG/$COMMIT/
 ISTRY=0
 if test "$IS_TRY_SCHED" = "yes" ; then
-    COUNT=`sqlite3 $DB_NAME "SELECT COUNT(*) FROM logs WHERE commitid = '${COMMIT}' AND trysched = 1"`
-    CDIR=try/${CDIR}/${COUNT}
+    CDIR=try/${CDIR}/${TRY_COUNT}
     ISTRY=1
 fi
 

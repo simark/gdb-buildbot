@@ -17,4 +17,6 @@ class SaveGDBResults (steps.MasterShellCommand):
                          "--base-directory", get_web_base (),
                          "--branch", util.Property ('branch'),
                          "--is-try-sched", util.Property ('isTrySched',
-                                                          default = 'no') ]
+                                                          default = 'no'),
+                         "--try-count", util.Property ('try_count',
+                                                       default = '0') ]
