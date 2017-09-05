@@ -82,17 +82,9 @@ COMMIT_2_DIG=`echo $COMMIT | sed 's/^\(..\).*$/\1/'`
 CDIR=$COMMIT_2_DIG/$COMMIT/
 ISTRY=0
 if test "$IS_TRY_SCHED" = "yes" ; then
-    CDIR=try/${CDIR}
+    COUNT=`sqlite3 $DB_NAME "SELECT COUNT(*) FROM logs WHERE commitid = '${COMMIT}' AND trysched = 1"`
+    CDIR=try/${CDIR}/${COUNT}
     ISTRY=1
-fi
-
-CDIR_EXISTS=`sqlite3 $DB_NAME "SELECT commitid FROM logs WHERE commitid = '${COMMIT}' AND trysched = $ISTRY"`
-if test -n "$CDIR_EXISTS" ; then
-    # If this is a try build, the user is doing a rebuild.
-    # If this is a normal build, someone triggered a rebuild.
-    # Either way, we need to delete the current log dir.
-    msg "Log dir $CDIR already exists.  Deleting it so that we can update the logs..."
-    rm --verbose -rf $CDIR
 fi
 
 if test ! -d $CDIR ; then
