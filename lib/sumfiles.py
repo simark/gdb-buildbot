@@ -204,11 +204,10 @@ class DejaResults(object):
                 if key not in old_res[0] or old_res[0][key] != 'PASS':
                     old_res[0][key] = 'PASS'
                 continue
-            # A regression is just a transition to FAIL.
-            if results[0][key] != 'FAIL':
-                continue
+            # We report both PASS -> FAIL and FAIL -> PASS, as well as
+            # new FAIL and new PASS.
             if key not in old_res[0]:
-                result = result + 'new FAIL: ' + key + '\n'
-            elif old_res[0][key] != 'FAIL':
-                result = result + old_res[0][key] + ' -> FAIL: ' + key + '\n'
+                result += 'new ' + results[0][key] + ': ' + key + '\n'
+            elif results[0][key] != old_res[0][key]:
+                result += old_res[0][key] + ' -> ' + results[0][key] + ': ' + key + '\n'
         return result
