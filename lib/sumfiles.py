@@ -204,6 +204,9 @@ class DejaResults(object):
                 if key not in old_res[0] or old_res[0][key] != 'PASS':
                     old_res[0][key] = 'PASS'
                 continue
+            if results[0][key] == 'XFAIL':
+                # We don't report new XFAILs
+                continue
             # We report both PASS -> FAIL and FAIL -> PASS, as well as
             # new FAIL and new PASS.
             if key not in old_res[0]:
