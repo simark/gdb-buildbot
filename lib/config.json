@@ -18,10 +18,10 @@
 		   "admin" : "mark@klomp.org" },
 
 		 { "name" : "fedora-ppc64be-1", "arch" : "ppc64be", "jobs" : "2",
-		   "admin" : "emachado@linux.vnet.ibm.com" },
+		   "admin" : "edjunior@gmail.com" },
 
 		 { "name" : "fedora-ppc64le-1", "arch" : "ppc64le", "jobs" : "2",
-		   "admin" : "emachado@linux.vnet.ibm.com" },
+		   "admin" : "edjunior@gmail.com" },
 
 		 { "name" : "aix-power8-1", "arch" : "power8", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
