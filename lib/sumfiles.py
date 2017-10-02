@@ -95,9 +95,10 @@ class DejaResults(object):
                 f.write (sum_dict[0][k] + ': ' + k + '\n')
         os.umask (old_umask)
 
-    def write_sum_file(self, sum_dict, builder, branch, rev, istry):
+    def write_sum_file(self, sum_dict, builder, branch, rev, istry, try_count = 0):
         if istry:
-            self.write_try_build_sum_file (self, sum_dict, builder, branch, rev)
+            self.write_try_build_sum_file (self, sum_dict, builder, branch, rev,
+                                           try_count = try_count)
         else:
             self._write_sum_file (sum_dict, builder, rev, 'gdb.sum', istry = False,
                                   branch = branch)

@@ -87,7 +87,11 @@ class GdbCatSumfileCommand(steps.ShellCommand):
 
         if not os.path.exists (db_file):
             # This takes care of our very first build.
-            parser.write_sum_file (cur_results, builder, branch, rev, istry)
+            if istry:
+                parser.write_try_build_sum_file (cur_results, builder, branch,
+                                                 rev, 0)
+            else:
+                parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
             # gets the honor.
             if baseline is None:
@@ -105,7 +109,11 @@ class GdbCatSumfileCommand(steps.ShellCommand):
             prevcommit = prev[0]
         else:
             # This takes care of our very first build.
-            parser.write_sum_file (cur_results, builder, branch, rev, istry)
+            if istry:
+                parser.write_try_build_sum_file (cur_results, builder, branch,
+                                                 rev, 0)
+            else:
+                parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
             # gets the honor.
             if baseline is None:
