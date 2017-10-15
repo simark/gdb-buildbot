@@ -26,10 +26,6 @@
 		 { "name" : "aix-power8-1", "arch" : "power8", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
 
-		 { "name" : "koobs-freebsd8", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "koobs@FreeBSD.org" },
-		 { "name" : "koobs-freebsd9", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "koobs@FreeBSD.org" },
 		 { "name" : "koobs-freebsd10", "arch" : "x86_64", "jobs" : "1",
 		   "admin" : "koobs@FreeBSD.org" },
 		 { "name" : "koobs-freebsd11", "arch" : "x86_64", "jobs" : "1",
@@ -223,15 +219,13 @@
 		   { "name" : "FreeBSD-x86_64-m64", "type" : "PlainBSD_c64t64",
 		     "builddir" : "freebsd-x86-64",
 		     "tags" : [ "freebsd", "x86_64", "index", "TEST" ],
-		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] },
+		     "slavenames" : [ "koobs-freebsd10", "koobs-freebsd11" ] },
 
 		   { "name" : "FreeBSD-x86_64-cc-with-index",
 		     "type" : "IndexBuildBSD",
 		     "builddir" : "freebsd-x86-64-cc-with-index",
 		     "tags" : [ "freebsd", "x86_64", "cc-with-index", "TEST" ],
-		     "slavenames" : [ "koobs-freebsd8", "koobs-freebsd9",
-				      "koobs-freebsd10", "koobs-freebsd11" ] },
+		     "slavenames" : [ "koobs-freebsd10", "koobs-freebsd11" ] },
 
 		   { "name" : "Ubuntu-AArch64-m64",
 		     "type" : "Plain_c64t64",
