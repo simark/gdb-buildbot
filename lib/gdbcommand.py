@@ -89,7 +89,7 @@ class GdbCatSumfileCommand(steps.ShellCommand):
             # This takes care of our very first build.
             if istry:
                 parser.write_try_build_sum_file (cur_results, builder, branch,
-                                                 rev, 0)
+                                                 rev, "0")
             else:
                 parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
@@ -111,7 +111,7 @@ class GdbCatSumfileCommand(steps.ShellCommand):
             # This takes care of our very first build.
             if istry:
                 parser.write_try_build_sum_file (cur_results, builder, branch,
-                                                 rev, 0)
+                                                 rev, "0")
             else:
                 parser.write_sum_file (cur_results, builder, branch, rev, istry)
             # If there was no previous baseline, then this run
