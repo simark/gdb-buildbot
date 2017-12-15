@@ -146,52 +146,52 @@
 
 		   { "name" : "Fedora-ppc64be-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-ppc64be",
-		     "tags" : [ "fedora", "ppc64be", "m64", "MAIL" ],
+		     "tags" : [ "fedora", "ppc64be", "m64", "TEST" ],
 		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 		   { "name" : "Fedora-ppc64be-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64be-native-gdbserver",
-		     "tags" : [ "fedora", "ppc64be", "native-gdbserver-m64", "MAIL" ],
+		     "tags" : [ "fedora", "ppc64be", "native-gdbserver-m64", "TEST" ],
 		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 		   { "name" : "Fedora-ppc64be-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64be-native-extended-gdbserver",
 		     "tags" : [ "fedora", "ppc64be", "native-extended-gdbserver-m64",
-				"MAIL" ],
+				"TEST" ],
 		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 		   { "name" : "Fedora-ppc64be-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "fedora-ppc64be-cc-with-index",
-		     "tags" : [ "fedora", "ppc64be", "cc-with-index", "MAIL" ],
+		     "tags" : [ "fedora", "ppc64be", "cc-with-index", "TEST" ],
 		     "slavenames" : [ "fedora-ppc64be-1" ] },
 
 
 
 		   { "name" : "Fedora-ppc64le-m64", "type" : "Plain_c64t64",
 		     "builddir" : "fedora-ppc64le",
-		     "tags" : [ "fedora", "ppc64le", "m64", "MAIL" ],
+		     "tags" : [ "fedora", "ppc64le", "m64", "TEST" ],
 		     "slavenames" : [ "fedora-ppc64le-1" ] },
 
 		   { "name" : "Fedora-ppc64le-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64le-native-gdbserver",
-		     "tags" : [ "fedora", "ppc64le", "native-gdbserver-m64", "MAIL" ],
+		     "tags" : [ "fedora", "ppc64le", "native-gdbserver-m64", "TEST" ],
 		     "slavenames" : [ "fedora-ppc64le-1" ] },
 
 		   { "name" : "Fedora-ppc64le-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "fedora-ppc64le-native-extended-gdbserver",
 		     "tags" : [ "fedora", "ppc64le", "native-extended-gdbserver-m64",
-				"MAIL" ],
+				"TEST" ],
 		     "slavenames" : [ "fedora-ppc64le-1" ] },
 
 		   { "name" : "Fedora-ppc64le-cc-with-index",
 		     "type" : "IndexBuild",
 		     "builddir" : "fedora-ppc64le-cc-with-index",
-		     "tags" : [ "fedora", "ppc64le", "cc-with-index", "MAIL" ],
+		     "tags" : [ "fedora", "ppc64le", "cc-with-index", "TEST" ],
 		     "slavenames" : [ "fedora-ppc64le-1" ] },
 
 
