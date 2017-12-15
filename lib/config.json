@@ -126,20 +126,20 @@
 		   { "name" : "Debian-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "debian-s390x",
-		     "tags" : [ "debian", "s390x", "m64", "MAIL" ],
+		     "tags" : [ "debian", "s390x", "m64", "TEST" ],
 		     "slavenames" : [ "debian-jessie-s390x-1" ] },
 
 		   { "name" : "Debian-s390x-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "debian-s390x-native-gdbserver",
-		     "tags" : [ "debian", "s390x", "native-gdbserver-m64", "MAIL" ],
+		     "tags" : [ "debian", "s390x", "native-gdbserver-m64", "TEST" ],
 		     "slavenames" : [ "debian-jessie-s390x-1" ] },
 
 		   { "name" : "Debian-s390x-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "debian-s390x-native-extended-gdbserver",
 		     "tags" : [ "debian", "s390x", "native-extended-gdbserver-m64",
-				"MAIL" ],
+				"TEST" ],
 		     "slavenames" : [ "debian-jessie-s390x-1" ] },
 
 
