@@ -126,20 +126,20 @@
 		   { "name" : "Debian-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "debian-s390x",
-		     "tags" : [ "debian", "s390x", "m64", "TEST" ],
+		     "tags" : [ "debian", "s390x", "m64", "MAIL" ],
 		     "slavenames" : [ "debian-jessie-s390x-1" ] },
 
 		   { "name" : "Debian-s390x-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "debian-s390x-native-gdbserver",
-		     "tags" : [ "debian", "s390x", "native-gdbserver-m64", "TEST" ],
+		     "tags" : [ "debian", "s390x", "native-gdbserver-m64", "MAIL" ],
 		     "slavenames" : [ "debian-jessie-s390x-1" ] },
 
 		   { "name" : "Debian-s390x-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "debian-s390x-native-extended-gdbserver",
 		     "tags" : [ "debian", "s390x", "native-extended-gdbserver-m64",
-				"TEST" ],
+				"MAIL" ],
 		     "slavenames" : [ "debian-jessie-s390x-1" ] },
 
 
@@ -373,6 +373,9 @@
 					  "Fedora-i686",
 					  "Fedora-x86_64-w64-mingw32",
 					  "Fedora-s390x-m64",
+					  "Debian-s390x-m64",
+					  "Debian-s390x-native-gdbserver-m64",
+					  "Debian-s390x-native-extended-gdbserver-m64",
 					  "AIX-POWER8-plain",
 					  "RHEL-s390x-m64",
 					  "Ubuntu-AArch64-m64",
