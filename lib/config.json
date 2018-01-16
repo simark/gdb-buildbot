@@ -118,7 +118,7 @@
 		   { "name" : "Fedora-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "fedora-s390x",
-		     "tags" : [ "fedora", "s390x", "m64", "TEST" ],
+		     "tags" : [ "fedora", "s390x", "m64", "MAIL" ],
 		     "slavenames" : [ "marist-fedora-s390x" ] },
 
 
@@ -206,7 +206,7 @@
 		   { "name" : "RHEL-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "rhel-s390x",
-		     "tags" : [ "rhel", "s390x", "m64" ],
+		     "tags" : [ "rhel", "s390x", "m64", "MAIL" ],
 		     "slavenames" : [ "rhel-7_1-s390x-1" ] },
 
 		   { "name" : "NetBSD-x86_64-m64",
