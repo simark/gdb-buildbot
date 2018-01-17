@@ -23,6 +23,12 @@
 		 { "name" : "fedora-ppc64le-1", "arch" : "ppc64le", "jobs" : "2",
 		   "admin" : "edjunior@gmail.com" },
 
+		 { "name" : "centos7-ppc64be-1", "arch" : "ppc64be", "jobs" : "4",
+		   "admin" : "edjunior@gmail.com" },
+
+		 { "name" : "centos7-ppc64le-1", "arch" : "ppc64le", "jobs" : "4",
+		   "admin" : "edjunior@gmail.com" },
+
 		 { "name" : "aix-power8-1", "arch" : "power8", "jobs" : "4",
 		   "admin" : "dje.gcc@gmail.com" },
 
@@ -195,6 +201,59 @@
 		     "slavenames" : [ "fedora-ppc64le-1" ] },
 
 
+
+		   { "name" : "CentOS-ppc64be-m64", "type" : "Plain_c64t64",
+		     "builddir" : "centos7-ppc64be",
+		     "tags" : [ "centos7", "ppc64be", "m64", "TEST" ],
+		     "slavenames" : [ "centos7-ppc64be-1" ] },
+
+		   { "name" : "CentOS-ppc64be-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "centos7-ppc64be-native-gdbserver",
+		     "tags" : [ "centos7", "ppc64be", "native-gdbserver-m64", "TEST" ],
+		     "slavenames" : [ "centos7-ppc64be-1" ] },
+
+		   { "name" : "CentOS-ppc64be-native-extended-gdbserver-m64",
+		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "builddir" : "centos7-ppc64be-native-extended-gdbserver",
+		     "tags" : [ "centos7", "ppc64be", "native-extended-gdbserver-m64",
+				"TEST" ],
+		     "slavenames" : [ "centos7-ppc64be-1" ] },
+
+		   { "name" : "CentOS-ppc64be-cc-with-index",
+		     "type" : "IndexBuild",
+		     "builddir" : "centos7-ppc64be-cc-with-index",
+		     "tags" : [ "centos7", "ppc64be", "cc-with-index", "TEST" ],
+		     "slavenames" : [ "centos7-ppc64be-1" ] },
+
+
+
+		   { "name" : "CentOS-ppc64le-m64", "type" : "Plain_c64t64",
+		     "builddir" : "centos7-ppc64le",
+		     "tags" : [ "centos7", "ppc64le", "m64", "TEST" ],
+		     "slavenames" : [ "centos7-ppc64le-1" ] },
+
+		   { "name" : "CentOS-ppc64le-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "centos7-ppc64le-native-gdbserver",
+		     "tags" : [ "centos7", "ppc64le", "native-gdbserver-m64", "TEST" ],
+		     "slavenames" : [ "centos7-ppc64le-1" ] },
+
+		   { "name" : "CentOS-ppc64le-native-extended-gdbserver-m64",
+		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "builddir" : "centos7-ppc64le-native-extended-gdbserver",
+		     "tags" : [ "centos7", "ppc64le", "native-extended-gdbserver-m64",
+				"TEST" ],
+		     "slavenames" : [ "centos7-ppc64le-1" ] },
+
+		   { "name" : "CentOS-ppc64le-cc-with-index",
+		     "type" : "IndexBuild",
+		     "builddir" : "centos7-ppc64le-cc-with-index",
+		     "tags" : [ "centos7", "ppc64le", "cc-with-index", "TEST" ],
+		     "slavenames" : [ "centos7-ppc64le-1" ] },
+
+
+
 		   { "name" : "AIX-POWER8-plain",
 		     "type" : "PlainAIX",
 		     "builddir" : "aix-power8-plain",
@@ -288,6 +347,16 @@
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
 					  "Fedora-ppc64le-cc-with-index",
 
+					  "CentOS-ppc64be-m64",
+					  "CentOS-ppc64be-native-gdbserver-m64",
+					  "CentOS-ppc64be-native-extended-gdbserver-m64",
+					  "CentOS-ppc64be-cc-with-index",
+
+					  "CentOS-ppc64le-m64",
+					  "CentOS-ppc64le-native-gdbserver-m64",
+					  "CentOS-ppc64le-native-extended-gdbserver-m64",
+					  "CentOS-ppc64le-cc-with-index",
+
 					  "AIX-POWER8-plain",
 
 					  "RHEL-s390x-m64",
@@ -331,6 +400,16 @@
 					  "Fedora-ppc64le-native-gdbserver-m64",
 					  "Fedora-ppc64le-native-extended-gdbserver-m64",
 					  "Fedora-ppc64le-cc-with-index",
+
+					  "CentOS-ppc64be-m64",
+					  "CentOS-ppc64be-native-gdbserver-m64",
+					  "CentOS-ppc64be-native-extended-gdbserver-m64",
+					  "CentOS-ppc64be-cc-with-index",
+
+					  "CentOS-ppc64le-m64",
+					  "CentOS-ppc64le-native-gdbserver-m64",
+					  "CentOS-ppc64le-native-extended-gdbserver-m64",
+					  "CentOS-ppc64le-cc-with-index",
 
 					  "AIX-POWER8-plain",
 
