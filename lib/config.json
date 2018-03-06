@@ -286,6 +286,20 @@
 		     "tags" : [ "freebsd", "x86_64", "cc-with-index", "TEST" ],
 		     "slavenames" : [ "koobs-freebsd-current" ] },
 
+
+
+		   { "name" : "FreeBSD10-x86_64-m64", "type" : "PlainBSD_c64t64",
+		     "builddir" : "freebsd10-x86-64",
+		     "tags" : [ "freebsd", "freebsd10", "x86_64", "index", "TEST" ],
+		     "slavenames" : [ "koobs-freebsd10" ] },
+
+		   { "name" : "FreeBSD10-x86_64-cc-with-index",
+		     "type" : "IndexBuildBSD",
+		     "builddir" : "freebsd10-x86-64-cc-with-index",
+		     "tags" : [ "freebsd", "freebsd10", "x86_64", "cc-with-index", "TEST" ],
+		     "slavenames" : [ "koobs-freebsd10" ] },
+
+
 		   { "name" : "Ubuntu-AArch64-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "ubuntu-aarch64-m64",
@@ -366,6 +380,9 @@
 					  "FreeBSD-x86_64-m64",
 					  "FreeBSD-x86_64-cc-with-index",
 
+					  "FreeBSD10-x86_64-m64",
+					  "FreeBSD10-x86_64-cc-with-index",
+
 					  "Ubuntu-AArch64-m64",
 					  "Ubuntu-AArch64-native-gdbserver-m64",
 
@@ -419,6 +436,9 @@
 
 					  "FreeBSD-x86_64-m64",
 					  "FreeBSD-x86_64-cc-with-index",
+
+					  "FreeBSD10-x86_64-m64",
+					  "FreeBSD10-x86_64-cc-with-index",
 
 					  "Ubuntu-AArch64-m64",
 					  "Ubuntu-AArch64-native-gdbserver-m64",
