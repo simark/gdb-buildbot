@@ -271,7 +271,7 @@
 		   { "name" : "NetBSD-x86_64-m64",
 		     "type" : "PlainNetBSD_c64",
 		     "builddir" : "netbsd-x86_64",
-		     "tags" : [ "netbsd", "x86_64", "m64", "TEST" ],
+		     "tags" : [ "netbsd", "x86_64", "m64", "MAIL" ],
 		     "slavenames" : [ "gdb-amd64-netbsd7" ] },
 
 
