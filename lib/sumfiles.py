@@ -9,7 +9,7 @@ from collections import OrderedDict
 import lzma
 
 # Helper regex for parse_sum_line.
-sum_matcher = re.compile('^(.?(PASS|FAIL)): (.*)$')
+sum_matcher = re.compile('^(.?(PASS|FAIL|UNRESOLVED)): (.*)$')
 racy_file_matcher = re.compile ('^(gdb\..*)')
 
 # You must call set_web_base at startup to set this.
