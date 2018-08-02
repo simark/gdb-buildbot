@@ -114,7 +114,7 @@
 		   { "name" : "Fedora-x86_64-w64-mingw32",
 		     "type" : "PlainFedoraW64MingW32_c64notest",
 		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "mingw32", "MAIL" ],
+		     "tags" : [ "fedora", "x86_64", "mingw32", "TEST" ],
 		     "builddir" : "fedora-x86-64-mingw32",
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
 				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
