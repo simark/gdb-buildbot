@@ -43,7 +43,12 @@
 		 { "name" : "ubuntu-aarch64-1", "arch" : "aarch64", "jobs" : "4",
 		   "admin" : "qiyaoltc@gmail.com" },
 		 { "name" : "ubuntu-trusty-aarch32-1", "arch" : "aarch32", "jobs" : "4",
-		   "admin" : "qiyaoltc@gmail.com" }
+		   "admin" : "qiyaoltc@gmail.com" },
+
+		 { "name" : "solaris11-amd64", "arch" : "x86_64", "jobs" : "4",
+		   "admin" : "ro@cebitec.uni-bielefeld.de" },
+		 { "name" : "solaris11-sparcv9", "arch" : "sparcv9", "jobs" : "4",
+		   "admin" : "ro@cebitec.uni-bielefeld.de" }
 	       ],
 
     "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
@@ -330,7 +335,21 @@
 		     "builddir" : "ubuntu-aarch32-native-extended-gdbserver-m32",
 		     "tags" : [ "ubuntu", "aarch32", "native-extended-gdbserver",
 				"m32", "MAIL" ],
-		     "slavenames" : [ "ubuntu-trusty-aarch32-1" ] }
+		     "slavenames" : [ "ubuntu-trusty-aarch32-1" ] },
+
+		   { "name" : "Solaris11-amd64-m64",
+		     "arch_triplet" : "amd64-pc-solaris2.11",
+		     "type" : "PlainSolaris_c64",
+		     "builddir" : "solaris11-amd64-m64",
+		     "tags" : [ "solaris", "solaris11", "x86_64", "m64", "MAIL" ],
+		     "slavenames" : [ "solaris11-amd64" ] },
+
+		   { "name" : "Solaris11-sparcv9-m64",
+		     "arch_triplet" : "sparcv9-sun-solaris2.11",
+		     "type" : "PlainSolaris_c64",
+		     "builddir" : "solaris11-sparcv9-m64",
+		     "tags" : [ "solaris", "solaris11", "sparcv9", "m64", "MAIL" ],
+		     "slavenames" : [ "solaris11-sparcv9" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -388,7 +407,10 @@
 
 					  "Ubuntu-AArch32-m32",
 					  "Ubuntu-AArch32-native-gdbserver-m32",
-					  "Ubuntu-AArch32-native-extended-gdbserver-m32" ]
+					  "Ubuntu-AArch32-native-extended-gdbserver-m32",
+
+					  "Solaris11-amd64-m64",
+					  "Solaris11-sparcv9-m64" ]
 		     },
 
 		     { "type" : "Nightly", "name" : "racy",
@@ -481,7 +503,9 @@
 					  "Ubuntu-AArch64-native-gdbserver-m64",
 					  "Ubuntu-AArch32-m32",
 					  "Ubuntu-AArch32-native-gdbserver-m32",
-					  "Ubuntu-AArch32-native-extended-gdbserver-m32" ]
+					  "Ubuntu-AArch32-native-extended-gdbserver-m32",
+					  "Solaris11-amd64-m64",
+					  "Solaris11-sparcv9-m64" ]
 		     }
 		   ]
 }
