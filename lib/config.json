@@ -338,14 +338,12 @@
 		     "slavenames" : [ "ubuntu-trusty-aarch32-1" ] },
 
 		   { "name" : "Solaris11-amd64-m64",
-		     "arch_triplet" : "amd64-pc-solaris2.11",
 		     "type" : "PlainSolaris_c64",
 		     "builddir" : "solaris11-amd64-m64",
 		     "tags" : [ "solaris", "solaris11", "x86_64", "m64", "MAIL" ],
 		     "slavenames" : [ "solaris11-amd64" ] },
 
 		   { "name" : "Solaris11-sparcv9-m64",
-		     "arch_triplet" : "sparcv9-sun-solaris2.11",
 		     "type" : "PlainSolaris_c64",
 		     "builddir" : "solaris11-sparcv9-m64",
 		     "tags" : [ "solaris", "solaris11", "sparcv9", "m64", "MAIL" ],
