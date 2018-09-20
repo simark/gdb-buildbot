@@ -119,7 +119,7 @@
 		   { "name" : "Fedora-x86_64-w64-mingw32",
 		     "type" : "PlainFedoraW64MingW32_c64notest",
 		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "mingw32", "TEST" ],
+		     "tags" : [ "fedora", "x86_64", "mingw32", "MAIL" ],
 		     "builddir" : "fedora-x86-64-mingw32",
 		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
 				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
@@ -497,11 +497,7 @@
 					  "Debian-s390x-native-extended-gdbserver-m64",
 					  "AIX-POWER8-plain",
 					  "RHEL-s390x-m64",
-					  "Ubuntu-AArch64-m64",
-					  "Ubuntu-AArch64-native-gdbserver-m64",
-					  "Ubuntu-AArch32-m32",
-					  "Ubuntu-AArch32-native-gdbserver-m32",
-					  "Ubuntu-AArch32-native-extended-gdbserver-m32",
+					  "NetBSD-x86_64-m64",
 					  "Solaris11-amd64-m64",
 					  "Solaris11-sparcv9-m64" ]
 		     }
