@@ -340,13 +340,13 @@
 		   { "name" : "Solaris11-amd64-m64",
 		     "type" : "PlainSolaris_c64",
 		     "builddir" : "solaris11-amd64-m64",
-		     "tags" : [ "solaris", "solaris11", "x86_64", "m64", "MAIL" ],
+		     "tags" : [ "solaris", "solaris11", "x86_64", "m64", "TEST" ],
 		     "slavenames" : [ "solaris11-amd64" ] },
 
 		   { "name" : "Solaris11-sparcv9-m64",
 		     "type" : "PlainSolaris_c64",
 		     "builddir" : "solaris11-sparcv9-m64",
-		     "tags" : [ "solaris", "solaris11", "sparcv9", "m64", "MAIL" ],
+		     "tags" : [ "solaris", "solaris11", "sparcv9", "m64", "TEST" ],
 		     "slavenames" : [ "solaris11-sparcv9" ] }
 		 ],
 
