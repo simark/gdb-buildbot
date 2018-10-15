@@ -34,7 +34,10 @@
 		 { "name" : "solaris11-amd64", "arch" : "x86_64", "jobs" : "4",
 		   "admin" : "ro@cebitec.uni-bielefeld.de" },
 		 { "name" : "solaris11-sparcv9", "arch" : "sparcv9", "jobs" : "4",
-		   "admin" : "ro@cebitec.uni-bielefeld.de" }
+		   "admin" : "ro@cebitec.uni-bielefeld.de" },
+
+		 { "name" : "ubuntu16-aarch64", "arch" : "aarch64", "jobs" : "16",
+		   "admin" : "Alan.Hayward@arm.com" }
 	       ],
 
     "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
@@ -218,7 +221,27 @@
 		     "type" : "PlainSolaris_c64",
 		     "builddir" : "solaris11-sparcv9-m64",
 		     "tags" : [ "solaris", "solaris11", "sparcv9", "m64", "MAIL" ],
-		     "slavenames" : [ "solaris11-sparcv9" ] }
+		     "slavenames" : [ "solaris11-sparcv9" ] },
+
+
+
+		   { "name" : "Ubuntu-Aarch64-m64",
+		     "type" : "Plain_c64t64",
+		     "builddir" : "ubuntu-aarch64-m64",
+		     "tags" : [ "ubuntu", "aarch64", "m64", "TEST" ],
+		     "slavenames" : [ "ubuntu16-aarch64" ] },
+
+		   { "name" : "Ubuntu-Aarch64-native-gdbserver-m64",
+		     "type" : "NativeGDBServer_c64t64",
+		     "builddir" : "ubuntu-aarch64-native-gdbserver-m64",
+		     "tags" : [ "ubuntu", "aarch64", "m64", "native-gdbserver", "TEST" ],
+		     "slavenames" : [ "ubuntu16-aarch64" ] },
+
+		   { "name" : "Ubuntu-Aarch64-native-extended-gdbserver-m64",
+		     "type" : "NativeExtendedGDBServer_c64t64",
+		     "builddir" : "ubuntu-aarch64-native-extended-gdbserver-m64",
+		     "tags" : [ "ubuntu", "aarch64", "m64", "native-extended-gdbserver", "TEST" ],
+		     "slavenames" : [ "ubuntu16-aarch64" ] }
 		 ],
 
     "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
@@ -256,7 +279,11 @@
 					  "FreeBSD10-x86_64-cc-with-index",
 
 					  "Solaris11-amd64-m64",
-					  "Solaris11-sparcv9-m64" ]
+					  "Solaris11-sparcv9-m64",
+
+					  "Ubuntu-Aarch64-m64",
+					  "Ubuntu-Aarch64-native-gdbserver-m64",
+					  "Ubuntu-Aarch64-native-extended-gdbserver-m64" ]
 		     },
 
 		     { "type" : "Nightly", "name" : "racy",
