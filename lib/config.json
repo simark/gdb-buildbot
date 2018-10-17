@@ -228,19 +228,19 @@
 		   { "name" : "Ubuntu-Aarch64-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "ubuntu-aarch64-m64",
-		     "tags" : [ "ubuntu", "aarch64", "m64", "TEST" ],
+		     "tags" : [ "ubuntu", "aarch64", "m64", "MAIL" ],
 		     "slavenames" : [ "ubuntu16-aarch64" ] },
 
 		   { "name" : "Ubuntu-Aarch64-native-gdbserver-m64",
 		     "type" : "NativeGDBServer_c64t64",
 		     "builddir" : "ubuntu-aarch64-native-gdbserver-m64",
-		     "tags" : [ "ubuntu", "aarch64", "m64", "native-gdbserver", "TEST" ],
+		     "tags" : [ "ubuntu", "aarch64", "m64", "native-gdbserver", "MAIL" ],
 		     "slavenames" : [ "ubuntu16-aarch64" ] },
 
 		   { "name" : "Ubuntu-Aarch64-native-extended-gdbserver-m64",
 		     "type" : "NativeExtendedGDBServer_c64t64",
 		     "builddir" : "ubuntu-aarch64-native-extended-gdbserver-m64",
-		     "tags" : [ "ubuntu", "aarch64", "m64", "native-extended-gdbserver", "TEST" ],
+		     "tags" : [ "ubuntu", "aarch64", "m64", "native-extended-gdbserver", "MAIL" ],
 		     "slavenames" : [ "ubuntu16-aarch64" ] }
 		 ],
 
@@ -317,7 +317,11 @@
 					  "FreeBSD-x86_64-cc-with-index",
 
 					  "FreeBSD10-x86_64-m64",
-					  "FreeBSD10-x86_64-cc-with-index" ]
+					  "FreeBSD10-x86_64-cc-with-index",
+
+					  "Ubuntu-Aarch64-m64",
+					  "Ubuntu-Aarch64-native-gdbserver-m64",
+					  "Ubuntu-Aarch64-native-extended-gdbserver-m64" ]
 		     },
 
 		     { "type" : "Nightly", "name" : "racy_daily",
@@ -351,7 +355,10 @@
 					  "RHEL-s390x-m64",
 					  "NetBSD-x86_64-m64",
 					  "Solaris11-amd64-m64",
-					  "Solaris11-sparcv9-m64" ]
+					  "Solaris11-sparcv9-m64",
+					  "Ubuntu-Aarch64-m64",
+					  "Ubuntu-Aarch64-native-gdbserver-m64",
+					  "Ubuntu-Aarch64-native-extended-gdbserver-m64" ]
 		     }
 		   ]
 }
