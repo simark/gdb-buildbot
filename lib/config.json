@@ -118,7 +118,7 @@
 		   { "name" : "Fedora-s390x-m64",
 		     "type" : "Plain_c64t64",
 		     "builddir" : "fedora-s390x",
-		     "tags" : [ "fedora", "s390x", "m64", "MAIL" ],
+		     "tags" : [ "fedora", "s390x", "m64", "TEST" ],
 		     "slavenames" : [ "marist-fedora-s390x" ] },
 
 
