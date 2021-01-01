@@ -3,17 +3,19 @@
 import re
 import os.path
 from StringIO import StringIO
+
 # Necessary for ordered dictionaries.  We use them when the order or
 # the tests matters to us.
 from collections import OrderedDict
 import lzma
 
 # Helper regex for parse_sum_line.
-sum_matcher = re.compile('^(.?(PASS|FAIL|UNRESOLVED)): (.*)$')
-racy_file_matcher = re.compile ('^(gdb\..*)')
+sum_matcher = re.compile("^(.?(PASS|FAIL|UNRESOLVED)): (.*)$")
+racy_file_matcher = re.compile("^(gdb\..*)")
 
 # You must call set_web_base at startup to set this.
 gdb_web_base = None
+
 
 def set_web_base(arg):
     global gdb_web_base
@@ -23,9 +25,11 @@ def set_web_base(arg):
         # So, use mkdir and not makedirs.
         os.mkdir(gdb_web_base, 0755)
 
-def get_web_base ():
+
+def get_web_base():
     global gdb_web_base
     return gdb_web_base
+
 
 class DejaResults(object):
     def __init__(self):
@@ -34,7 +38,7 @@ class DejaResults(object):
     # Parse a single line from a .sum file.
     # Uniquify the name, and put the result into OUT_DICT.
     # If the line does not appear to be about a test, ignore it.
-    def parse_sum_line(self, out_dict, line, is_racy_file = False):
+    def parse_sum_line(self, out_dict, line, is_racy_file=False):
         global sum_matcher
 
         line = line.rstrip()
@@ -42,24 +46,24 @@ class DejaResults(object):
             # Removing special XFAIL comment added by script.
             m = re.match(sum_matcher, line)
         else:
-            m = re.match (racy_file_matcher, line)
+            m = re.match(racy_file_matcher, line)
 
         if m:
             if is_racy_file:
                 # On racy.sum files, there is no result to parse.
-                result = 'NONE'
-                test_name = m.group (1)
+                result = "NONE"
+                test_name = m.group(1)
             else:
-                result = m.group (1)
-                test_name = m.group (3)
+                result = m.group(1)
+                test_name = m.group(3)
             # Remove tail parentheses
-            test_name = re.sub ('(\s+)?\(.*$', '', test_name)
-            if result not in out_dict[1].keys ():
-                out_dict[1][result] = set ()
+            test_name = re.sub("(\s+)?\(.*$", "", test_name)
+            if result not in out_dict[1].keys():
+                out_dict[1][result] = set()
             if test_name in out_dict:
                 i = 2
                 while True:
-                    nname = test_name + ' <<' + str(i) + '>>'
+                    nname = test_name + " <<" + str(i) + ">>"
                     if nname not in out_dict:
                         break
                     i = i + 1
@@ -67,57 +71,78 @@ class DejaResults(object):
             # Add the testname to the dictionary...
             out_dict[0][test_name] = result
             # and to the set.
-            out_dict[1][result].add (test_name)
+            out_dict[1][result].add(test_name)
 
-    def _write_sum_file(self, sum_dict, builder, rev, filename, header = None,
-                        istry = False, branch = "master", try_count = "0"):
+    def _write_sum_file(
+        self,
+        sum_dict,
+        builder,
+        rev,
+        filename,
+        header=None,
+        istry=False,
+        branch="master",
+        try_count="0",
+    ):
         global gdb_web_base
 
         if istry:
-            bdir = os.path.join (gdb_web_base, builder, 'try', rev[:2], rev, try_count)
+            bdir = os.path.join(gdb_web_base, builder, "try", rev[:2], rev, try_count)
         else:
-            bdir = os.path.join (gdb_web_base, builder, rev[:2], rev)
+            bdir = os.path.join(gdb_web_base, builder, rev[:2], rev)
 
-        if not os.path.exists (bdir):
-            old_umask = os.umask (0022)
-            os.makedirs (bdir)
-            os.umask (old_umask)
-        fname = os.path.join (bdir, filename)
-        keys = sum_dict[0].keys ()
-        mode = 'w'
-        old_umask = os.umask (0133)
+        if not os.path.exists(bdir):
+            old_umask = os.umask(0022)
+            os.makedirs(bdir)
+            os.umask(old_umask)
+        fname = os.path.join(bdir, filename)
+        keys = sum_dict[0].keys()
+        mode = "w"
+        old_umask = os.umask(0133)
         if header:
-            with open (fname, 'w') as f:
-                f.write (header)
-            mode = 'a'
-        with open (fname, mode) as f:
+            with open(fname, "w") as f:
+                f.write(header)
+            mode = "a"
+        with open(fname, mode) as f:
             for k in keys:
-                f.write (sum_dict[0][k] + ': ' + k + '\n')
-        os.umask (old_umask)
+                f.write(sum_dict[0][k] + ": " + k + "\n")
+        os.umask(old_umask)
 
-    def write_sum_file(self, sum_dict, builder, branch, rev, istry, try_count = "0"):
+    def write_sum_file(self, sum_dict, builder, branch, rev, istry, try_count="0"):
         if istry:
-            self.write_try_build_sum_file (self, sum_dict, builder, branch, rev,
-                                           try_count = str (try_count))
+            self.write_try_build_sum_file(
+                self, sum_dict, builder, branch, rev, try_count=str(try_count)
+            )
         else:
-            self._write_sum_file (sum_dict, builder, rev, 'gdb.sum', istry = False,
-                                  branch = branch)
+            self._write_sum_file(
+                sum_dict, builder, rev, "gdb.sum", istry=False, branch=branch
+            )
 
-    def write_try_build_sum_file (self, sum_dict, builder, branch, rev, try_count):
-        self._write_sum_file (sum_dict, builder, rev, 'trybuild_gdb.sum',
-                              header = "### THIS SUM FILE WAS GENERATED BY A TRY BUILD ###\n\n",
-                              istry = True,
-                              branch = branch,
-                              try_count = str (try_count))
+    def write_try_build_sum_file(self, sum_dict, builder, branch, rev, try_count):
+        self._write_sum_file(
+            sum_dict,
+            builder,
+            rev,
+            "trybuild_gdb.sum",
+            header="### THIS SUM FILE WAS GENERATED BY A TRY BUILD ###\n\n",
+            istry=True,
+            branch=branch,
+            try_count=str(try_count),
+        )
 
     def write_baseline(self, sum_dict, builder, branch, rev, istry):
         if istry:
             return
         else:
-            self._write_sum_file(sum_dict, builder, rev, 'baseline',
-                                 header = "### THIS BASELINE WAS LAST UPDATED BY COMMIT %s ###\n\n" % rev,
-                                 istry = False,
-                                 branch = branch)
+            self._write_sum_file(
+                sum_dict,
+                builder,
+                rev,
+                "baseline",
+                header="### THIS BASELINE WAS LAST UPDATED BY COMMIT %s ###\n\n" % rev,
+                istry=False,
+                branch=branch,
+            )
 
     # Read a .sum file.
     # The builder name is BUILDER.
@@ -125,73 +150,71 @@ class DejaResults(object):
     # revision; to read the baseline file for a branch, use `read_baseline'.
     # Returns a dictionary holding the .sum contents, or None if the
     # file did not exist.
-    def _read_sum_file(self, builder, branch, rev, filename,
-                       is_racy_file = False, is_xfail_file = False):
+    def _read_sum_file(
+        self, builder, branch, rev, filename, is_racy_file=False, is_xfail_file=False
+    ):
         global gdb_web_base
 
         if is_xfail_file:
-            fname = os.path.join (gdb_web_base, builder, 'xfails', branch, filename)
+            fname = os.path.join(gdb_web_base, builder, "xfails", branch, filename)
         else:
-            fname = os.path.join (gdb_web_base, builder, rev[:2], rev, filename)
+            fname = os.path.join(gdb_web_base, builder, rev[:2], rev, filename)
         result = []
         # result[0] is the OrderedDict containing all the tests
         # and results.
-        result.append (OrderedDict ())
+        result.append(OrderedDict())
         # result[1] is a dictionary containing sets of tests
-        result.append (dict ())
+        result.append(dict())
 
-        if os.path.exists (fname):
-            with open (fname, 'r') as f:
+        if os.path.exists(fname):
+            with open(fname, "r") as f:
                 for line in f:
-                    self.parse_sum_line (result, line,
-                                         is_racy_file = is_racy_file)
-        elif os.path.exists (fname + '.xz'):
-            fname += '.xz'
-            f = lzma.LZMAFile (fname, 'r')
+                    self.parse_sum_line(result, line, is_racy_file=is_racy_file)
+        elif os.path.exists(fname + ".xz"):
+            fname += ".xz"
+            f = lzma.LZMAFile(fname, "r")
             for line in f:
-                self.parse_sum_line (result, line,
-                                     is_racy_file = is_racy_file)
-            f.close ()
+                self.parse_sum_line(result, line, is_racy_file=is_racy_file)
+            f.close()
         else:
             return None
         return result
 
-    def read_sum_file (self, builder, branch, rev):
-        return self._read_sum_file (builder, branch, rev, 'gdb.sum')
+    def read_sum_file(self, builder, branch, rev):
+        return self._read_sum_file(builder, branch, rev, "gdb.sum")
 
     def read_baseline(self, builder, branch, rev):
-        return self._read_sum_file (builder, branch, rev, 'baseline')
+        return self._read_sum_file(builder, branch, rev, "baseline")
 
-    def read_xfail (self, builder, branch):
-        return self._read_sum_file (builder, branch, None, 'xfail', is_xfail_file = True)
+    def read_xfail(self, builder, branch):
+        return self._read_sum_file(builder, branch, None, "xfail", is_xfail_file=True)
 
-    def read_old_sum_file (self, builder, branch, rev):
-        return self._read_sum_file (builder, branch, rev, 'previous_gdb.sum')
+    def read_old_sum_file(self, builder, branch, rev):
+        return self._read_sum_file(builder, branch, rev, "previous_gdb.sum")
 
     # Parse some text as a .sum file and return the resulting
     # dictionary.
-    def read_sum_text (self, text, is_racy_file = False):
-        cur_file = StringIO (text)
+    def read_sum_text(self, text, is_racy_file=False):
+        cur_file = StringIO(text)
         cur_results = []
-        cur_results.append (OrderedDict ())
-        cur_results.append (dict ())
-        for line in cur_file.readlines ():
-            self.parse_sum_line (cur_results, line,
-                                 is_racy_file = is_racy_file)
+        cur_results.append(OrderedDict())
+        cur_results.append(dict())
+        for line in cur_file.readlines():
+            self.parse_sum_line(cur_results, line, is_racy_file=is_racy_file)
         return cur_results
 
     # Parse some text as the racy.sum file and return the resulting
     # dictionary.
-    def read_racy_sum_text (self, text):
-        return self.read_sum_text (text, is_racy_file = True)
+    def read_racy_sum_text(self, text):
+        return self.read_sum_text(text, is_racy_file=True)
 
     # Compute regressions between RESULTS and BASELINE on BUILDER.
     # BASELINE will be modified if any new PASSes are seen.
     # Returns a regression report, as a string.
-    def compute_regressions (self, builder, branch, results, old_res):
-        our_keys = results[0].keys ()
-        result = ''
-        xfails = self.read_xfail (builder, branch)
+    def compute_regressions(self, builder, branch, results, old_res):
+        our_keys = results[0].keys()
+        result = ""
+        xfails = self.read_xfail(builder, branch)
         if xfails is None:
             xfails = {}
         else:
@@ -201,17 +224,17 @@ class DejaResults(object):
             if key in xfails:
                 continue
             # A transition to PASS means we should update the baseline.
-            if results[0][key] == 'PASS':
-                if key not in old_res[0] or old_res[0][key] != 'PASS':
-                    old_res[0][key] = 'PASS'
+            if results[0][key] == "PASS":
+                if key not in old_res[0] or old_res[0][key] != "PASS":
+                    old_res[0][key] = "PASS"
                 continue
-            if results[0][key] == 'XFAIL' or results[0][key] == 'XPASS':
+            if results[0][key] == "XFAIL" or results[0][key] == "XPASS":
                 # We don't report new XFAILs or XPASSes
                 continue
             # We report both PASS -> FAIL and FAIL -> PASS, as well as
             # new FAIL and new PASS.
             if key not in old_res[0]:
-                result += 'new ' + results[0][key] + ': ' + key + '\n'
+                result += "new " + results[0][key] + ": " + key + "\n"
             elif results[0][key] != old_res[0][key]:
-                result += old_res[0][key] + ' -> ' + results[0][key] + ': ' + key + '\n'
+                result += old_res[0][key] + " -> " + results[0][key] + ": " + key + "\n"
         return result

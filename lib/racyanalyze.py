@@ -5,20 +5,22 @@ import smtplib
 import socket
 from email.mime.text import MIMEText
 
-class GDBAnalyzeRacyTests (ShellCommand):
+
+class GDBAnalyzeRacyTests(ShellCommand):
     """Analyze the racy tests"""
-    command = ['cat', 'racy.sum']
 
-    def __init__ (self, **kwargs):
-        ShellCommand.__init__ (self, **kwargs)
+    command = ["cat", "racy.sum"]
 
-    def evaluateCommand (self, cmd):
-        builder = self.getProperty('buildername')
-        branch = self.getProperty('branch')
+    def __init__(self, **kwargs):
+        ShellCommand.__init__(self, **kwargs)
 
-        p = DejaResults ()
+    def evaluateCommand(self, cmd):
+        builder = self.getProperty("buildername")
+        branch = self.getProperty("branch")
 
-        racy_tests = p.read_racy_sum_text (self.getLog ('stdio').getText ())
+        p = DejaResults()
+
+        racy_tests = p.read_racy_sum_text(self.getLog("stdio").getText())
 
         if not racy_tests:
             return SUCCESS
@@ -29,15 +31,15 @@ class GDBAnalyzeRacyTests (ShellCommand):
             msg += "FAIL: %s\n" % t
         msg += "============================\n"
 
-        mail = MIMEText (msg)
-        mail['Subject'] = 'Failures on %s, branch %s' % (builder, branch)
-        mail['From'] = 'GDB BuildBot Racy Detector <gdb-buildbot@sergiodj.net>'
-        mail['To'] = 'gdb-buildbot@sergiodj.net'
+        mail = MIMEText(msg)
+        mail["Subject"] = "Failures on %s, branch %s" % (builder, branch)
+        mail["From"] = "GDB BuildBot Racy Detector <gdb-buildbot@sergiodj.net>"
+        mail["To"] = "gdb-buildbot@sergiodj.net"
 
-        s = smtplib.SMTP ('localhost')
-        s.sendmail ('gdb-buildbot@sergiodj.net',
-                    [ 'gdb-buildbot@sergiodj.net' ],
-                    mail.as_string ())
-        s.quit ()
+        s = smtplib.SMTP("localhost")
+        s.sendmail(
+            "gdb-buildbot@sergiodj.net", ["gdb-buildbot@sergiodj.net"], mail.as_string()
+        )
+        s.quit()
 
         return SUCCESS
