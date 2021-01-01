@@ -1,364 +1,644 @@
 {
-    "slaves" : [ { "name" : "fedora-x86-64-1", "arch" : "x86_64", "jobs" : "4",
-		   "admin" : "sergiodj@redhat.com" },
-		 { "name" : "fedora-x86-64-2", "arch" : "x86_64", "jobs" : "4",
-		   "admin" : "sergiodj@redhat.com" },
-		 { "name" : "fedora-x86-64-3", "arch" : "x86_64", "jobs" : "4",
-		   "admin" : "sergiodj@redhat.com" },
-		 { "name" : "fedora-x86-64-4", "arch" : "x86_64", "jobs" : "4",
-		   "admin" : "sergiodj@redhat.com" },
-
-		 { "name" : "debian-jessie-s390x-1", "arch" : "s390x", "jobs" : "8",
-		   "admin" : "dje.gcc@gmail.com" },
-
-		 { "name" : "rhel-7_1-s390x-1", "arch" : "s390x", "jobs" : "8",
-		   "admin" : "dje.gcc@gmail.com" },
-
-		 { "name" : "marist-fedora-s390x", "arch" : "s390x", "jobs" : "2",
-		   "admin" : "mark@klomp.org" },
-
-		 { "name" : "centos7-ppc64le-1", "arch" : "ppc64le", "jobs" : "4",
-		   "admin" : "edjunior@gmail.com" },
-
-		 { "name" : "aix-power8-1", "arch" : "power8", "jobs" : "4",
-		   "admin" : "dje.gcc@gmail.com" },
-
-		 { "name" : "koobs-freebsd10", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "koobs@FreeBSD.org" },
-		 { "name" : "koobs-freebsd-current", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "koobs@FreeBSD.org" },
-
-		 { "name" : "gdb-amd64-netbsd7", "arch" : "x86_64", "jobs" : "1",
-		   "admin" : "n54@gmx.com" },
-
-		 { "name" : "solaris11-amd64", "arch" : "x86_64", "jobs" : "4",
-		   "admin" : "ro@cebitec.uni-bielefeld.de" },
-		 { "name" : "solaris11-sparcv9", "arch" : "sparcv9", "jobs" : "4",
-		   "admin" : "ro@cebitec.uni-bielefeld.de" },
-
-		 { "name" : "ubuntu16-aarch64", "arch" : "aarch64", "jobs" : "16",
-		   "admin" : "Alan.Hayward@arm.com" }
-	       ],
-
-    "builders" : [ { "name" : "Fedora-x86_64-m64", "type" : "Plain_c64t64",
-		     "builddir" : "fedora-x86-64",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "m64", "MAIL" ],
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-m32", "type" : "m32_c64t32",
-		     "builddir" : "fedora-x86-64-m32",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "m32", "MAIL" ],
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-native-gdbserver-m64",
-		     "type" : "NativeGDBServer_c64t64",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "native-gdbserver-m64", "MAIL" ],
-		     "builddir" : "fedora-x86-64-native-gdbserver",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-native-gdbserver-m32",
-		     "type" : "NativeGDBServer_c64t32",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "native-gdbserver-m32", "MAIL" ],
-		     "builddir" : "fedora-x86-64-native-gdbserver-m32",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServer_c64t64",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "native-extended-gdbserver-m64",
-				"MAIL" ],
-		     "builddir" : "fedora-x86-64-native-extended-gdbserver",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-native-extended-gdbserver-m32",
-		     "type" : "NativeExtendedGDBServer_c64t32",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "native-extended-gdbserver-m32",
-				"MAIL" ],
-		     "builddir" : "fedora-x86-64-native-extended-gdbserver-m32",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-cc-with-index",
-		     "type" : "IndexBuild",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "cc-with-index", "MAIL" ],
-		     "builddir" : "fedora-x86-64-cc-with-index",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-i686",
-		     "arch_triplet" : "i686-unknown-linux-gnu",
-		     "type" : "Plain_c32t32",
-		     "builddir" : "fedora-i686",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "i686", "MAIL" ],
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-		   { "name" : "Fedora-x86_64-w64-mingw32",
-		     "type" : "PlainFedoraW64MingW32_c64notest",
-		     "PATH" : "/usr/local/bin:/usr/bin:/bin",
-		     "tags" : [ "fedora", "x86_64", "mingw32", "MAIL" ],
-		     "builddir" : "fedora-x86-64-mingw32",
-		     "slavenames" : [ "fedora-x86-64-1", "fedora-x86-64-2",
-				      "fedora-x86-64-3", "fedora-x86-64-4" ] },
-
-
-
-		   { "name" : "Fedora-s390x-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "fedora-s390x",
-		     "tags" : [ "fedora", "s390x", "m64", "TEST" ],
-		     "slavenames" : [ "marist-fedora-s390x" ] },
-
-
-
-		   { "name" : "Debian-s390x-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "debian-s390x",
-		     "tags" : [ "debian", "s390x", "m64", "MAIL" ],
-		     "slavenames" : [ "debian-jessie-s390x-1" ] },
-
-		   { "name" : "Debian-s390x-native-gdbserver-m64",
-		     "type" : "NativeGDBServer_c64t64",
-		     "builddir" : "debian-s390x-native-gdbserver",
-		     "tags" : [ "debian", "s390x", "native-gdbserver-m64", "MAIL" ],
-		     "slavenames" : [ "debian-jessie-s390x-1" ] },
-
-		   { "name" : "Debian-s390x-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServer_c64t64",
-		     "builddir" : "debian-s390x-native-extended-gdbserver",
-		     "tags" : [ "debian", "s390x", "native-extended-gdbserver-m64",
-				"MAIL" ],
-		     "slavenames" : [ "debian-jessie-s390x-1" ] },
-
-
-
-		   { "name" : "CentOS-ppc64le-m64", "type" : "Plain_c64t64",
-		     "builddir" : "centos7-ppc64le",
-		     "tags" : [ "centos7", "ppc64le", "m64", "TEST" ],
-		     "slavenames" : [ "centos7-ppc64le-1" ] },
-
-		   { "name" : "CentOS-ppc64le-native-gdbserver-m64",
-		     "type" : "NativeGDBServer_c64t64",
-		     "builddir" : "centos7-ppc64le-native-gdbserver",
-		     "tags" : [ "centos7", "ppc64le", "native-gdbserver-m64", "TEST" ],
-		     "slavenames" : [ "centos7-ppc64le-1" ] },
-
-		   { "name" : "CentOS-ppc64le-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServer_c64t64",
-		     "builddir" : "centos7-ppc64le-native-extended-gdbserver",
-		     "tags" : [ "centos7", "ppc64le", "native-extended-gdbserver-m64",
-				"TEST" ],
-		     "slavenames" : [ "centos7-ppc64le-1" ] },
-
-
-
-		   { "name" : "AIX-POWER8-plain",
-		     "type" : "PlainAIX",
-		     "builddir" : "aix-power8-plain",
-		     "tags" : [ "aix", "power8" ],
-		     "slavenames" : [ "aix-power8-1" ],
-		     "PATH" : "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:." },
-
-
-		   { "name" : "RHEL-s390x-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "rhel-s390x",
-		     "tags" : [ "rhel", "s390x", "m64", "MAIL" ],
-		     "slavenames" : [ "rhel-7_1-s390x-1" ] },
-
-		   { "name" : "NetBSD-x86_64-m64",
-		     "type" : "PlainNetBSD_c64",
-		     "builddir" : "netbsd-x86_64",
-		     "tags" : [ "netbsd", "x86_64", "m64", "MAIL" ],
-		     "slavenames" : [ "gdb-amd64-netbsd7" ] },
-
-
-		   { "name" : "FreeBSD-x86_64-m64", "type" : "PlainBSD_c64t64",
-		     "builddir" : "freebsd-x86-64",
-		     "tags" : [ "freebsd", "x86_64", "index", "TEST" ],
-		     "slavenames" : [ "koobs-freebsd-current" ] },
-
-		   { "name" : "FreeBSD-x86_64-cc-with-index",
-		     "type" : "IndexBuildBSD",
-		     "builddir" : "freebsd-x86-64-cc-with-index",
-		     "tags" : [ "freebsd", "x86_64", "cc-with-index", "TEST" ],
-		     "slavenames" : [ "koobs-freebsd-current" ] },
-
-
-
-		   { "name" : "FreeBSD10-x86_64-m64", "type" : "PlainBSD_c64t64",
-		     "builddir" : "freebsd10-x86-64",
-		     "tags" : [ "freebsd", "freebsd10", "x86_64", "index", "TEST" ],
-		     "slavenames" : [ "koobs-freebsd10" ] },
-
-		   { "name" : "FreeBSD10-x86_64-cc-with-index",
-		     "type" : "IndexBuildBSD",
-		     "builddir" : "freebsd10-x86-64-cc-with-index",
-		     "tags" : [ "freebsd", "freebsd10", "x86_64", "cc-with-index", "TEST" ],
-		     "slavenames" : [ "koobs-freebsd10" ] },
-
-
-
-		   { "name" : "Solaris11-amd64-m64",
-		     "type" : "PlainSolaris_c64",
-		     "builddir" : "solaris11-amd64-m64",
-		     "tags" : [ "solaris", "solaris11", "x86_64", "m64", "MAIL" ],
-		     "slavenames" : [ "solaris11-amd64" ] },
-
-		   { "name" : "Solaris11-sparcv9-m64",
-		     "type" : "PlainSolaris_c64",
-		     "builddir" : "solaris11-sparcv9-m64",
-		     "tags" : [ "solaris", "solaris11", "sparcv9", "m64", "MAIL" ],
-		     "slavenames" : [ "solaris11-sparcv9" ] },
-
-
-
-		   { "name" : "Ubuntu-Aarch64-m64",
-		     "type" : "Plain_c64t64",
-		     "builddir" : "ubuntu-aarch64-m64",
-		     "tags" : [ "ubuntu", "aarch64", "m64", "TEST" ],
-		     "slavenames" : [ "ubuntu16-aarch64" ] },
-
-		   { "name" : "Ubuntu-Aarch64-native-gdbserver-m64",
-		     "type" : "NativeGDBServer_c64t64",
-		     "builddir" : "ubuntu-aarch64-native-gdbserver-m64",
-		     "tags" : [ "ubuntu", "aarch64", "m64", "native-gdbserver", "TEST" ],
-		     "slavenames" : [ "ubuntu16-aarch64" ] },
-
-		   { "name" : "Ubuntu-Aarch64-native-extended-gdbserver-m64",
-		     "type" : "NativeExtendedGDBServer_c64t64",
-		     "builddir" : "ubuntu-aarch64-native-extended-gdbserver-m64",
-		     "tags" : [ "ubuntu", "aarch64", "m64", "native-extended-gdbserver", "TEST" ],
-		     "slavenames" : [ "ubuntu16-aarch64" ] }
-		 ],
-
-    "schedulers" : [ { "type" : "AnyBranchScheduler", "name" : "master",
-		       "change_filter" : "all_gdb_filter",
-		       "builderNames" : [ "Fedora-x86_64-m64",
-					  "Fedora-x86_64-m32",
-					  "Fedora-x86_64-native-gdbserver-m64",
-					  "Fedora-x86_64-native-gdbserver-m32",
-					  "Fedora-x86_64-native-extended-gdbserver-m64",
-					  "Fedora-x86_64-native-extended-gdbserver-m32",
-					  "Fedora-x86_64-cc-with-index",
-					  "Fedora-i686",
-					  "Fedora-x86_64-w64-mingw32",
-
-					  "Debian-s390x-m64",
-					  "Debian-s390x-native-gdbserver-m64",
-					  "Debian-s390x-native-extended-gdbserver-m64",
-
-					  "Fedora-s390x-m64",
-
-					  "CentOS-ppc64le-m64",
-					  "CentOS-ppc64le-native-gdbserver-m64",
-					  "CentOS-ppc64le-native-extended-gdbserver-m64",
-
-					  "AIX-POWER8-plain",
-
-					  "RHEL-s390x-m64",
-
-					  "NetBSD-x86_64-m64",
-
-					  "FreeBSD-x86_64-m64",
-					  "FreeBSD-x86_64-cc-with-index",
-
-					  "FreeBSD10-x86_64-m64",
-					  "FreeBSD10-x86_64-cc-with-index",
-
-					  "Solaris11-amd64-m64",
-					  "Solaris11-sparcv9-m64",
-
-					  "Ubuntu-Aarch64-m64",
-					  "Ubuntu-Aarch64-native-gdbserver-m64",
-					  "Ubuntu-Aarch64-native-extended-gdbserver-m64" ]
-		     },
-
-		     { "type" : "Nightly", "name" : "racy",
-		       "dayOfWeek" : "6", "hour" : "3", "minute" : "00",
-		       "builderNames" : [ "Fedora-x86_64-m64",
-					  "Fedora-x86_64-m32",
-					  "Fedora-x86_64-native-gdbserver-m64",
-					  "Fedora-x86_64-native-gdbserver-m32",
-					  "Fedora-x86_64-native-extended-gdbserver-m64",
-					  "Fedora-x86_64-native-extended-gdbserver-m32",
-					  "Fedora-x86_64-cc-with-index",
-					  "Fedora-i686",
-
-					  "Debian-s390x-m64",
-					  "Debian-s390x-native-gdbserver-m64",
-					  "Debian-s390x-native-extended-gdbserver-m64",
-
-					  "Fedora-s390x-m64",
-
-					  "CentOS-ppc64le-m64",
-					  "CentOS-ppc64le-native-gdbserver-m64",
-					  "CentOS-ppc64le-native-extended-gdbserver-m64",
-
-					  "AIX-POWER8-plain",
-
-					  "RHEL-s390x-m64",
-
-					  "NetBSD-x86_64-m64",
-
-					  "FreeBSD-x86_64-m64",
-					  "FreeBSD-x86_64-cc-with-index",
-
-					  "FreeBSD10-x86_64-m64",
-					  "FreeBSD10-x86_64-cc-with-index",
-
-					  "Ubuntu-Aarch64-m64",
-					  "Ubuntu-Aarch64-native-gdbserver-m64",
-					  "Ubuntu-Aarch64-native-extended-gdbserver-m64" ]
-		     },
-
-		     { "type" : "Nightly", "name" : "racy_daily",
-		       "hour" : "0", "minute" : "0",
-		       "builderNames" : [ "Fedora-x86_64-m64",
-					  "Fedora-x86_64-m32",
-					  "Fedora-x86_64-native-gdbserver-m64",
-					  "Fedora-x86_64-native-gdbserver-m32",
-					  "Fedora-x86_64-native-extended-gdbserver-m64",
-					  "Fedora-x86_64-native-extended-gdbserver-m32",
-					  "Fedora-x86_64-cc-with-index",
-					  "Fedora-i686" ]
-		     },
-
-		     { "type" : "GDB_Try_Jobdir", "name" : "try_ssh",
-		       "jobdir" : "try_ssh_jobdir",
-		       "builderNames" : [ "Fedora-x86_64-m64",
-					  "Fedora-x86_64-m32",
-					  "Fedora-x86_64-native-gdbserver-m64",
-					  "Fedora-x86_64-native-gdbserver-m32",
-					  "Fedora-x86_64-native-extended-gdbserver-m64",
-					  "Fedora-x86_64-native-extended-gdbserver-m32",
-					  "Fedora-x86_64-cc-with-index",
-					  "Fedora-i686",
-					  "Fedora-x86_64-w64-mingw32",
-					  "Fedora-s390x-m64",
-					  "Debian-s390x-m64",
-					  "Debian-s390x-native-gdbserver-m64",
-					  "Debian-s390x-native-extended-gdbserver-m64",
-					  "AIX-POWER8-plain",
-					  "RHEL-s390x-m64",
-					  "NetBSD-x86_64-m64",
-					  "Solaris11-amd64-m64",
-					  "Solaris11-sparcv9-m64",
-					  "Ubuntu-Aarch64-m64",
-					  "Ubuntu-Aarch64-native-gdbserver-m64",
-					  "Ubuntu-Aarch64-native-extended-gdbserver-m64" ]
-		     }
-		   ]
+    "slaves": [
+        {
+            "name": "fedora-x86-64-1",
+            "arch": "x86_64",
+            "jobs": "4",
+            "admin": "sergiodj@redhat.com"
+        },
+        {
+            "name": "fedora-x86-64-2",
+            "arch": "x86_64",
+            "jobs": "4",
+            "admin": "sergiodj@redhat.com"
+        },
+        {
+            "name": "fedora-x86-64-3",
+            "arch": "x86_64",
+            "jobs": "4",
+            "admin": "sergiodj@redhat.com"
+        },
+        {
+            "name": "fedora-x86-64-4",
+            "arch": "x86_64",
+            "jobs": "4",
+            "admin": "sergiodj@redhat.com"
+        },
+        {
+            "name": "debian-jessie-s390x-1",
+            "arch": "s390x",
+            "jobs": "8",
+            "admin": "dje.gcc@gmail.com"
+        },
+        {
+            "name": "rhel-7_1-s390x-1",
+            "arch": "s390x",
+            "jobs": "8",
+            "admin": "dje.gcc@gmail.com"
+        },
+        {
+            "name": "marist-fedora-s390x",
+            "arch": "s390x",
+            "jobs": "2",
+            "admin": "mark@klomp.org"
+        },
+        {
+            "name": "centos7-ppc64le-1",
+            "arch": "ppc64le",
+            "jobs": "4",
+            "admin": "edjunior@gmail.com"
+        },
+        {
+            "name": "aix-power8-1",
+            "arch": "power8",
+            "jobs": "4",
+            "admin": "dje.gcc@gmail.com"
+        },
+        {
+            "name": "koobs-freebsd10",
+            "arch": "x86_64",
+            "jobs": "1",
+            "admin": "koobs@FreeBSD.org"
+        },
+        {
+            "name": "koobs-freebsd-current",
+            "arch": "x86_64",
+            "jobs": "1",
+            "admin": "koobs@FreeBSD.org"
+        },
+        {
+            "name": "gdb-amd64-netbsd7",
+            "arch": "x86_64",
+            "jobs": "1",
+            "admin": "n54@gmx.com"
+        },
+        {
+            "name": "solaris11-amd64",
+            "arch": "x86_64",
+            "jobs": "4",
+            "admin": "ro@cebitec.uni-bielefeld.de"
+        },
+        {
+            "name": "solaris11-sparcv9",
+            "arch": "sparcv9",
+            "jobs": "4",
+            "admin": "ro@cebitec.uni-bielefeld.de"
+        },
+        {
+            "name": "ubuntu16-aarch64",
+            "arch": "aarch64",
+            "jobs": "16",
+            "admin": "Alan.Hayward@arm.com"
+        }
+    ],
+    "builders": [
+        {
+            "name": "Fedora-x86_64-m64",
+            "type": "Plain_c64t64",
+            "builddir": "fedora-x86-64",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-m32",
+            "type": "m32_c64t32",
+            "builddir": "fedora-x86-64-m32",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "m32",
+                "MAIL"
+            ],
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-native-gdbserver-m64",
+            "type": "NativeGDBServer_c64t64",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "native-gdbserver-m64",
+                "MAIL"
+            ],
+            "builddir": "fedora-x86-64-native-gdbserver",
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-native-gdbserver-m32",
+            "type": "NativeGDBServer_c64t32",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "native-gdbserver-m32",
+                "MAIL"
+            ],
+            "builddir": "fedora-x86-64-native-gdbserver-m32",
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-native-extended-gdbserver-m64",
+            "type": "NativeExtendedGDBServer_c64t64",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "native-extended-gdbserver-m64",
+                "MAIL"
+            ],
+            "builddir": "fedora-x86-64-native-extended-gdbserver",
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-native-extended-gdbserver-m32",
+            "type": "NativeExtendedGDBServer_c64t32",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "native-extended-gdbserver-m32",
+                "MAIL"
+            ],
+            "builddir": "fedora-x86-64-native-extended-gdbserver-m32",
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-cc-with-index",
+            "type": "IndexBuild",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "cc-with-index",
+                "MAIL"
+            ],
+            "builddir": "fedora-x86-64-cc-with-index",
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-i686",
+            "arch_triplet": "i686-unknown-linux-gnu",
+            "type": "Plain_c32t32",
+            "builddir": "fedora-i686",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "i686",
+                "MAIL"
+            ],
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-x86_64-w64-mingw32",
+            "type": "PlainFedoraW64MingW32_c64notest",
+            "PATH": "/usr/local/bin:/usr/bin:/bin",
+            "tags": [
+                "fedora",
+                "x86_64",
+                "mingw32",
+                "MAIL"
+            ],
+            "builddir": "fedora-x86-64-mingw32",
+            "slavenames": [
+                "fedora-x86-64-1",
+                "fedora-x86-64-2",
+                "fedora-x86-64-3",
+                "fedora-x86-64-4"
+            ]
+        },
+        {
+            "name": "Fedora-s390x-m64",
+            "type": "Plain_c64t64",
+            "builddir": "fedora-s390x",
+            "tags": [
+                "fedora",
+                "s390x",
+                "m64",
+                "TEST"
+            ],
+            "slavenames": [
+                "marist-fedora-s390x"
+            ]
+        },
+        {
+            "name": "Debian-s390x-m64",
+            "type": "Plain_c64t64",
+            "builddir": "debian-s390x",
+            "tags": [
+                "debian",
+                "s390x",
+                "m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "debian-jessie-s390x-1"
+            ]
+        },
+        {
+            "name": "Debian-s390x-native-gdbserver-m64",
+            "type": "NativeGDBServer_c64t64",
+            "builddir": "debian-s390x-native-gdbserver",
+            "tags": [
+                "debian",
+                "s390x",
+                "native-gdbserver-m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "debian-jessie-s390x-1"
+            ]
+        },
+        {
+            "name": "Debian-s390x-native-extended-gdbserver-m64",
+            "type": "NativeExtendedGDBServer_c64t64",
+            "builddir": "debian-s390x-native-extended-gdbserver",
+            "tags": [
+                "debian",
+                "s390x",
+                "native-extended-gdbserver-m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "debian-jessie-s390x-1"
+            ]
+        },
+        {
+            "name": "CentOS-ppc64le-m64",
+            "type": "Plain_c64t64",
+            "builddir": "centos7-ppc64le",
+            "tags": [
+                "centos7",
+                "ppc64le",
+                "m64",
+                "TEST"
+            ],
+            "slavenames": [
+                "centos7-ppc64le-1"
+            ]
+        },
+        {
+            "name": "CentOS-ppc64le-native-gdbserver-m64",
+            "type": "NativeGDBServer_c64t64",
+            "builddir": "centos7-ppc64le-native-gdbserver",
+            "tags": [
+                "centos7",
+                "ppc64le",
+                "native-gdbserver-m64",
+                "TEST"
+            ],
+            "slavenames": [
+                "centos7-ppc64le-1"
+            ]
+        },
+        {
+            "name": "CentOS-ppc64le-native-extended-gdbserver-m64",
+            "type": "NativeExtendedGDBServer_c64t64",
+            "builddir": "centos7-ppc64le-native-extended-gdbserver",
+            "tags": [
+                "centos7",
+                "ppc64le",
+                "native-extended-gdbserver-m64",
+                "TEST"
+            ],
+            "slavenames": [
+                "centos7-ppc64le-1"
+            ]
+        },
+        {
+            "name": "AIX-POWER8-plain",
+            "type": "PlainAIX",
+            "builddir": "aix-power8-plain",
+            "tags": [
+                "aix",
+                "power8"
+            ],
+            "slavenames": [
+                "aix-power8-1"
+            ],
+            "PATH": "/opt/freeware/bin:/usr/bin:/etc:/usr/sbin:/usr/ucb:/home/sergiodj/bin:/usr/bin/X11:/sbin:."
+        },
+        {
+            "name": "RHEL-s390x-m64",
+            "type": "Plain_c64t64",
+            "builddir": "rhel-s390x",
+            "tags": [
+                "rhel",
+                "s390x",
+                "m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "rhel-7_1-s390x-1"
+            ]
+        },
+        {
+            "name": "NetBSD-x86_64-m64",
+            "type": "PlainNetBSD_c64",
+            "builddir": "netbsd-x86_64",
+            "tags": [
+                "netbsd",
+                "x86_64",
+                "m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "gdb-amd64-netbsd7"
+            ]
+        },
+        {
+            "name": "FreeBSD-x86_64-m64",
+            "type": "PlainBSD_c64t64",
+            "builddir": "freebsd-x86-64",
+            "tags": [
+                "freebsd",
+                "x86_64",
+                "index",
+                "TEST"
+            ],
+            "slavenames": [
+                "koobs-freebsd-current"
+            ]
+        },
+        {
+            "name": "FreeBSD-x86_64-cc-with-index",
+            "type": "IndexBuildBSD",
+            "builddir": "freebsd-x86-64-cc-with-index",
+            "tags": [
+                "freebsd",
+                "x86_64",
+                "cc-with-index",
+                "TEST"
+            ],
+            "slavenames": [
+                "koobs-freebsd-current"
+            ]
+        },
+        {
+            "name": "FreeBSD10-x86_64-m64",
+            "type": "PlainBSD_c64t64",
+            "builddir": "freebsd10-x86-64",
+            "tags": [
+                "freebsd",
+                "freebsd10",
+                "x86_64",
+                "index",
+                "TEST"
+            ],
+            "slavenames": [
+                "koobs-freebsd10"
+            ]
+        },
+        {
+            "name": "FreeBSD10-x86_64-cc-with-index",
+            "type": "IndexBuildBSD",
+            "builddir": "freebsd10-x86-64-cc-with-index",
+            "tags": [
+                "freebsd",
+                "freebsd10",
+                "x86_64",
+                "cc-with-index",
+                "TEST"
+            ],
+            "slavenames": [
+                "koobs-freebsd10"
+            ]
+        },
+        {
+            "name": "Solaris11-amd64-m64",
+            "type": "PlainSolaris_c64",
+            "builddir": "solaris11-amd64-m64",
+            "tags": [
+                "solaris",
+                "solaris11",
+                "x86_64",
+                "m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "solaris11-amd64"
+            ]
+        },
+        {
+            "name": "Solaris11-sparcv9-m64",
+            "type": "PlainSolaris_c64",
+            "builddir": "solaris11-sparcv9-m64",
+            "tags": [
+                "solaris",
+                "solaris11",
+                "sparcv9",
+                "m64",
+                "MAIL"
+            ],
+            "slavenames": [
+                "solaris11-sparcv9"
+            ]
+        },
+        {
+            "name": "Ubuntu-Aarch64-m64",
+            "type": "Plain_c64t64",
+            "builddir": "ubuntu-aarch64-m64",
+            "tags": [
+                "ubuntu",
+                "aarch64",
+                "m64",
+                "TEST"
+            ],
+            "slavenames": [
+                "ubuntu16-aarch64"
+            ]
+        },
+        {
+            "name": "Ubuntu-Aarch64-native-gdbserver-m64",
+            "type": "NativeGDBServer_c64t64",
+            "builddir": "ubuntu-aarch64-native-gdbserver-m64",
+            "tags": [
+                "ubuntu",
+                "aarch64",
+                "m64",
+                "native-gdbserver",
+                "TEST"
+            ],
+            "slavenames": [
+                "ubuntu16-aarch64"
+            ]
+        },
+        {
+            "name": "Ubuntu-Aarch64-native-extended-gdbserver-m64",
+            "type": "NativeExtendedGDBServer_c64t64",
+            "builddir": "ubuntu-aarch64-native-extended-gdbserver-m64",
+            "tags": [
+                "ubuntu",
+                "aarch64",
+                "m64",
+                "native-extended-gdbserver",
+                "TEST"
+            ],
+            "slavenames": [
+                "ubuntu16-aarch64"
+            ]
+        }
+    ],
+    "schedulers": [
+        {
+            "type": "AnyBranchScheduler",
+            "name": "master",
+            "change_filter": "all_gdb_filter",
+            "builderNames": [
+                "Fedora-x86_64-m64",
+                "Fedora-x86_64-m32",
+                "Fedora-x86_64-native-gdbserver-m64",
+                "Fedora-x86_64-native-gdbserver-m32",
+                "Fedora-x86_64-native-extended-gdbserver-m64",
+                "Fedora-x86_64-native-extended-gdbserver-m32",
+                "Fedora-x86_64-cc-with-index",
+                "Fedora-i686",
+                "Fedora-x86_64-w64-mingw32",
+                "Debian-s390x-m64",
+                "Debian-s390x-native-gdbserver-m64",
+                "Debian-s390x-native-extended-gdbserver-m64",
+                "Fedora-s390x-m64",
+                "CentOS-ppc64le-m64",
+                "CentOS-ppc64le-native-gdbserver-m64",
+                "CentOS-ppc64le-native-extended-gdbserver-m64",
+                "AIX-POWER8-plain",
+                "RHEL-s390x-m64",
+                "NetBSD-x86_64-m64",
+                "FreeBSD-x86_64-m64",
+                "FreeBSD-x86_64-cc-with-index",
+                "FreeBSD10-x86_64-m64",
+                "FreeBSD10-x86_64-cc-with-index",
+                "Solaris11-amd64-m64",
+                "Solaris11-sparcv9-m64",
+                "Ubuntu-Aarch64-m64",
+                "Ubuntu-Aarch64-native-gdbserver-m64",
+                "Ubuntu-Aarch64-native-extended-gdbserver-m64"
+            ]
+        },
+        {
+            "type": "Nightly",
+            "name": "racy",
+            "dayOfWeek": "6",
+            "hour": "3",
+            "minute": "00",
+            "builderNames": [
+                "Fedora-x86_64-m64",
+                "Fedora-x86_64-m32",
+                "Fedora-x86_64-native-gdbserver-m64",
+                "Fedora-x86_64-native-gdbserver-m32",
+                "Fedora-x86_64-native-extended-gdbserver-m64",
+                "Fedora-x86_64-native-extended-gdbserver-m32",
+                "Fedora-x86_64-cc-with-index",
+                "Fedora-i686",
+                "Debian-s390x-m64",
+                "Debian-s390x-native-gdbserver-m64",
+                "Debian-s390x-native-extended-gdbserver-m64",
+                "Fedora-s390x-m64",
+                "CentOS-ppc64le-m64",
+                "CentOS-ppc64le-native-gdbserver-m64",
+                "CentOS-ppc64le-native-extended-gdbserver-m64",
+                "AIX-POWER8-plain",
+                "RHEL-s390x-m64",
+                "NetBSD-x86_64-m64",
+                "FreeBSD-x86_64-m64",
+                "FreeBSD-x86_64-cc-with-index",
+                "FreeBSD10-x86_64-m64",
+                "FreeBSD10-x86_64-cc-with-index",
+                "Ubuntu-Aarch64-m64",
+                "Ubuntu-Aarch64-native-gdbserver-m64",
+                "Ubuntu-Aarch64-native-extended-gdbserver-m64"
+            ]
+        },
+        {
+            "type": "Nightly",
+            "name": "racy_daily",
+            "hour": "0",
+            "minute": "0",
+            "builderNames": [
+                "Fedora-x86_64-m64",
+                "Fedora-x86_64-m32",
+                "Fedora-x86_64-native-gdbserver-m64",
+                "Fedora-x86_64-native-gdbserver-m32",
+                "Fedora-x86_64-native-extended-gdbserver-m64",
+                "Fedora-x86_64-native-extended-gdbserver-m32",
+                "Fedora-x86_64-cc-with-index",
+                "Fedora-i686"
+            ]
+        },
+        {
+            "type": "GDB_Try_Jobdir",
+            "name": "try_ssh",
+            "jobdir": "try_ssh_jobdir",
+            "builderNames": [
+                "Fedora-x86_64-m64",
+                "Fedora-x86_64-m32",
+                "Fedora-x86_64-native-gdbserver-m64",
+                "Fedora-x86_64-native-gdbserver-m32",
+                "Fedora-x86_64-native-extended-gdbserver-m64",
+                "Fedora-x86_64-native-extended-gdbserver-m32",
+                "Fedora-x86_64-cc-with-index",
+                "Fedora-i686",
+                "Fedora-x86_64-w64-mingw32",
+                "Fedora-s390x-m64",
+                "Debian-s390x-m64",
+                "Debian-s390x-native-gdbserver-m64",
+                "Debian-s390x-native-extended-gdbserver-m64",
+                "AIX-POWER8-plain",
+                "RHEL-s390x-m64",
+                "NetBSD-x86_64-m64",
+                "Solaris11-amd64-m64",
+                "Solaris11-sparcv9-m64",
+                "Ubuntu-Aarch64-m64",
+                "Ubuntu-Aarch64-native-gdbserver-m64",
+                "Ubuntu-Aarch64-native-extended-gdbserver-m64"
+            ]
+        }
+    ]
 }
