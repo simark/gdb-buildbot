@@ -1,13 +1,13 @@
 # Functions for manipulating .sum summary files.
 
-import re
+import lzma
 import os.path
-from StringIO import StringIO
-
+import re
 # Necessary for ordered dictionaries.  We use them when the order or
 # the tests matters to us.
 from collections import OrderedDict
-import lzma
+
+from StringIO import StringIO
 
 # Helper regex for parse_sum_line.
 sum_matcher = re.compile(r"^(.?(PASS|FAIL|UNRESOLVED)): (.*)$")

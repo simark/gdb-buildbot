@@ -1,12 +1,13 @@
 # DB-like with git
 
+import os.path
+import re
+from datetime import datetime
+
+import git
 from buildbot.status.builder import SUCCESS
 from buildbot.steps.shell import ShellCommand
 from sumfiles import get_web_base
-import os.path
-from datetime import datetime
-import git
-import re
 
 
 def get_builder_commit_id(builder, commit, branch):

@@ -13,16 +13,15 @@
 #
 # Copyright Buildbot Team Members
 
-import time
-import tempfile
 import os
 import subprocess
+import tempfile
+import time
 import types
 
-from twisted.python import log
-from twisted.internet import defer, utils
-
 from buildbot.changes import base, changes
+from twisted.internet import defer, utils
+from twisted.python import log
 
 
 class GDBGitPoller(base.PollingChangeSource):

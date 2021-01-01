@@ -1,10 +1,11 @@
 # GDB .sum-fetching command.
 
-from buildbot.status.results import SUCCESS, WARNINGS, FAILURE
-from buildbot.plugins import steps, util
-from sumfiles import DejaResults, get_web_base
 import os
 import sqlite3
+
+from buildbot.plugins import steps, util
+from buildbot.status.results import FAILURE, SUCCESS, WARNINGS
+from sumfiles import DejaResults, get_web_base
 
 
 @util.renderer

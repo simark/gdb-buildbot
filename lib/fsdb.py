@@ -1,8 +1,9 @@
 # DB-like with filesystem
 
-from buildbot.plugins import util, steps
-from sumfiles import get_web_base
 import os
+
+from buildbot.plugins import steps, util
+from sumfiles import get_web_base
 
 
 class SaveGDBResults(steps.MasterShellCommand):

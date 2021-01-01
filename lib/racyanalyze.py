@@ -1,8 +1,9 @@
+import smtplib
+from email.mime.text import MIMEText
+
 from buildbot.status.builder import SUCCESS
 from buildbot.steps.shell import ShellCommand
 from sumfiles import DejaResults
-import smtplib
-from email.mime.text import MIMEText
 
 
 class GDBAnalyzeRacyTests(ShellCommand):
