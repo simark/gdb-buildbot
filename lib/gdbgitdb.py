@@ -1,6 +1,6 @@
 # DB-like with git
 
-from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.status.builder import SUCCESS
 from buildbot.steps.shell import ShellCommand
 from sumfiles import get_web_base
 import os.path
@@ -14,7 +14,7 @@ def get_builder_commit_id(builder, commit, branch):
     log files of the COMMIT that was tested."""
     repodir = os.path.join(get_web_base(), builder)
     repo = git.Repo.init(path=repodir)
-    commit_id_re = re.compile("^\d{8}-\d{6}-%s-%s$" % (commit, branch))
+    commit_id_re = re.compile(r"^\d{8}-\d{6}-%s-%s$" % (commit, branch))
 
     for t in repo.tags:
         m = commit_id_re.match(t.name)

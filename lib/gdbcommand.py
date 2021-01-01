@@ -1,9 +1,8 @@
 # GDB .sum-fetching command.
 
-from buildbot.status.results import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.status.results import SUCCESS, WARNINGS, FAILURE
 from buildbot.plugins import steps, util
 from sumfiles import DejaResults, get_web_base
-from gdbgitdb import switch_to_branch
 import os
 import sqlite3
 
@@ -49,7 +48,7 @@ def create_copy_command(props):
         to_path = os.path.join(get_web_base(), builder, rev[:2], rev)
 
     if not os.path.exists(to_path):
-        old_umask = os.umask(0022)
+        old_umask = os.umask(0o022)
         os.makedirs(to_path)
         os.umask(old_umask)
 
@@ -135,13 +134,13 @@ class GdbCatSumfileCommand(steps.ShellCommand):
 
         if baseline is not None:
             report = parser.compute_regressions(builder, branch, cur_results, baseline)
-            if report is not "":
+            if report != "":
                 self.addCompleteLog("baseline_diff", report)
                 result = WARNINGS
 
         if old_sum is not None:
             report = parser.compute_regressions(builder, branch, cur_results, old_sum)
-            if report is not "":
+            if report != "":
                 self.addCompleteLog("regressions", report)
                 result = FAILURE
 

@@ -10,8 +10,8 @@ from collections import OrderedDict
 import lzma
 
 # Helper regex for parse_sum_line.
-sum_matcher = re.compile("^(.?(PASS|FAIL|UNRESOLVED)): (.*)$")
-racy_file_matcher = re.compile("^(gdb\..*)")
+sum_matcher = re.compile(r"^(.?(PASS|FAIL|UNRESOLVED)): (.*)$")
+racy_file_matcher = re.compile(r"^(gdb\..*)")
 
 # You must call set_web_base at startup to set this.
 gdb_web_base = None
@@ -23,7 +23,7 @@ def set_web_base(arg):
     if not os.path.isdir(gdb_web_base):
         # If the parent doesn't exist, we're confused.
         # So, use mkdir and not makedirs.
-        os.mkdir(gdb_web_base, 0755)
+        os.mkdir(gdb_web_base, 0o755)
 
 
 def get_web_base():
@@ -57,7 +57,7 @@ class DejaResults(object):
                 result = m.group(1)
                 test_name = m.group(3)
             # Remove tail parentheses
-            test_name = re.sub("(\s+)?\(.*$", "", test_name)
+            test_name = re.sub(r"(\s+)?\(.*$", "", test_name)
             if result not in out_dict[1].keys():
                 out_dict[1][result] = set()
             if test_name in out_dict:
@@ -92,13 +92,13 @@ class DejaResults(object):
             bdir = os.path.join(gdb_web_base, builder, rev[:2], rev)
 
         if not os.path.exists(bdir):
-            old_umask = os.umask(0022)
+            old_umask = os.umask(0o022)
             os.makedirs(bdir)
             os.umask(old_umask)
         fname = os.path.join(bdir, filename)
         keys = sum_dict[0].keys()
         mode = "w"
-        old_umask = os.umask(0133)
+        old_umask = os.umask(0o133)
         if header:
             with open(fname, "w") as f:
                 f.write(header)

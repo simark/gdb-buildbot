@@ -59,7 +59,7 @@ class GDBGitPoller(base.PollingChangeSource):
             project = ""
 
         self.repourl = repourl
-        if branch is not None and type(branch) is not types.ListType:
+        if branch is not None and not isinstance(branch, types.ListType):
             branch = [branch]
         self.branch = branch
         self.pollInterval = pollInterval
@@ -73,7 +73,7 @@ class GDBGitPoller(base.PollingChangeSource):
         self.changeCount = 0
         self.commitInfo = {}
 
-        if self.workdir == None:
+        if self.workdir is None:
             self.workdir = tempfile.gettempdir() + "/gitpoller_work"
 
     def startService(self):
@@ -146,7 +146,7 @@ class GDBGitPoller(base.PollingChangeSource):
         if self.usetimestamps:
             try:
                 stamp = float(stripped_output)
-            except Exception, e:
+            except Exception as e:
                 log.msg(
                     "gitpoller: caught exception converting output '%s' to timestamp"
                     % stripped_output

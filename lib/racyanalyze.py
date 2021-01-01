@@ -1,8 +1,7 @@
-from buildbot.status.builder import SUCCESS, WARNINGS, FAILURE, EXCEPTION
+from buildbot.status.builder import SUCCESS
 from buildbot.steps.shell import ShellCommand
 from sumfiles import DejaResults
 import smtplib
-import socket
 from email.mime.text import MIMEText
 
 
