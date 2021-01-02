@@ -14,24 +14,22 @@ import os
 import re
 import smtplib
 import sqlite3
+import uuid
 from email.mime.text import MIMEText
 from json import load
 from time import strftime
-from urllib import quote
 
 from buildbot.changes.filter import ChangeFilter
 from buildbot.changes.gitpoller import GitPoller
+from buildbot.changes.gerritchangesource import GerritChangeSource
 from buildbot.interfaces import IEmailLookup
-from buildbot.plugins import buildslave, steps, util
+from buildbot.plugins import schedulers, steps, util
+from buildbot.steps.source import gerrit
 from buildbot.process import factory
+from buildbot.process.results import SUCCESS
 from buildbot.schedulers.trysched import Try_Jobdir
-from buildbot.status import html, mail
-from buildbot.status.results import FAILURE, SUCCESS, WARNINGS
-from buildbot.status.web import authz
-from fsdb import SaveGDBResults
-from gdbcommand import CopyOldGDBSumFile, GdbCatSumfileCommand
-from racyanalyze import GDBAnalyzeRacyTests
-from sumfiles import get_web_base, set_web_base
+from buildbot.worker import Worker
+from buildbot.manhole import PasswordManhole
 from twisted.protocols.basic import NetstringReceiver
 from zope.interface import implements
 
@@ -46,16 +44,18 @@ NetstringReceiver.MAX_LENGTH = 1000000000
 # also use a shorter alias to save typing.
 c = BuildmasterConfig = {}
 
+c["buildbotNetUsageData"] = "full"
 
-def make_path(rel):
-    return "/ssd/scratch/buildbot/gdb/" + rel
+
+def make_master_path(rel):
+    return os.path.expanduser(os.path.join(basedir, rel))
 
 
 # Base directory for the web server.  This is needed in order to
 # compare the test results.
-gdb_web_base = make_path("results")
+gdb_web_base = make_master_path("results")
 
-set_web_base(gdb_web_base)
+# set_web_base(gdb_web_base)
 
 GDB_MAIL_FROM = "simark@simark.ca"
 GDB_MAIL_TO = "simark@simark.ca"
@@ -68,7 +68,8 @@ c["protocols"] = {"pb": {"port": 9989}}
 # about source code changes.
 
 # RE representing which branches to track on the GDB repository
-branches_to_watch = re.compile(r"(refs/heads/)?(master|gdb-\d+\.\d+-branch)")
+# branches_to_watch = re.compile(r"(refs/heads/)?(master|gdb-\d+\.\d+-branch)")
+branches_to_watch = re.compile(r"(refs/heads/)?(master)")
 
 
 # Function which decides whether BRANCH should be used or not
@@ -79,24 +80,75 @@ def should_watch_branch(branch):
         return False
 
 
-GIT_REPO_URL = "https://github.com/bminor/binutils-gdb.git"
+# GIT_REPO_URL = "https://github.com/simark/binutils-gdb.git"
+# GIT_REPO_URL = "https://github.com/bminor/binutils-gdb.git"
+GIT_REPO_URL = "git://sourceware.org/git/binutils-gdb.git"
 
-master_git_repo = make_path("git-poller-workdir")
 c["change_source"] = []
 c["change_source"].append(
     GitPoller(
         repourl=GIT_REPO_URL,
-        workdir=master_git_repo,
         branches=should_watch_branch,
-        pollinterval=60 * 3,
+        pollinterval=60,
+        pollAtLaunch=True,
     )
 )
 
-# 'status' is a list of Status Targets. The results of each build will be
-# pushed to these targets. buildbot/status/*.py has a variety to choose from,
-# including web pages, email senders, and IRC bots.
 
-c["status"] = []
+class MyGerritChangeSource(GerritChangeSource):
+    def __init__(self):
+        super().__init__(
+            gerritserver="10.0.0.214",
+            gerritport=29418,
+            username="buildbot",
+            identity_file="/home/buildbot/master/buildbot-gerrit.key",
+            handled_events=["comment-added"],
+            get_files=True,
+            debug=True,
+        )
+
+    def eventReceived_comment_added(self, properties, event):
+        print(">>> properties:", properties)
+        print(">>> event:", event)
+
+        # Check if "CI-Build" went from 0 to 1.
+        if "approvals" not in event:
+            print('>>> comment-added: "approvals" not in event')
+            return
+
+        ci_build_label = None
+        for approval in event["approvals"]:
+            if "type" in approval and approval["type"] == "CI-Build":
+                ci_build_label = approval
+                break
+
+        if ci_build_label is None:
+            print(">>> comment-added: CI-Build label not found")
+            return
+
+        if "value" not in ci_build_label:
+            print('>>> comment-added: "value" not in label')
+            return
+
+        if ci_build_label["value"] != "1":
+            print('>>> comment-added: ci_build_label["value"] is not "1"')
+            return
+
+        if "oldValue" not in ci_build_label:
+            print('>>> comment-added: "oldValue" not in label')
+            return
+
+        if ci_build_label["oldValue"] != "0":
+            print('>>> comment-added: ci_build_label["oldValue"] is not "0"')
+            return
+
+        print(">>> comment-added: adding change")
+
+        properties["try"] = True
+        self.addChangeFromEvent(properties, event)
+
+
+c["change_source"].append(MyGerritChangeSource())
 
 # Catch things like PR gdb/42, PR16, PR 16 or bug #11,
 # and turn them into gdb bugzilla URLs.
@@ -118,10 +170,10 @@ cc_re_tuple = (
 #         self.site.resource.defaultType = r"text/plain"
 #         return result
 
-#authz_cfg = authz.Authz(
-    # change any of these to True to enable; see the manual for more
-    # options
-    #    auth=auth.BasicAuth([("t","t")]),
+# authz_cfg = authz.Authz(
+# change any of these to True to enable; see the manual for more
+# options
+#    auth=auth.BasicAuth([("t","t")]),
 #    gracefulShutdown=False,
 #    forceBuild=True,  # use this to test your slave once it is set up
 #    forceAllBuilds=True,  # ..or this
@@ -129,7 +181,7 @@ cc_re_tuple = (
 #    stopBuild=True,
 #    stopAllBuilds=True,
 #    cancelPendingBuild=True,
-#)
+# )
 # c['status'].append(WebStatusWithTextDefault (http_port=8010, authz=authz_cfg))
 # c['status'].append (html.WebStatus (http_port = 8010, authz = authz_cfg))
 
@@ -139,16 +191,25 @@ cc_re_tuple = (
 # 				  order_console_by_time=True,
 # 				  changecommentlink=cc_re_tuple))
 
+c["www"] = {
+    "port": 8010,
+    "plugins": {
+        "waterfall_view": True,
+        "console_view": True,
+        "grid_view": True,
+    },
+}
+
 # from buildbot.status import words
 # c['status'].append(words.IRC(host="irc.yyz.redhat.com", nick="sdj-gdbbot",
 # 			     channels=["#gdbbuild"]))
 
 
-#def make_try_build_lockfile_name(msgid):
+# def make_try_build_lockfile_name(msgid):
 #    return "/tmp/gdb-buildbot-%s-try.lock" % msgid
 #
 #
-#def SendRootMessageGDBTesters(
+# def SendRootMessageGDBTesters(
 #    branch,
 #    change,
 #    rev,
@@ -157,7 +218,7 @@ cc_re_tuple = (
 #    try_count="0",
 #    try_msgid=None,
 #    try_comment=None,
-#):
+# ):
 #    global GDB_MAIL_TO, GDB_MAIL_FROM
 #
 #    if istrysched:
@@ -224,15 +285,15 @@ cc_re_tuple = (
 #    s.quit()
 #
 #
-#def make_breakage_lockfile_name(branch, builder):
+# def make_breakage_lockfile_name(branch, builder):
 #    return "/tmp/gdb-buildbot-breakage-report-%s-%s" % (branch, builder)
 #
 #
-#def make_breakage_root_message_id_filename(rev, branch):
+# def make_breakage_root_message_id_filename(rev, branch):
 #    return "/tmp/gdb-buildbot-message-id-breakage-%s-%s" % (rev, branch)
 #
 #
-#def make_breakage_root_message_id(rev, branch):
+# def make_breakage_root_message_id(rev, branch):
 #    mid_file = make_breakage_root_message_id_filename(rev, branch)
 #    mid = "%s-%s-breakage@gdb-build" % (rev, branch)
 #    if not os.path.exists(mid_file):
@@ -242,7 +303,7 @@ cc_re_tuple = (
 #    return mid
 #
 #
-#def SendRootBreakageMessage(builder, branch, change):
+# def SendRootBreakageMessage(builder, branch, change):
 #    """Send the root message that will contain the breakage emails."""
 #    global GDB_MAIL_FROM
 #
@@ -291,7 +352,7 @@ cc_re_tuple = (
 #    s.quit()
 #
 #
-#def SendAuthorBreakageMessage(name, branch, change, text_prepend):
+# def SendAuthorBreakageMessage(name, branch, change, text_prepend):
 #    """Send a message to the author of the commit if it broke GDB.
 #
 #    We use a lock file to avoid reporting the breakage to different
@@ -344,7 +405,7 @@ cc_re_tuple = (
 #    s.quit()
 #
 #
-#def MessageGDBTesters(mode, name, build, results, master_status):
+# def MessageGDBTesters(mode, name, build, results, master_status):
 #    """This function is responsible for composing the message that will be
 #    send to the gdb-testers mailing list."""
 #    res_url = "http://gdb-build.sergiodj.net/results"
@@ -545,7 +606,7 @@ cc_re_tuple = (
 #    return {"body": text, "type": "plain", "subject": subj}
 #
 #
-#def MessageGDBTestersTryBuild(mode, name, build, results, master_status):
+# def MessageGDBTestersTryBuild(mode, name, build, results, master_status):
 #    """This function is responsible for composing the message that will be
 #    send to the gdb-testers mailing list."""
 #    res_url = "http://gdb-build.sergiodj.net/results"
@@ -708,7 +769,7 @@ cc_re_tuple = (
 #    return {"body": text, "type": "plain", "subject": subj}
 #
 #
-#class MyMailNotifier(mail.MailNotifier):
+# class MyMailNotifier(mail.MailNotifier):
 #    """Extend the regular MailNotifier class in order to filter e-mails by
 #    scheduler."""
 #
@@ -728,7 +789,7 @@ cc_re_tuple = (
 #        return mail.MailNotifier.isMailNeeded(self, build, results)
 #
 #
-#mn = MyMailNotifier(
+# mn = MyMailNotifier(
 #    fromaddr=GDB_MAIL_FROM,
 #    sendToInterestedUsers=False,
 #    extraRecipients=[GDB_MAIL_TO],
@@ -739,17 +800,17 @@ cc_re_tuple = (
 #        "X-GDB-Buildbot": "1",
 #        "In-Reply-To": util.Interpolate("<%(prop:got_revision)s@gdb-build>"),
 #    },
-#)
+# )
 #
 #
-#class LookupEmailTryBuild(object):
+# class LookupEmailTryBuild(object):
 #    implements(IEmailLookup)
 #
 #    def getAddress(self, name):
 #        return name
 #
 #
-#mn_try = MyMailNotifier(
+# mn_try = MyMailNotifier(
 #    fromaddr=GDB_MAIL_FROM,
 #    sendToInterestedUsers=True,
 #    mode=("failing", "passing", "warnings"),
@@ -760,15 +821,15 @@ cc_re_tuple = (
 #        "X-GDB-Buildbot": "1",
 #        "In-Reply-To": util.Interpolate("%(prop:root_message_id)s"),
 #    },
-#)
+# )
 
-#c["status"].append(mn)
-#c["status"].append(mn_try)
+# c["status"].append(mn)
+# c["status"].append(mn_try)
 
 c["title"] = "GDB"
 c["titleURL"] = "https://gnu.org/s/gdb"
 
-c["buildbotURL"] = "http://gdb-build.sergiodj.net/"
+c["buildbotURL"] = "http://10.0.0.214:8010/"
 
 c["db"] = {
     "db_url": "sqlite:///state.sqlite",
@@ -782,94 +843,68 @@ c["db"] = {
 # does.
 
 
-class CloneOrUpdateGDBMasterRepo(steps.Git):
+def doStepIfTryBuild(step):
+    return step.hasProperty("try") and step.getProperty("try")
 
-    """This build step updates the so-called "master" git repository.  For
-    each buildslave, we have one master GDB git repository, which is then
-    used to create each builder's GDB git repository.  In other words,
-    each builder inside a buildslave will have something like:
 
-        -- master GDB git repo
-          |
-          |---- builder X
-              |
-              |-- GDB git repo (clone from the master above)
-          |
-          |----- builder Y
-              |
-              |-- GDB git repo (clone from the master above)
-
-    and so on.  This layout helps us to save some when fetching changes
-    from the principal repository."""
-
-    name = "update gdb master repo"
-    description = r"fetching GDB master sources"
-    descriptionDone = r"fetched GDB master sources"
-
-    def __init__(self, **kwargs):
-        global GIT_REPO_URL
-
-        steps.Git.__init__(
-            self,
+class CloneGDBRepo(steps.Git):
+    def __init__(self):
+        super().__init__(
+            # Parameters common to all steps.
+            name="clone/update GDB repo",
+            description="cloning/updating",
+            descriptionDone="clone/update",
+            doStepIf=lambda s: not doStepIfTryBuild(s),
+            # Parameters common to all source steps.
+            mode="full",
+            method="fresh",
+            # Parameters specific to Git.
             repourl=GIT_REPO_URL,
-            workdir=util.Interpolate("%(prop:builddir)s/../binutils-gdb-master/"),
-            retryFetch=True,
-            mode="incremental",
-            progress=True,
-            **kwargs
-        )
-        self.haltOnFailure = False
-        self.flunkOnFailure = False
-
-
-class CloneOrUpdateGDBRepo(steps.Git):
-    """This build step is used to clone the GDB git repository that will
-    be used by an specific builder (inside a buildslave).  The trick here
-    is to use the "reference" parameter to initialize the class, which
-    makes BuildBot clone the git repository mostly using the objects
-    present at the reference repository (i.e., locally)."""
-
-    name = "clone gdb repo"
-    description = "fetching GDB sources"
-    descriptionDone = "fetched GDB sources"
-
-    def __init__(self, **kwargs):
-        global GIT_REPO_URL
-
-        steps.Git.__init__(
-            self,
-            repourl=GIT_REPO_URL,
-            workdir=util.Interpolate("%(prop:builddir)s/binutils-gdb/"),
-            reference=util.Interpolate("%(prop:builddir)s/../binutils-gdb-master/"),
-            retryFetch=True,
-            progress=True,
-            **kwargs
+            workdir=util.Interpolate("%(prop:builddir)s/src"),
         )
 
 
-class ConfigureGDB(steps.Configure):
+class CloneGDBRepoGerrit(gerrit.Gerrit):
+    def __init__(self):
+        super().__init__(
+            name="clone/update GDB repo from Gerrit change",
+            description="cloning/updating",
+            descriptionDone="clone/update",
+            doStepIf=doStepIfTryBuild,
+            # mode="full",
+            # method="fresh",
+            # Use the anonymous HTTP(s) method, as this will run on the
+            # worker, which won't have ssh access to Gerrit.
+            repourl="http://10.0.0.214:8080/binutils-gdb",
+            workdir=util.Interpolate("%(prop:builddir)s/src"),
+        )
+
+
+class ConfigureGDB(steps.ConfigureNewStyle):
     """This build step runs the GDB "configure" command, providing extra
     flags for it if needed."""
 
-    name = "configure gdb"
-    description = r"configure GDB"
-    descriptionDone = r"configured GDB"
+    def __init__(self, cc=None, cxx=None):
+        cc = cc if cc is not None else "gcc"
+        cxx = cxx if cxx is not None else "g++"
+        super().__init__(
+            command=[
+                "../src/configure",
+                "--disable-binutils",
+                "--disable-ld",
+                "--disable-gold",
+                "--disable-gas",
+                "--disable-sim",
+                "--disable-gprof",
+                "CC=ccache " + cc,
+                "CXX=ccache " + cxx,
+                "CFLAGS=-g3 -O2",
+                "CXXFLAGS=-g3 -O2 -D_GLIBCXX_DEBUG",
+            ]
+        )
 
-    def __init__(self, extra_conf_flags, **kwargs):
-        steps.Configure.__init__(self, **kwargs)
-        self.workdir = util.Interpolate("%(prop:builddir)s/build/")
-        self.command = [
-            "../binutils-gdb/configure",
-            "--disable-binutils",
-            "--disable-ld",
-            "--disable-gold",
-            "--disable-gas",
-            "--disable-sim",
-            "--disable-gprof",
-        ] + extra_conf_flags
 
-
-class CompileGDB(steps.Compile):
+class CompileGDB(steps.CompileNewStyle):
     """This build step runs "make" to compile the GDB sources.  It
     provides extra "make" flags to "make" if needed.  It also uses the
     "jobs" properties to figure out how many parallel jobs we can use when
@@ -877,18 +912,22 @@ class CompileGDB(steps.Compile):
     "jobs" property is set at the "config.json" file, for each
     buildslave."""
 
-    name = "compile gdb"
-    description = r"compile GDB"
-    descriptionDone = r"compiled GDB"
-
-    def __init__(self, make_command="make", extra_make_flags=[], **kwargs):
-        steps.Compile.__init__(self, **kwargs)
-        self.workdir = util.Interpolate("%(prop:builddir)s/build/")
-        self.command = [
-            "%s" % make_command,
-            util.Interpolate("-j%(prop:jobs)s"),
-            "all",
-        ] + extra_make_flags
+    def __init__(self):
+        super().__init__(
+            command=[
+                "make",
+                util.Interpolate("-j%(prop:jobs:-1)s"),
+                "all",
+            ],
+            suppressionList=[
+                (
+                    None,  # fileRe
+                    "-Wmissing-prototypes",  # warnRe
+                    None,  # start
+                    None,  # end
+                )
+            ],
+        )
 
 
 class MakeTAGSGDB(steps.ShellCommand):
@@ -906,7 +945,7 @@ class MakeTAGSGDB(steps.ShellCommand):
         self.flunkOnWarnings = False
 
 
-class TestGDB(steps.ShellCommand):
+class TestGDB(steps.ShellCommandNewStyle):
     """This build step runs the full testsuite for GDB.  It can run in
     parallel mode (see BuildAndTestGDBFactory below), and it will also
     provide any extra flags for "make" if needed.  Unfortunately, because
@@ -917,21 +956,33 @@ class TestGDB(steps.ShellCommand):
     description = r"testing GDB"
     descriptionDone = r"tested GDB"
 
-    def __init__(
-        self, make_command="make", extra_make_check_flags=[], test_env={}, **kwargs
-    ):
-        steps.ShellCommand.__init__(
-            self, decodeRC={0: SUCCESS, 1: SUCCESS, 2: SUCCESS}, env=test_env, **kwargs
-        )
+    def __init__(self, cc=None, cxx=None, target_board=None):
+        command=["make", "-k", "check", "TS=1"]
+        runtestflags = ''
 
-        self.workdir = util.Interpolate("%(prop:builddir)s/build/gdb/testsuite")
-        self.command = ["%s" % make_command, "-k", "check"] + extra_make_check_flags
+        if cc is not None:
+            runtestflags += f" CC_FOR_TARGET={cc}"
+
+        if cxx is not None:
+            runtestflags += f" CXX_FOR_TARGET={cxx}"
+
+        if target_board is not None:
+            runtestflags += f" --target_board={target_board}"
+
+        if len(runtestflags) > 0:
+            command.append(f"RUNTESTFLAGS={runtestflags}")
+
+        super().__init__(
+            command=command,
+            decodeRC={0: SUCCESS, 1: SUCCESS, 2: SUCCESS},
+            workdir=util.Interpolate("%(prop:builddir)s/build/gdb/testsuite"),
+        )
 
         #        self.env = test_env
         # Needed because of dejagnu
-        self.haltOnFailure = False
-        self.flunkOnFailure = False
-        self.flunkOnWarnings = False
+        # self.haltOnFailure = False
+        # self.flunkOnFailure = False
+        # self.flunkOnWarnings = False
 
 
 class TestRacyGDB(steps.ShellCommand):
@@ -1110,9 +1161,6 @@ class BuildAndTestGDBFactory(factory.BuildFactory):
           debuginfo files in the system.  Default: "/usr/lib/debug"
     """
 
-    ConfigureClass = ConfigureGDB
-    CompileClass = CompileGDB
-    TestClass = TestGDB
     TestRacyClass = TestRacyGDB
 
     # Set this to False to skip the test
@@ -1120,7 +1168,6 @@ class BuildAndTestGDBFactory(factory.BuildFactory):
 
     extra_CFLAGS = None
     extra_CXXFLAGS = None
-    extra_conf_flags = None
     enable_targets_all = True
 
     extra_make_flags = None
@@ -1140,35 +1187,93 @@ class BuildAndTestGDBFactory(factory.BuildFactory):
     use_system_debuginfo = True
     system_debuginfo_location = "/usr/lib/debug"
 
-    def __init__(self, architecture_triplet=[], initial_delay=None):
-        factory.BuildFactory.__init__(self)
-
-        # Default CFLAGS/CXXFLAGS that are always passed to "configure".
-        default_CFLAGS = "-g -D_GLIBCXX_DEBUG"
-        default_CXXFLAGS = "-g -D_GLIBCXX_DEBUG"
-
-        self.architecture_triplet = architecture_triplet
-
-        # mjw asked me to delay the build by X number of seconds.
-        if initial_delay:
-            self.addStep(
-                steps.ShellCommand(
-                    command=["sleep", "%d" % initial_delay],
-                    description="delaying start of build by %d seconds" % initial_delay,
-                    descriptionDone="delayed start of build by %d seconds"
-                    % initial_delay,
-                )
-            )
+    def __init__(self, cc_for_build=None, cxx_for_build=None, cc_for_test=None, cxx_for_test=None, target_board=None):
+        super().__init__()
 
         self.addStep(
             steps.RemoveDirectory(
                 dir=util.Interpolate("%(prop:builddir)s/build"),
+                name="remove old build dir",
                 description="removing old build dir",
                 descriptionDone="removed old build dir",
             )
         )
-        self.addStep(CloneOrUpdateGDBMasterRepo(hideStepIf=True))
-        self.addStep(CloneOrUpdateGDBRepo())
+
+        # Only one of these is done, depending on whether the build is a try build or not.
+        self.addStep(CloneGDBRepo())
+        self.addStep(CloneGDBRepoGerrit())
+
+        self.addStep(ConfigureGDB(cc=cc_for_build, cxx=cxx_for_build))
+        self.addStep(CompileGDB())
+        self.addStep(TestGDB(cc=cc_for_test, cxx=cxx_for_test, target_board=target_board))
+        self.addStep(
+            steps.ShellCommandNewStyle(
+                name="compress gdb.{sum,log}",
+                command=[
+                    "xz",
+                    util.Interpolate("%(prop:builddir)s/build/gdb/testsuite/gdb.sum"),
+                    util.Interpolate("%(prop:builddir)s/build/gdb/testsuite/gdb.log"),
+                ],
+            )
+        )
+
+        self.addStep(
+            steps.MultipleFileUpload(
+                name="upload gdb.{sum,log}",
+                workersrcs=[
+                    util.Interpolate(
+                        "%(prop:builddir)s/build/gdb/testsuite/gdb.sum.xz"
+                    ),
+                    util.Interpolate(
+                        "%(prop:builddir)s/build/gdb/testsuite/gdb.log.xz"
+                    ),
+                ],
+                masterdest=util.Interpolate(
+                    "results/%(prop:buildername)s/%(prop:buildnumber)s"
+                ),
+                mode=0o644,
+            )
+        )
+        self.addStep(
+            steps.MasterShellCommand(
+                name="fix results directory permissions",
+                command=[
+                    "find",
+                    "results",
+                    "-type",
+                    "d",
+                    "-exec",
+                    "chmod",
+                    "755",
+                    "{}",
+                    ";",
+                ],
+            )
+        )
+        self.addStep(
+            steps.MasterShellCommand(
+                name="compare to baseline",
+                command=[
+                    "./scripts/compare-baseline.sh",
+                    util.Property("buildername"),
+                    util.Interpolate("%(prop:buildnumber)s"),
+                ],
+            )
+        )
+
+        self.addStep(
+            steps.MasterShellCommand(
+                name="update baseline",
+                doStepIf=lambda s: not doStepIfTryBuild(s),
+                command=[
+                    "./scripts/update-baseline.sh",
+                    util.Property("buildername"),
+                    util.Interpolate("%(prop:buildnumber)s"),
+                ],
+            )
+        )
+
+        return
 
         # Set the count of the try build
         if self.run_testsuite:
@@ -1180,9 +1285,6 @@ class BuildAndTestGDBFactory(factory.BuildFactory):
                     doStepIf=scheduler_is_not_racy_try_do, hideStepIf=False
                 )
             )
-
-        if not self.extra_conf_flags:
-            self.extra_conf_flags = []
 
         if not self.extra_CFLAGS:
             self.extra_CFLAGS = []
@@ -1205,9 +1307,8 @@ class BuildAndTestGDBFactory(factory.BuildFactory):
 
         self.extra_conf_flags.append(myCFLAGS)
         self.extra_conf_flags.append(myCXXFLAGS)
-        self.extra_conf_flags.append(architecture_triplet)
 
-        self.addStep(self.ConfigureClass(self.extra_conf_flags, haltOnFailure=True))
+        self.addStep(ConfigureGDB(self.extra_conf_flags, haltOnFailure=True))
 
         if not self.extra_make_flags:
             self.extra_make_flags = []
@@ -1276,7 +1377,9 @@ class BuildAndTestGDBFactory(factory.BuildFactory):
                         "%(prop:builddir)s/build/gdb/testsuite/gdb.log"
                     ),
                     masterdest=util.Interpolate(
-                        make_path("results/%(prop:buildername)s/tmp/%(prop:got_revision)s/gdb.log")
+                        make_master_path(
+                            "results/%(prop:buildername)s/tmp/%(prop:got_revision)s/gdb.log"
+                        )
                     ),
                     mode=0o644,
                     doStepIf=scheduler_is_not_racy_do,
@@ -1333,7 +1436,7 @@ class RunTestGDBPlain_c64t64(BuildAndTestGDBFactory):
     """Compiling for 64-bit, testing on 64-bit."""
 
     def __init__(self, **kwargs):
-        BuildAndTestGDBFactory.__init__(self, **kwargs)
+        super().__init__(**kwargs)
 
 
 class RunTestGDBPlain_c32t32(BuildAndTestGDBFactory):
@@ -1357,9 +1460,8 @@ class RunTestGDBm32_c64t32(BuildAndTestGDBFactory):
 class RunTestGDBNativeGDBServer_c64t64(BuildAndTestGDBFactory):
     """Compiling on 64-bit, testing native-gdbserver on 64-bit."""
 
-    def __init__(self, **kwargs):
-        self.extra_make_check_flags = [r"RUNTESTFLAGS=--target_board native-gdbserver"]
-        BuildAndTestGDBFactory.__init__(self, **kwargs)
+    def __init__(self):
+        super().__init__(target_board='native-gdbserver')
 
 
 class RunTestGDBNativeGDBServer_c64t32(BuildAndTestGDBFactory):
@@ -1387,11 +1489,8 @@ class RunTestGDBNativeGDBServer_c32t32(BuildAndTestGDBFactory):
 class RunTestGDBNativeExtendedGDBServer_c64t64(BuildAndTestGDBFactory):
     """Compiling on 64-bit, testing native-extended-gdbserver on 64-bit."""
 
-    def __init__(self, **kwargs):
-        self.extra_make_check_flags = [
-            r"RUNTESTFLAGS=--target_board native-extended-gdbserver"
-        ]
-        BuildAndTestGDBFactory.__init__(self, **kwargs)
+    def __init__(self):
+        super().__init__(target_board='native-extended-gdbserver')
 
 
 class RunTestGDBNativeExtendedGDBServer_c64t32(BuildAndTestGDBFactory):
@@ -1550,20 +1649,19 @@ class RunTestGDBPlainSolaris_c64(BuildAndTestGDBFactory):
         BuildAndTestGDBFactory.__init__(self, **kwargs)
 
 
-# All branches that are going to be watched.
-all_gdb_filter = ChangeFilter(branch_fn=should_watch_branch)
-
-# 7.12 branch.  temporary.
-all_gdb_filter_7_12_branch = ChangeFilter(branch="gdb-7.12-branch")
-
-
 # This function prevents a builder to build more than one build at the
 # same time.  This is needed because we do not have a way to lock the
 # git repository containing the test results of the builder, so
 # simultaneous builds can cause a mess when committing the test
 # results.
-def DefaultGDBCanStartBuild(builder, buildslave, buildrequest):
-    return not builder.building
+#
+# TODO: see
+#
+#   https://docs.buildbot.net/latest/manual/configuration/interlocks.html#interlocks
+#
+# See if it can be used to serialize just the result reporting step.
+# def DefaultGDBCanStartBuild(builder, buildslave, buildrequest):
+#    return not builder.building
 
 
 files_ignored_re = re.compile(
@@ -1620,93 +1718,148 @@ class GDB_Try_Jobdir(Try_Jobdir):
 # this function was copied from WebKit's BuildBot configuration, with
 # lots of tweaks.
 
+# Workers
 
-def load_config(c):
-    config = load(open("lib/config.json"))
-    passwd = load(open("lib/passwords.json"))
-
-    c["slaves"] = [
-        buildslave.BuildSlave(
-            slave["name"],
-            passwd[slave["name"]],
-            max_builds=1,
-            notify_on_missing=[str(slave["admin"])],
-            missing_timeout=600,
-            properties={"jobs": slave["jobs"]},
-        )
-        for slave in config["slaves"]
-    ]
-
-    c["schedulers"] = []
-    for s in config["schedulers"]:
-        # Ugh :-/.  There should be no special case here...
-        if s["type"] != "Nightly" and s["type"] != "GDB_Try_Jobdir":
-            s["treeStableTimer"] = None
-            s["fileIsImportant"] = DefaultGDBfileIsImportant
-        elif s["type"] == "Nightly":
-            try:
-                s["dayOfWeek"] = int(s["dayOfWeek"])
-            except Exception:
-                pass
-            try:
-                s["hour"] = int(s["hour"])
-            except Exception:
-                pass
-            try:
-                s["minute"] = int(s["minute"])
-            except Exception:
-                pass
-            s["onlyIfChanged"] = False
-            s["branch"] = "master"
-        elif s["type"] == "GDB_Try_Jobdir":
-            s["properties"] = {"isTrySched": "yes"}
-        if "change_filter" in s:
-            s["change_filter"] = globals()[s["change_filter"]]
-        kls = globals()[s.pop("type")]
-        d = dict(
-            map(
-                lambda key_value_pair: (str(key_value_pair[0]), key_value_pair[1]),
-                s.items(),
-            )
-        )
-        c["schedulers"].append(kls(**d))
-
-    c["builders"] = []
-    for b in config["builders"]:
-        myenv = {}
-
-        if "arch_triplet" in b:
-            architecture_triplet = [b.pop("arch_triplet")]
-        else:
-            architecture_triplet = []
-
-        if "initial_delay" in b:
-            initial_delay = int(b.pop("initial_delay"))
-        else:
-            initial_delay = None
-
-        btype = b.pop("type")
-        factory = globals()["RunTestGDB%s" % btype]
-        b["factory"] = factory(
-            architecture_triplet=architecture_triplet, initial_delay=initial_delay
-        )
-        b["canStartBuild"] = DefaultGDBCanStartBuild
-        b["mergeRequests"] = False
-
-        ntags = [str(x) for x in b["tags"]]
-        b["tags"] = ntags
-
-        # AIX hack.  Sigh...
-        try:
-            mypath = b.pop("PATH")
-            myenv["PATH"] = mypath
-            b["env"] = myenv
-        except KeyError:
-            pass
-
-        b["nextBuild"] = prioritizeTryBuilds
-
-        c["builders"].append(b)
+with open("./passwords.json") as f:
+    passwords = load(f)
 
 
-load_config(c)
+def make_worker(name, jobs=None):
+    properties = {}
+
+    if jobs is not None:
+        properties["jobs"] = jobs
+
+    return Worker(
+        name,
+        passwords[name],
+        max_builds=2,
+        properties=properties,
+    )
+
+
+worker_ubuntu_2004_x86_64_1 = make_worker(name="Ubuntu-2004-x86_64-1", jobs=4)
+
+c["workers"] = [
+    worker_ubuntu_2004_x86_64_1,
+]
+
+# Builders
+
+
+def make_builder(name, workernames, factory):
+    # Ensure a single build of this builder happens at any given time.
+    lock = util.MasterLock(f"lock-{name}")
+    return util.BuilderConfig(
+        name=name,
+        workernames=workernames,
+        factory=factory,
+        # canStartBuild=DefaultGDBCanStartBuild,
+        collapseRequests=True,
+        locks=[lock.access("exclusive")],
+    )
+
+
+x86_64_workers = [worker_ubuntu_2004_x86_64_1.name]
+
+builder_ubuntu_2004_x86_64_m64 = make_builder(
+    "Ubuntu-2004-x86_64-m64",
+    x86_64_workers,
+    RunTestGDBPlain_c64t64(),
+)
+
+builder_ubuntu_2004_x86_64_m64_dwarf5 = make_builder(
+    "Ubuntu-2004-x86_64-m64-dwarf5",
+    x86_64_workers,
+    RunTestGDBPlain_c64t64(target_board="unix/gdb:debug_flags=-gdwarf-5"),
+)
+
+builder_ubuntu_2004_x86_64_m64_clang = make_builder(
+    "Ubuntu-2004-x86_64-m64-clang",
+    x86_64_workers,
+    RunTestGDBPlain_c64t64(cc_for_build="clang", cxx_for_build="clang++", cc_for_test="clang", cxx_for_test="clang++"),
+)
+
+builder_ubuntu_2004_x86_64_m64_clang_dwarf5 = make_builder(
+    "Ubuntu-2004-x86_64-m64-clang-dwarf5",
+    x86_64_workers,
+    RunTestGDBPlain_c64t64(cc_for_build="clang", cxx_for_build="clang++",
+            cc_for_test="clang", cxx_for_test="clang++", target_board="unix/gdb:debug_flags=-gdwarf-5"),
+)
+
+builder_ubuntu_2004_x86_64_native_gdbserver_m64 = make_builder(
+    "Ubuntu-2004-x86_64-native-gdbserver-m64",
+    x86_64_workers,
+    RunTestGDBNativeGDBServer_c64t64(),
+)
+
+builder_ubuntu_2004_x86_64_native_extended_gdbserver_m64 = make_builder(
+    "Ubuntu-2004-x86_64-native-extended-gdbserver-m64",
+    x86_64_workers,
+    RunTestGDBNativeExtendedGDBServer_c64t64(),
+)
+
+c["builders"] = [
+    builder_ubuntu_2004_x86_64_m64,
+    builder_ubuntu_2004_x86_64_m64_dwarf5,
+    builder_ubuntu_2004_x86_64_m64_clang,
+    builder_ubuntu_2004_x86_64_m64_clang_dwarf5,
+    builder_ubuntu_2004_x86_64_native_gdbserver_m64,
+    builder_ubuntu_2004_x86_64_native_extended_gdbserver_m64,
+]
+
+# Schedulers
+
+
+def is_try_change(change):
+    return "try" in change.properties
+
+def is_not_try_change(change):
+    return not is_try_change(change)
+
+
+post_commit_scheduler = schedulers.AnyBranchScheduler(
+    name="post-commit",
+    builderNames=[x.name for x in c['builders']]    ,
+    change_filter=util.ChangeFilter(
+        branch_fn=should_watch_branch, filter_fn=is_not_try_change
+    ),
+    fileIsImportant=DefaultGDBfileIsImportant,
+    treeStableTimer=60 * 3,
+)
+
+
+gerrit_try_scheduler = schedulers.AnyBranchScheduler(
+    name="gerrit-try",
+    builderNames=[
+        builder_ubuntu_2004_x86_64_m64.name,
+    ],
+    change_filter=util.ChangeFilter(filter_fn=is_try_change),
+)
+
+force_scheduler = schedulers.ForceScheduler(
+    name="force",
+    builderNames=[x.name for x in c['builders']],
+    #properties=[
+    #    util.StringParameter(
+    #        name="gerrit_change",
+    #        label="Gerrit change in the form change_number/patchset_number",
+    #        default="",
+    #        size=80,
+    #        regex="^[0-9]+/[0-9]+$",
+    #        required=True,
+    #    ),
+    #    util.FixedParameter(name="try", default=True),
+    #],
+)
+
+
+c["schedulers"] = [post_commit_scheduler, force_scheduler, gerrit_try_scheduler]
+
+# c['manhole'] = PasswordManhole(
+#        port=12345,
+#        username='buildbot',
+#        password='buildbot',
+#        ssh_hostkey_dir='/home/buildbot/master/manhole-ssh-host-keys',
+#
+#        )
